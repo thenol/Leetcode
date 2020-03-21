@@ -12,4 +12,4 @@
 # print(None or True or False or False)
 
 
-print(int(''))
+print(2>1 if 2>1 else False)
