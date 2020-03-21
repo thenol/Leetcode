@@ -16,6 +16,11 @@
     |---[]---|      |---[]---|      |---[]---|      |---[]---|
     []      []      []      []      []      []      []      []
 ```
+* Focus on the forms of the Node
+```
+    |     O      O     O     O
+    O      \    / \   /      
+```
 
 * __Preorder Tranverse__:
 ```C++
@@ -61,10 +66,10 @@
 
 ```
 
-* __Succ__:
+* __Inorder Succ__:
 ```C++
     template <typename T> BinNodePosi(T) BinNode<T>::succ() { //定位节点v癿直接后继 
-        BinNodePosi(T) s = this; //记弽后继癿临时发量 
+        BinNodePosi(T) s = this; //记录后继癿临时发量 
         if (rChild) { //若有右孩子，则直接后继必在右子树中，具体地就是 
             s = rChild; //右子树中 5
             while (HasLChild(*s)) s = s->lChild; //最靠左（最小）癿节点 
