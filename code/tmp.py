@@ -11,5 +11,8 @@
 
 # print(None or True or False or False)
 
-
-print(2>1 if 2>1 else False)
+a=[1,2,3,4,5]
+for i in range(len(a)):
+    if i==0 or i==1:
+        a.pop()
+    print(i)

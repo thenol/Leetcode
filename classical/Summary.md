@@ -86,4 +86,7 @@
 
 * Note the mechanism of signal variables in control logic
 
+* The characteristics of the Algorithm:
+    * An important technique for proving the finiteness and correctness of an algorithm is to look at the entire calculation process from an appropriate perspective and discover some of its __**invariance**__ and __**monotonicity**__.
+
 
