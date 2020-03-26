@@ -89,4 +89,8 @@
 * The characteristics of the Algorithm:
     * An important technique for proving the finiteness and correctness of an algorithm is to look at the entire calculation process from an appropriate perspective and discover some of its __**invariance**__ and __**monotonicity**__.
 
-
+* __Common Error__:
+    * Note the return in the recursive function
+    * Note the dynamic length of the dynamically changing stack or queue
+    
+    

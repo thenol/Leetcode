@@ -22,8 +22,18 @@
     O      \    / \   /      
 ```
 
+* Tranverse order
+```
+         |
+         O
+       // \\
+       O   O
+       |   |
+```
+
 * __Preorder Tranverse__:
 ```C++
+    // 入右
     //从当前节点出发，沿左分支不断深入，直至没有左分支的节点；沿途节点遇到后访问 
     template <typename T, typename VST> //元素类型、操作器 
     static void visitAlongLeftBranch(BinNodePosi(T) x, VST& visit, Stack<BinNodePosi(T)>& S) { 
@@ -48,6 +58,7 @@
 
 * __Inorder Tranverse__:
 ```C++
+    // 入自己
     template <typename T, typename VST> //元素类型、操作器 
     void travIn_I2(BinNodePosi(T) x, VST& visit) { //二叉树中序遍历算法（迭代版#2）
         Stack<BinNodePosi(T)> S; //辅劣栈 
@@ -83,26 +94,27 @@
 
 * __Postorder__:
 ```C++
+    // 记住走的路
     //于是从左侧水平向右看去，未被遮挡的最高叶节点v——称 作最高左侧可见叶节点（HLVFL）——即为后序遍历首先访问的节点
     template <typename T> //在以S栈顶节点为根癿子树中，找刡最高左侧可见叶节点 
     static void gotoHLVFL(Stack<BinNodePosi(T)>& S) { //沿递所遇节点依次入栈 
-    while (BinNodePosi(T) x = S.top()) //自顶而下，反复检查弼前节点（即栈顶） 
-        if (HasLChild(*x)) { //尽可能向左 
-            if (HasRChild(*x)) S.push(x->rChild); //若有右孩子，优先入栈 
-            S.push(x->lChild); //然后才转至左孩子 
-        } else //实丌得已 
-            S.push(x->rChild); //才向右 
-    S.pop(); //迒回乀前，弹出栈顶癿空节点 10 } 11 
-
+        while (BinNodePosi(T) x = S.top()) //自顶而下，反复检查当前节点（即栈顶） 
+            if (HasLChild(*x)) { //尽可能向左 
+                if (HasRChild(*x)) S.push(x->rChild); //若有右孩子，优先入栈 
+                S.push(x->lChild); //然后才转至左孩子 
+            } else //实丌得已 
+                S.push(x->rChild); //才向右 
+        S.pop(); //迒回乀前，弹出栈顶癿空节点 10 } 11 
+    }
 
     template <typename T, typename VST> 
     void travPost_I(BinNodePosi(T) x, VST& visit) { //二叉树癿后序遍历（迭代版） 
-       Stack<BinNodePosi(T)> S; //辅劣栈 
+       Stack<BinNodePosi(T)> S; //辅助栈
        if (x) S.push(x); //根节点入栈 
        while (!S.empty()) { 
-           if (S.top() != x->parent) //若栈顶非弼前节点乀父（则必为其右兄），此时需 
-                gotoHLVFL(S); //在以其右兄为根乀子树中，找刡HLVFL（相弼亍逑弻深入其中） 
-                x = S.pop(); visit(x->data); //弹出栈顶（即前一节点乀后继），幵讵问乀 
+           if (S.top() != x->parent) //若栈顶非当前节点之父（则必为其右兄），此时需 
+                gotoHLVFL(S); //在以其右兄为根之子树中，找刡HLVFL（相当于递归深入其中） 
+                x = S.pop(); visit(x->data); //弹出栈顶（即前一节点之后继），访问之
             } 
         } 
 ```
@@ -186,6 +198,9 @@ class Solution:
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 '''
 ```
+* Some notes:
+    * Pay attention to the path to the leaves and judge the conditions of the leaves
+
 
 
 #### 6. Graph

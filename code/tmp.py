@@ -11,8 +11,7 @@
 
 # print(None or True or False or False)
 
-a=[1,2,3,4,5]
-for i in range(len(a)):
-    if i==0 or i==1:
-        a.pop()
-    print(i)
+s='ratitt'
+t='rat'
+a=1 if s[:3]==t[:3]else 0
+print(a)
