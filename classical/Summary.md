@@ -92,5 +92,6 @@
 * __Common Error__:
     * Note the return in the recursive function
     * Note the dynamic length of the dynamically changing stack or queue
+    * Note that the results are correct if and only if every step in the coding is correct
     
     

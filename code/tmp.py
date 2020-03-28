@@ -11,7 +11,11 @@
 
 # print(None or True or False or False)
 
-s='ratitt'
-t='rat'
-a=1 if s[:3]==t[:3]else 0
-print(a)
+
+
+# print(math.floor(5/2))
+import math
+def check(s1):
+    L=len(s1)
+    return s1[:L//2]==s1[math.ceil(L/2):][::-1]
+print(check('aba'))
