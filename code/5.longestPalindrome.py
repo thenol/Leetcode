@@ -72,5 +72,23 @@ class Solution:
        return s[start:start+max_len+1] if start>=0 else s[0]
 
 
+       # Method two: dynamic programming
+        class Solution:
+            def longestPalindrome(self, s: str) -> str:
+                N=len(s)
+                d=[[-1 for _ in range(N)] for _ in range(N)]
+                mx=0
+                start=end=0
+                for le in range(1,N+1):
+                    for i in range(N-le+1):
+                        j=i+le-1
+                        d[i][j]=s[i]==s[j] and ( le < 3  or d[i+1][j-1])
+                        if d[i][j] and j-i>mx:
+                            start,end=i,j
+                return s[start:end+1]
+
+            
+
+
 
        

@@ -1,21 +1,12 @@
-# from numpy.random import choice
-# samples = choice(['R','G','B'], size=100, p=[0.2,0.5,0.3])
-# print(samples,len(samples))
-
-# a=[[3,7,8],[9,11,13],[15,16,17]]
-
-# print(a[0:3])
-
-# a=[1,2,3]
-# print(str(a))
-
-# print(None or True or False or False)
 
 
 
-# print(math.floor(5/2))
-import math
-def check(s1):
-    L=len(s1)
-    return s1[:L//2]==s1[math.ceil(L/2):][::-1]
-print(check('aba'))
+# //考虑所有长度的子串
+# for (int len = 1; len <= length; len++) {
+#     //从每个下标开始
+#     for (int i = 0; i <= s.length() - len; i++) {
+#         int j = i + len - 1;
+#         dp[i][j] = s.charAt(i) == s.charAt(j) && (len < 3 || dp[i + 1][j - 1]);
+#     }
+# }
+
