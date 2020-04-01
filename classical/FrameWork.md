@@ -253,6 +253,39 @@ void Graph<Tv, Te>::DFS(int v, int& clock) { //assert: 0 <= v < n 12 13 14
 #### 10. Priority Queue
 
 #### 11. String
+* __KMP__（P314）:
+```C++
+int match(char* P, char* T){//KMP算法
+    int* next = buildNext(P); //构造next表
+    int n = (int) strlen(T), j = 0; //文本串指针
+    int m = (int) strlen(P), j=0; //模式串指针
+    while ( j < m && i < n ) //自左向右逐个比对字符
+        if ( 0 > j || T[i] == P[j]) //若匹配，或者P已移出最左侧（两个判断的次序不可交换）
+        { i++; j++;}
+        else //否则
+            j = next[j]; //模式串右移（注意：文本串不用回退）
+    delete [] next; //释放next表
+    return i-j
+
+}
+
+int* buildNext(char* P){ //构造模式串P的next表
+    size_t m = strlen(P), j = 0;//主串指针
+    int* N = new int[m]; //next表
+    int t = N[0] = -1;
+    while ( j < m-1){
+        if ( 0>t || P[j] == P[t] ){//匹配
+            j++; t++;
+            N[j] = t;//此句可改进...看书
+        }else{ //失配
+            t = N[t];
+        }
+    }
+    return N;
+}
+```
+
+
 
 #### 12. Sort
 
