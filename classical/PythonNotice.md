@@ -46,8 +46,8 @@
 * Relationship between loop control variables and variable values in loops
     ```python
     i=0
-    while i < limit:
-        a = 1
+    a = 1
+    while i < 5: # map: <i,a>=<0,3>,<1,3>...<4,6>,<5,stop>
         a+=1
         i+=1
     

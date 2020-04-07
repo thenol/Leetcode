@@ -95,7 +95,12 @@
 ### 5. Iteration
 
 
-### 6. Notice
+### 6. Data structure
+* __LinkNode__
+    * Reverse: 
+        * Head insertion $O(N)$
+
+### Notice
 * Never pursue the complexity of control logic
 * On the other hand, simple, efficient and easy to understand is the ultimate goal of coding
 

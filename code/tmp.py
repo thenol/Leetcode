@@ -10,3 +10,6 @@
 #     }
 # }
 
+a=[1,2]
+res=sorted(a,key=lambda x,y: x>y)
+print(res)

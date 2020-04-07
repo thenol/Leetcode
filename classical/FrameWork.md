@@ -56,6 +56,27 @@
 
 ```
 
+```python
+# python version #144 leetcode
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        stack=[]
+        vis=[]
+        node=root
+        while True:
+            if node:
+                vis.append(node.val)
+                if node.right:
+                    stack.append(node.right)
+                node=node.left
+            else:
+                if stack:
+                    node=stack.pop()
+                else:
+                    break
+        return vis
+```
+
 * __Inorder Tranverse__:
 ```C++
     // 入自己
@@ -66,14 +87,15 @@
             if (x) { 
                 S.push(x); //根节点迕栈 
                 x = x->lChild; //深入遍历左子树 
-            } else if (!S.empty()) { 
+            } else
+                if (!S.empty()) { 
                     x = S.pop(); //尚未讵问癿最低祖先节点退栈 
                     visit(x->data); //讵问诠祖先节点 
                     x = x->rChild; //遍历祖先癿右子树 
-                    } 
+                } 
                 else
                     break; //遍历完成 
-            } 
+    }
 
 ```
 
@@ -94,30 +116,70 @@
 
 * __Postorder__:
 ```C++
+// C++ version
+
     // 记住走的路
     //于是从左侧水平向右看去，未被遮挡的最高叶节点v——称 作最高左侧可见叶节点（HLVFL）——即为后序遍历首先访问的节点
-    template <typename T> //在以S栈顶节点为根癿子树中，找刡最高左侧可见叶节点 
+    template <typename T> //在以S栈顶节点为根的子树中，找刡最高左侧可见叶节点 
     static void gotoHLVFL(Stack<BinNodePosi(T)>& S) { //沿递所遇节点依次入栈 
         while (BinNodePosi(T) x = S.top()) //自顶而下，反复检查当前节点（即栈顶） 
             if (HasLChild(*x)) { //尽可能向左 
                 if (HasRChild(*x)) S.push(x->rChild); //若有右孩子，优先入栈 
                 S.push(x->lChild); //然后才转至左孩子 
-            } else //实丌得已 
+            } else //实不得已 
                 S.push(x->rChild); //才向右 
-        S.pop(); //迒回乀前，弹出栈顶癿空节点 10 } 11 
+        S.pop(); //返回之前，弹出栈顶的空节点 
     }
 
     template <typename T, typename VST> 
-    void travPost_I(BinNodePosi(T) x, VST& visit) { //二叉树癿后序遍历（迭代版） 
+    void travPost_I(BinNodePosi(T) x, VST& visit) { //二叉树的后序遍历（迭代版） 
        Stack<BinNodePosi(T)> S; //辅助栈
        if (x) S.push(x); //根节点入栈 
        while (!S.empty()) { 
-           if (S.top() != x->parent) //若栈顶非当前节点之父（则必为其右兄），此时需 
+           if (S.top() != x->parent) //若栈顶非当前节点之父（则必为其右兄【因为入栈顺序】，【加判断原因：若不判断，就会反复再次深入，反复入栈，就会出错】），此时需 
                 gotoHLVFL(S); //在以其右兄为根之子树中，找刡HLVFL（相当于递归深入其中） 
-                x = S.pop(); visit(x->data); //弹出栈顶（即前一节点之后继），访问之
-            } 
-        } 
+            x = S.pop(); visit(x->data); //弹出栈顶（即前一节点之后继），访问之
+        }
+    }
 ```
+```python
+# python version
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        def is_child(father,child):
+            return father.left==child or father.right==child
+
+        vis=[] # 访问
+        stack=[] #栈
+        stack.append(root) #入栈
+        cur=root
+        while stack: #栈不为空执行
+            if not is_child(stack[-1],cur): # 如果当前栈顶节点不为当前节点父节点，则必为其有兄弟，此时再次深入，相当于递归操作
+                while stack[-1]: # 当栈顶不为空时
+                    node = stack[-1]
+                    if node.left: # 按照递归的路劲入栈
+                        if node.right:
+                            stack.append(node.right)
+                        stack.append(node.left)
+                    else:
+                        stack.append(node.right) # 如果不是叶节点，继续深入，否则，会入栈一个空节点，返回
+                stack.pop() # 弹出上面叶节点入栈的一个空节点
+            cur=stack.pop() # 弹出当前最左边的叶节点
+            vis.append(cur.val) # 访问，并且进行下次循环
+        return vis
+
+```
+
 * __Level Order__:
 ```python
 # iteration
