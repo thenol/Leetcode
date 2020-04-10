@@ -56,3 +56,8 @@
     #   i=1, running the loop, a=2, executed twice
 
     ```
+* Notes on operators:
+    * $\lfloor\frac{M}{N}\rfloor-1(\frac{N}{N})\le\lfloor\frac{M-1}{N}\rfloor=\lfloor\frac{M}{N}-\frac{1}{N}\rfloor\le\lfloor\frac{M}{N}\rfloor-\lfloor\frac{1}{N}\rfloor\approx\lfloor\frac{M}{N}\rfloor$
+    * $\lfloor\frac{M}{N}\rfloor = M//N $
+
+

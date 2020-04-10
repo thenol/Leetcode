@@ -17,6 +17,7 @@ Note: The result may be very large, so you need to return a string instead of an
 '''
 class LargerNumKey(str):
     def __lt__(x, y):
+        print(x)
         return x+y > y+x
         
 class Solution:

@@ -1,7 +1,7 @@
 ## Remember Normal Framework of Algorithm
 
 ### 1. Recursive
-* Backtrack
+* Backtrack __(DFS)__
     * Demo:
      ```python
         class Solution:
@@ -22,7 +22,7 @@
      ```
     * Scenarios:
         * Problems related to path
-        * 
+        * __Enumeration__
 
 ### 2. Dynamic Programming
 * __Condition__:
@@ -40,12 +40,45 @@
     * There are two key attributes that a problem must have in order for dynamic programming to be applicable: optimal substructure and overlapping sub-problems. If a problem can be solved by combining optimal solutions to non-overlapping sub-problems, the strategy is called "divide and conquer" instead.[1] This is why merge sort and quick sort are not classified as dynamic programming problems
 * __Procedure__:
     * Determine the state
+        * Accurately identify each state and make sense
+            * e.g. the share problem
+            ```python
+            for 状态1 in 状态1的所有取值：
+                for 状态2 in 状态2的所有取值：
+                    for ...
+                        dp[状态1][状态2][...] = 择优(选择1，选择2...)
+            
+            每天都有三种「选择」：买入、卖出、无操作，我们用 buy, sell, rest 表示这三种选择。但问题是，并不是每天都可以任意选择这三种选择的，因为 sell 必须在 buy 之后，buy 必须在 sell 之后。那么 rest 操作还应该分两种状态，一种是 buy 之后的 rest（持有了股票），一种是 sell 之后的 rest（没有持有股票）。而且别忘了，我们还有交易次数 k 的限制，就是说你 buy 还只能在 k > 0 的前提下操作
+
+        
+            dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+                          max(   选择 rest  ,           选择 sell      )
+
+            解释：今天我没有持有股票，有两种可能：
+            要么是我昨天就没有持有，然后今天选择 rest，所以我今天还是没有持有；
+            要么是我昨天持有股票，但是今天我 sell 了，所以我今天没有持有股票了。
+
+            dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
+                          max(   选择 rest  ,           选择 buy         )
+
+            解释：今天我持有着股票，有两种可能：
+            要么我昨天就持有着股票，然后今天选择 rest，所以我今天还持有着股票；
+            要么我昨天本没有持有，但今天我选择 buy，所以今天我就持有股票了。
+
+            作者：labuladong
+            链接：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/solution/yi-ge-tong-yong-fang-fa-tuan-mie-6-dao-gu-piao-w-5/
+            来源：力扣（LeetCode）
+            著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+            ```
+        * Always pay attention to the __factors__, which are usually the dimension of the array(table) and come from condition
         * The last step (optimal coin combination:(2,5,7)->27, $a_k$)
         * Translate into subproblems (27-$a_k$)
+        * Note the state collision
+
     * State transition equation
         * $F[x]=min\{F[x-2]+1,F[x-5]+1,F[x-7]+1\}$
     * Initial condition and the boundary condition
-        * $F[0]=0, the\;F[y]=+Inf$ if it cannot be combined by $y$
+        * $F[0]=0, the\;F[y]=+INF$ if it cannot be combined by $y$
         * Note that initialization (i.e. the way to fill in the table) depends on the state transition equation
             * For example, check whether a string is palindrome
             ```java
@@ -74,11 +107,18 @@
     * optimal value
     * count problem
     * exist or not
+
+* __Types__:
+    * __Digit DP__
+        * <a href='https://blog.csdn.net/wust_zzwh/article/details/52100392?depth_1-utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-3&utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-3'>csdn blog</a>
+        * <a href="https://www.bilibili.com/video/BV1Fc411h76q?from=search&seid=8872914714857826356">Video tutorial</a>
+    * __Probability DP__
+
     
 * __Summary__:
     * Note the form of the equation when two or more objects are involved, where the equation must contain pointers that can represent each object individually
     * Most recursion can be rewritten with the idea of dynamic programming
-* References:
+* __References__:
     * https://en.wikipedia.org/wiki/Dynamic_programming
 
 
@@ -129,11 +169,20 @@
     1 xor 0=1+0=1, 1 xor 1=1+1=0
     1 xor 1=1+1=0
     ```
+* Polynomial:
+    * e.g. $P171:\;'AB'->28$
+
+        A|B|C|result
+        -|-|-|-
+        $1*26^2$|$2*26^1$|$3*26^0$|$\sum$
+        
 
 * __Common Error__:
     * Note the return in the recursive function
     * Note the dynamic length of the dynamically changing stack or queue
     * Note that the results are correct if and only if every step in the coding is correct
+
+
     
     
     
