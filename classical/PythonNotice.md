@@ -9,8 +9,15 @@
     [i if i >3 for i in range(10)] #  Error
     [i if i>3 else 3 for i in range(10)] #  runnable
     [i for i in range(10) if i>3] #  runnable
-
     ```
+    * why is it ? why isn't it left-closed and right-closed
+        *  __because the operator $//$, the minimum result is always equal to the left value in the range__
+        ```python
+            r=[0,1]
+            mid=(0+1)//2=0 # which equals to the left of the r.
+            # so the minimun value of operator '//' is equal to the left value in the range
+            # for example, in binary search, the recursive scale will be (l,mid) (mid,r)
+        ```
 * Generator and iterator
     * In general, changing variable variables (for instance, the list) should be avoided in loop control
     ```python

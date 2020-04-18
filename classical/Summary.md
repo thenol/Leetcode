@@ -108,6 +108,10 @@
     * count problem
     * exist or not
 
+* __Classical Problems__
+    * sub sequenece problems
+
+
 * __Types__:
     * __Digit DP__
         * <a href='https://blog.csdn.net/wust_zzwh/article/details/52100392?depth_1-utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-3&utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-3'>csdn blog</a>
@@ -169,12 +173,16 @@
     1 xor 0=1+0=1, 1 xor 1=1+1=0
     1 xor 1=1+1=0
     ```
-* Polynomial:
+* __Polynomial__:
     * e.g. $P171:\;'AB'->28$
 
         A|B|C|result
         -|-|-|-
         $1*26^2$|$2*26^1$|$3*26^0$|$\sum$
+
+* __Loop check__:
+    * Freud cycle search algorithm：
+        * The core idea of ​​the algorithm is to start a double pointer, just like a rabbit game that catches turtles. If they walk in a loop at different speeds, they will definitely be able to meet in the future.
         
 
 * __Common Error__:
