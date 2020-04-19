@@ -38,5 +38,5 @@
 #         right=binsearch(mid,N)
 #         return left&right
 # print(binsearch(5,8))
-from math import sqrt
-print(sqrt(4))
+a='abcdefg'
+print(a.endswith)
