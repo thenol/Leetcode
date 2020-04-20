@@ -38,5 +38,5 @@
 #         right=binsearch(mid,N)
 #         return left&right
 # print(binsearch(5,8))
-a='abcdefg'
-print(a.endswith)
+
+
