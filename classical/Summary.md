@@ -75,7 +75,9 @@
         * Translate into subproblems (27-$a_k$)
         * Note the state collision
 
-    * State transition equation
+    * __State transition equation__
+        * __It is the process of breaking a big problem into sub-problems__
+        * __The essence is to avoid calculating the value of overlapping sub-problems, which occurs in conventional recursive solving methods. The strategy is to record the value of overlapping sub-problems.__
         * $F[x]=min\{F[x-2]+1,F[x-5]+1,F[x-7]+1\}$
     * Initial condition and the boundary condition
         * $F[0]=0, the\;F[y]=+INF$ if it cannot be combined by $y$
