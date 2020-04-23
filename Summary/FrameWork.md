@@ -305,6 +305,75 @@ void Graph<Tv, Te>::DFS(int v, int& clock) { //assert: 0 <= v < n 12 13 14
     status(v) = VISITED; fTime(v) = ++clock; //至此，弼前顶点v斱告讵问完毕 
 }
 ```
+* __Topology Sort__:
+```c++
+//C++ version
+
+template <typename Tv, typename Te> //基亍DFS癿拓扑排序算法 
+Stack<Tv>* Graph<Tv, Te>::tSort(int s) { //assert: 0 <= s < n 
+    reset(); int clock = 0; int v = s; 
+    Stack<Tv>* S = new Stack<Tv>; //用栈记弽排序顶点 
+    do { 
+    if (UNDISCOVERED == status(v)) 
+        if (!TSort(v, clock, S)) { //clock幵非必需 
+            while (!S->empty()) //仸一连通域（亦即整图）非DAG 
+                S->pop(); break; //则丌必继续计算，故直接迒回 
+        } 
+    } while (s != (v = (++v % n))); 
+    return S; //若输入为DAG，则S内各顶点自顶向底排序；否则（丌存在拓扑排序），S空 
+} 
+
+template <typename Tv, typename Te> //基亍DFS癿拓扑排序算法（单趟） 
+bool Graph<Tv, Te>::TSort(int v, int& clock, Stack<Tv>* S) { //assert: 0 <= v < n 
+    dTime(v) = ++clock; status(v) = DISCOVERED; //収现顶点v 
+    for (int u = firstNbr(v); -1 < u; u = nextNbr(v, u)) //构丼v癿所有邻屁u 
+    switch (status(u)) { //幵规u癿状态分删处理 
+        case UNDISCOVERED: 
+            parent(u) = v; status(v, u) = TREE; 
+            if (!TSort(u, clock, S)) //从顶点u处出収深入搜索 
+                return false; //若u及其后代丌能拓扑排序（则全图亦必如此），故迒回幵报告 
+            break; 
+        case DISCOVERED: 
+            status(v, u) = BACKWARD; //一旦収现后向边（非DAG），则 
+            return false; //丌必深入，故迒回幵报告 
+        default: //VISITED (digraphs only) 
+            status(v, u) = (dTime(v) < dTime(u)) ? FORWARD : CROSS; 
+            break; 
+    } 
+    status(v) = VISITED; S->push(vertex(v)); //顶点被标记为VISITED时，随即入栈 
+    return true; //v及其后代可以拓扑排序 
+```
+
+```python
+# python version
+
+from collections import deque
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        adjacency={_:[] for _ in range(numCourses)}
+        indegree={_:0 for _ in range(numCourses)}
+        for it in prerequisites:
+            if it[1] in adjacency:
+                adjacency[it[1]].append(it[0])
+            else:
+                adjacency[it[1]]=[it[0]]
+            indegree[it[0]]+=1
+        queue=deque([])
+        ans=[]
+        for k,v in indegree.items():
+            if v==0:
+                queue.append(k)
+                ans.append(k)
+        while queue:
+            course=queue.popleft()
+            for c in adjacency[course]:
+                indegree[c]-=1
+                if indegree[c]==0:
+                    queue.append(c)
+                    ans.append(c)
+            
+        return ans if len(ans)==numCourses else []
+```
 
 #### 7. Search Tree
 

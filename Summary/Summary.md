@@ -78,7 +78,10 @@
     * __State transition equation__
         * __It is the process of breaking a big problem into sub-problems__
         * __The essence is to avoid calculating the value of overlapping sub-problems, which occurs in conventional recursive solving methods. The strategy is to record the value of overlapping sub-problems.__
-        * $F[x]=min\{F[x-2]+1,F[x-5]+1,F[x-7]+1\}$
+        * __$F[x]=min\{F[x-2]+1,F[x-5]+1,F[x-7]+1\}$__
+        * __$f(x)=min\{f(x-2)+1,f(x-5)+1,f(x-7)+1\}$__
+        * __$x$ acutually is the parameter of the function $f$__.
+        * __Hence, $dp[a][b]$ can be regarded as the function $f(a,b)$__
     * Initial condition and the boundary condition
         * $F[0]=0, the\;F[y]=+INF$ if it cannot be combined by $y$
         * Note that initialization (i.e. the way to fill in the table) depends on the state transition equation
@@ -140,8 +143,12 @@
 
 ### 5. Iteration
 
+### 6. Number Theory
+* Prime numbers
+* 
 
-### 6. Data structure
+
+### Data structure
 * __LinkNode__
     * Reverse: 
         * Head insertion $O(N)$
@@ -191,6 +198,7 @@
     * Note the return in the recursive function
     * Note the dynamic length of the dynamically changing stack or queue
     * Note that the results are correct if and only if every step in the coding is correct
+    * Comprehand the code by looking at the key logic
 
 
     
