@@ -1,6 +1,6 @@
 ## Remember Normal Framework of Algorithm
 
-### 1. Recursive
+#### 1. Recursive
 * Backtrack __(DFS)__
     * Demo:
      ```python
@@ -23,8 +23,10 @@
     * Scenarios:
         * Problems related to path
         * __Enumeration__
+    * Features:
+        * __set enumeration__
 
-### 2. Dynamic Programming
+#### 2. Dynamic Programming
 * __Condition__:
     * Optimal substructure
     * Overlapping sub-problems
@@ -108,6 +110,8 @@
 
     * The calculation order:
         * $F[0], F[1], F[2]...$
+    * 5 easy steps:
+        <img src='./resources/dp.png'>
 * __Scenarios__
     * optimal value
     * count problem
@@ -115,6 +119,10 @@
 
 * __Classical Problems__
     * sub sequenece problems
+        <img src='./resources/ss.png'>
+    * knapsack
+    * edit distances
+    * 
 
 
 * __Types__:
@@ -131,7 +139,7 @@
     * https://en.wikipedia.org/wiki/Dynamic_programming
 
 
-### 3. The theory of Graph
+#### 3. The theory of Graph
 
 * __BFS__
 
@@ -139,26 +147,37 @@
     
 
 
-### 4. Search
+#### 4. Search
 
-### 5. Iteration
+#### 5. Iteration
 
-### 6. Number Theory
+#### 6. Number Theory
 * Prime numbers
 * 
 
 
-### Data structure
+#### 7. Data structure
 * __LinkNode__
     * Reverse: 
         * Head insertion $O(N)$
 
-### Notice
+#### 8. Special data structure
+* Monotonic queue & stack
+    * Features:
+        * The elements of the stucture is monotonic
+    * monotonic queue:
+        * The essence is to get optimal value of previous $k-length$ interval in $O(1)$
+        * E.g.: <a href='https://leetcode-cn.com/problems/sliding-window-maximum/'>239.Sliding Window Maximum</a>
+
+    * monotonic stack:
+        * The essence is to get the value less than or greater than the current element in $O(n)$
+        * E.g.: Find the next person taller than you
+#### Notice
 * Never pursue the complexity of control logic
 * On the other hand, simple, efficient and easy to understand is the ultimate goal of coding
 
 
-### Appendix:
+#### Appendix:
 * The **Merge** type:
     * by a group of two
     * divid and conquer

@@ -26,7 +26,7 @@ int main(){
     int n,b,m;
     cin>>n>>b>>m;
     int v[n];
-    bool d[n][m+1];
+    bool d[n][m+1]; //d[i][j] means the i(th) song, max volume is j
     memset(d,false,sizeof(d));
     for(int i=0;i<n;i++)cin>>v[i];
     if(b-v[0]>=0)d[0][b-v[0]]=true;
@@ -50,3 +50,10 @@ int main(){
     cout<<ans;
     
 }
+
+/*
+    The steps:
+        1. Dynamic programming is actually a recursive function, and the state is the parameter passed to the function.
+        2. First, we treat it as a recursive problem, whose solution is f (location, max_volume), which is also the final step
+        3. Second, convert the recursive function to an array dp [location] [max_volume]
+*/
