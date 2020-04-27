@@ -97,3 +97,6 @@ int main(){
     cout<<f[V]<<endl;
     
 }
+// Note the calculation order
+// for(int j=v[i];j<=V;j++) // total knapsack, because of the infinite number of the products
+// for(int j=V;j<=v[i];j--) // 0-1 knapsack
