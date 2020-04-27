@@ -68,10 +68,32 @@ int main(){
                 dp[i][j]=max(dp[i][j],dp[i][j-v[i]]+w[i]);//每种无数，所以选完还可以继续接着选
         }
     }
-    cout<<dp[N][V]<<endl;
+    cout<<dp[N][V]<<endl;//note dp[N][V],dp[N][V-1]... are all optimal value
     
 }
 // The only difference from 0-1 knapsack is 
 // very easy to understand
 //dp[i][j]=max(dp[i][j],dp[i][j-v[i]]+w[i]) // total knapsack, because of the infinite number of the products
 //dp[i][j]=max(dp[i][j],dp[i-1][j-v[i]]+w[i]) // 0-1 knapsack
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int N,V;
+    cin>>N>>V;
+    int f[1010];
+    int v[1010],w[1010];
+    for(int i=1;i<=N;i++){
+        cin>>v[i]>>w[i];
+    }
+    memset(f,0,sizeof(f));
+    for(int i=1;i<=N;i++){
+        for(int j=v[i];j<=V;j++){ // note the calculation order
+            f[j]=max(f[j],f[j-v[i]]+w[i]);
+        }
+    }
+    cout<<f[V]<<endl;
+    
+}

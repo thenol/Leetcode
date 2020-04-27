@@ -172,6 +172,46 @@
     * monotonic stack:
         * The essence is to get the value less than or greater than the current element in $O(n)$
         * E.g.: Find the next person taller than you
+#### 9. Double pointer
+* Demo: $Leetcode_{209}$
+* Control one pointer:
+```python
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        l = total = 0
+        ans = len(nums) + 1
+        for r in range(len(nums)):
+            total += nums[r]
+            while total >= s:
+                ans = min(ans, r - l + 1)
+                total -= nums[l]
+                l += 1
+        return  0 if ans == len(nums) + 1 else ans
+```
+* Control two pointers:
+```python
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        le=sm=l=r=0
+        N=len(nums)
+        mn=N+1
+        while r<N or sm>=s:# loop ending: r==N && sm<s 
+            if sm<s:
+                sm+=nums[r]
+                r+=1
+                le+=1
+            else:
+                mn=min(mn,le)
+                sm-=nums[l]
+                l+=1
+                le-=1
+        # print(nums[l],nums[r-1],sm)
+        if sm>=s:
+            mn=min(mn,le)
+        if mn==N+1:
+            mn=0
+        return mn
+```
 #### Notice
 * Never pursue the complexity of control logic
 * On the other hand, simple, efficient and easy to understand is the ultimate goal of coding

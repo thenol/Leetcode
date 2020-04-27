@@ -43,5 +43,26 @@ int main(){
            if(j>=v[i])//如果放得下
                 dp[i][j]=max(dp[i][j],dp[i-1][j-v[i]]+w[i]);
         }
-    cout<<dp[N][V]<<endl;
+    cout<<dp[N][V]<<endl; //note dp[N][V],dp[N][V-1]... are all optimal value
+}
+
+
+//Carefully consider the comparison with the enumeration method
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int N,V;
+    cin>>N>>V;
+    int dp[V+1];
+    int v[N+1],w[N+1];
+    for(int i=1;i<=N;i++){
+        cin>>v[i]>>w[i];
+    }
+    memset(dp,0,sizeof(dp));
+    for(int i=1;i<=N;i++)//[0,:],[:,0] as the boundary
+        for(int j=V;j>=v[i];j--){
+            dp[j]=max(dp[j],dp[j-v[i]]+w[i]);
+        }
+    cout<<dp[V]<<endl;
 }
