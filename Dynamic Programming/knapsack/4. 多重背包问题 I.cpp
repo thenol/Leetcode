@@ -1,4 +1,4 @@
-//acwing
+// acwing
 // 有 N 种物品和一个容量是 V 的背包。
 
 // 第 i 种物品最多有 si 件，每件体积是 vi，价值是 wi。
@@ -41,7 +41,7 @@ int main(){
         for(int j=1;j<=V;j++){
             for(int k=0;k<=s[i] && k*v[i]<=V;k++){
                 if(j>=k*v[i])//?
-                dp[i][j]=max(dp[i][j],dp[i-1][j-k*v[i]]+k*w[i]);
+                dp[i][j]=max(dp[i][j],dp[i-1][j-k*v[i]]+k*w[i]); // Note k=0:d[i-1][j-k*v[i]]=d[i-1][j] !!! note the calculation order，0-1 knapsack extention
             }
         }
     }

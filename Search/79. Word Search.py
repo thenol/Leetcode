@@ -26,7 +26,7 @@ class Solution:
         visited=[[0 for _ in range(n)]for _ in range(m)]
         def dp(s,i,j):
             nonlocal m,n,board,visited
-            if not s:
+            if not s: # boundary condition at the first place
                 return True
             if not visited[i][j]==0:
                 return False

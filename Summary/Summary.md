@@ -41,7 +41,7 @@
 * Differences from "divide and conquer":
     * There are two key attributes that a problem must have in order for dynamic programming to be applicable: optimal substructure and overlapping sub-problems. If a problem can be solved by combining optimal solutions to non-overlapping sub-problems, the strategy is called "divide and conquer" instead.[1] This is why merge sort and quick sort are not classified as dynamic programming problems
 * __Procedure__:
-    * Determine the state
+    1. Determine the state
         * Accurately identify each state and make sense
             * e.g. the share problem
             ```python
@@ -77,14 +77,14 @@
         * Translate into subproblems (27-$a_k$)
         * Note the state collision
 
-    * __State transition equation__
+    2. __State transition equation__
         * __It is the process of breaking a big problem into sub-problems__
         * __The essence is to avoid calculating the value of overlapping sub-problems, which occurs in conventional recursive solving methods. The strategy is to record the value of overlapping sub-problems.__
         * __$F[x]=min\{F[x-2]+1,F[x-5]+1,F[x-7]+1\}$__
         * __$f(x)=min\{f(x-2)+1,f(x-5)+1,f(x-7)+1\}$__
         * __$x$ acutually is the parameter of the function $f$__.
         * __Hence, $dp[a][b]$ can be regarded as the function $f(a,b)$__
-    * Initial condition and the boundary condition
+    3. Initial condition and the boundary condition
         * $F[0]=0, the\;F[y]=+INF$ if it cannot be combined by $y$
         * Note that initialization (i.e. the way to fill in the table) depends on the state transition equation
             * For example, check whether a string is palindrome
@@ -106,9 +106,9 @@
                 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
             ```
             <img src='./resources/fill.png'>
-        * 
+        * <a href='https://ac.nowcoder.com/acm/problem/24382'>W学长的零花钱</a>
 
-    * The calculation order:
+    4. The calculation order:
         * $F[0], F[1], F[2]...$
     * 5 easy steps:
         <img src='./resources/dp.png'>

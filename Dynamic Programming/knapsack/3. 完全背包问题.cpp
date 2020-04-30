@@ -26,29 +26,6 @@
 // 输出样例：
 // 10
 
-#include<bits/stdc++.h>
-using namespace std;
-int main(){
-    int N,V;
-    cin>>N>>V;
-    int dp[N+1][V+1];
-    int v[N+1],w[N+1];
-    for(int i=1;i<=N;i++){
-        cin>>v[i]>>w[i];
-    }
-    memset(dp,0,sizeof(dp));
-    for(int i=1;i<=N;i++){
-        for(int j=1;j<=V;j++)
-            for(int k=0;k*v[i]<=j;k++){
-                dp[i][j]=max(dp[i][j],dp[i-1][j-k*v[i]]+k*w[i]);
-            }
-    }
-    cout<<dp[N][V]<<endl;
-    
-}
-
-// Time Limit Exceeded  
-
 // version 2:optimization
 #include<bits/stdc++.h>
 using namespace std;
@@ -63,8 +40,8 @@ int main(){
     memset(dp,0,sizeof(dp));
     for(int i=1;i<=N;i++){
         for(int j=1;j<=V;j++){
-            dp[i][j]=dp[i-1][j];
-            if(j>=v[i])
+            dp[i][j]=dp[i-1][j];//放不下v[i]
+            if(j>=v[i])//放得下v[i]
                 dp[i][j]=max(dp[i][j],dp[i][j-v[i]]+w[i]);//每种无数，所以选完还可以继续接着选
         }
     }
@@ -90,7 +67,7 @@ int main(){
     }
     memset(f,0,sizeof(f));
     for(int i=1;i<=N;i++){
-        for(int j=v[i];j<=V;j++){ // note the calculation order
+        for(int j=v[i];j<=V;j++){ 
             f[j]=max(f[j],f[j-v[i]]+w[i]);
         }
     }

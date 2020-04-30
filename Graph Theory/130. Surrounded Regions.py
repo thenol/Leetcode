@@ -23,6 +23,7 @@ Surrounded regions shouldn’t be on the border, which means that any 'O' on th
 链接：https://leetcode-cn.com/problems/surrounded-regions
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 '''
+
 class Solution:
     def solve(self, board: List[List[str]]) -> None:
         """
@@ -69,5 +70,3 @@ class Solution:
                     if path:
                         flip(path)
     
-        
-

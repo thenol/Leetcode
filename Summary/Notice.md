@@ -1,4 +1,5 @@
 ### Common Error
+#### Python
 * Left-closed, right-open: $ [a,b)\;a<=x<b$
     ```python
     # 1.
@@ -78,3 +79,32 @@
 
 
 
+* Common Modules:
+    * <a href='https://docs.python.org/3/library/collections.html'>Collections:</a>
+        * __defaultdic(dict)__:
+        ```python
+        s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+        d = defaultdict(list) # the list means the type of the value
+        for k, v in s:
+            d[k].append(v)
+
+        sorted(d.items())
+        # output: 
+        # [('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
+        ```
+        * __Counter(dict)__:
+        ```python
+        #Elements are counted from an iterable or initialized from another mapping (or counter):
+        c = Counter()                           # a new, empty counter
+        c = Counter('gallahad')                 # a new counter from an iterable
+        c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
+        c = Counter(cats=4, dogs=8)             # a new counter from keyword args
+        ```
+
+
+
+#### __C++__
+* Memset:
+    * 第一：memset函数按字节对内存块进行初始化，所以不能用它将int数组初始化为0和-1之外的其他值（除非该值高字节和低字节相同）。
+第二：memset(void *s, int ch,size_t n);中ch实际范围应该在0~~255，因为该函数只能取ch的后八位赋值给你所输入的范围的每个字节，比如int a[5]赋值memset（a,-1,sizeof(int )*5）与memset（a,511,sizeof(int )*5） 所赋值的结果是一样的都为-1；因为-1的二进制码为（11111111 11111111 11111111 11111111）而511的二进制码为（00000000 00000000 00000001 11111111）后八位都为（11111111)，所以数组中每个字节，如a[0]含四个字节都被赋值为（11111111），其结果为a[0]（11111111 11111111 11111111 11111111），即a[0]=-1，因此无论ch多大只有后八位二进制有效，而后八位二进制的范围在（0~255）中改。而对字符数组操作时则取后八位赋值给字符数组，其八位值作为ASCII码。
+    * 可以设置<a href='https://www.cnblogs.com/LLGemini/p/4309660.html'>无穷大</a> 0x3f3f3f3f int_max
