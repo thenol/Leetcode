@@ -55,6 +55,8 @@
         f[i, d+3v] = max(f[i-1, d] +3w, f[i-1, d+v] +2w, f[i-1, d+2v]+w,  f[i-1, d+3v]) = max(f[i-1, d],  f[i-1, d+v]-w, f[i-1, d+2v]-2w,  f[i-1, d+3v]-3w) + 3w
         f[i, d+4v] = max(f[i-1, d] +4w, f[i-1, d+v] +3w, f[i-1, d+2v]+2w, f[i-1, d+3v]+w, f[i, d+4v])
 
+        注意：f(i,j) = max(f(i-1,j),f(i-1,j-v)+w,...,f(i-1,j-sv)+sw),也就是f(i-1,j)可以取到，意思是不选或者不放v
+
         我们发现对于体积 j，j % v = d的话，j的状态仅由体积 % v 也等于d的状态转移而来， 比如d+3v, 仅由体积为d+v, d+2v, d这些状态转移， 这些体积 % v都等于d，我们将之前的状态
         放入单调队列即可， 放入时，有个技巧，放入 f[i-1, d+ jv] - jw  而不是 f[i-1, d+ jv] ，看看上面的式子就知道为啥了，是为了利用之前的结果。 我们减去再加回来就能保证当前状态最后的答案正确了。
 
@@ -70,3 +72,31 @@
  * 2. 注意技巧：先减j*w，后加j*w
  */
 
+#include<bits/stdc++.h>
+using namespace std;
+int f[1010][20020];
+int q[20020],idx[20020];
+int main(){
+    int N,V;
+    cin>>N>>V;
+    for(int i=1;i<=N;i++){
+        int v,w,s;
+        cin>>v>>w>>s;
+        for(int d=0;d<v;d++){
+            int head=0,tail=-1;
+            for(int j=0;j<=(V-d)/v;j++){
+                int cur=f[i-1][j*v+d]-j*w;
+
+                while(head<=tail&&cur>=q[head])tail--;
+                q[++tail]=cur;
+                idx[tail]=j;
+                if(j-idx[head]>s)head++;
+                
+                f[i][j*v+d]=q[head]+j*w;
+            }
+        }
+    }
+    cout<<f[N][V]<<endl;
+}
+
+//如果用deque, 会超时，简单的数据结构，还是自己写比较省时，而且简单，对于记录两个数组指针的情况，很明显，用相同的head,tail来控制两个队列入队出队更简单
