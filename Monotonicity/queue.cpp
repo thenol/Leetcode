@@ -10,7 +10,7 @@
 
 # include<bits/stdc++.h>
 using namespace std;
-int N,K,d[10001],q[10001],idx[10001],le=1,ri;
+int N,K,d[10001],q[10001],idx[10001],le=1,ri;// two arrays: idx is index, and q is the value
 int main(){
     cin>>N>>K;
     for(int i=1;i<=N;i++)cin>>d[i];
