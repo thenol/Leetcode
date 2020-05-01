@@ -32,7 +32,7 @@
 
 # include<bits/stdc++.h>
 using namespace std;
-const int SIZE=15000;//打包个数 每个物品size * 物品总数 =log(2000)*N = 12000
+const int SIZE=15000;//打包个数 新的物品总数=每个物品size * 物品总数 =log(2000)*N = 12000 【0-1背包的扩展】
 int f[SIZE], v[SIZE],w[SIZE];    
 int main(){
     int N,V;

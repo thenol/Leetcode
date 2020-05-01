@@ -37,7 +37,7 @@ public:
         deque<int> q;
         vector<int> ans;
         for(int i=0;i<nums.size();i++){
-            while(!q.empty()&&nums[q.back()]<nums[i])q.pop_back();
+            while(!q.empty()&&nums[i]>nums[q.back()])q.pop_back(); // >: monotonic reduction
             q.push_back(i);
             if(i-q.front()==k)q.pop_front();
             if(i>=k-1)
