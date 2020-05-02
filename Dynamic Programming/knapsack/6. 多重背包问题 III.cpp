@@ -83,10 +83,11 @@ int main(){
         int v,w,s;
         cin>>v>>w>>s;
         for(int d=0;d<v;d++){
-            int head=0,tail=-1;
+            int head=0,tail=-1; // note: the queue for each mode
             for(int j=0;j<=(V-d)/v;j++){
                 int cur=f[i-1][j*v+d]-j*w;
 
+                // save the max
                 while(head<=tail&&cur>=q[head])tail--;
                 q[++tail]=cur;
                 idx[tail]=j;
