@@ -26,7 +26,7 @@ def dijkstra(graph,n,start):
     for i in range(n+1):
         if graph[start][i]<INF:
             path[i]=start
-            dist[i]=g[start][i]
+            dist[i]=graph[start][i]
 
     dist[start]=0
     path[start]=-1
