@@ -13,7 +13,8 @@ e=int(input())
 INF=float('inf')
 g=[[INF for _ in range(n+1)] for _ in range(n+1)]
 for k in range(e):
-    i,j,v=list(map(int,input().split(' ')))
+    num=input().split(' ')
+    i,j,v=int(num[0]),int(num[1]),float(num[2])
     g[i][j]=g[j][i]=v
 
 def dijkstra(graph,n,start):
@@ -57,6 +58,7 @@ def pth(arr,n):
     path.append(n)
     return path[::-1]
 
-dist,path=dijkstra(g,n,1)
+dist,path=dijkstra(g,n,0)
 print(dist)
-print(pth(path,5))
+print(pth(path,6))
+
