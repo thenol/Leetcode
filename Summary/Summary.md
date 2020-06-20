@@ -161,6 +161,16 @@
     * Reverse: 
         * Head insertion $O(N)$
 
+* __Tree__
+    * __Catalan number__
+    $$
+    \begin{aligned}
+    通项公式：&f(n)=\frac{1}{n+1}C_{2n}^n \\
+    递推公式：&C_{n+1}=C_0C_n+C_1C_{n-1}+\dots+C_nC_0 \\
+    计算方法：&C_0=1, C_{n+1}=\frac{2(2n+1)}{n+2}C_n
+    \end{aligned}
+    $$
+
 #### 8. Special data structure
 * Monotonic queue & stack
     * Features:
