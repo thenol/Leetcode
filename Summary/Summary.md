@@ -130,6 +130,8 @@
         * <a href='https://blog.csdn.net/wust_zzwh/article/details/52100392?depth_1-utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-3&utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-3'>csdn blog</a>
         * <a href="https://www.bilibili.com/video/BV1Fc411h76q?from=search&seid=8872914714857826356">Video tutorial</a>
     * __Probability DP__
+    * __Interval DP__
+        * The reason for enumerating intervals is to ensure that the used state has been calculated before.
 
     
 * __Summary__:

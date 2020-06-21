@@ -36,19 +36,88 @@ int main(){
     int n;
     cin>>n;
     memset(f,INF,sizeof(f)); // boundary also the recursive base
-    for(int i=1;i<=n;i++){
+    for(int i=1;i<=n;i++){ 
         cin>>w[i];
         s[i]=s[i-1]+w[i];
         f[i][i]=0;// recursive base
     }
-    for(int len=2;len<=n;len++){
-        for(int i=1;i<=n-len+1;i++){
+    for(int len=2;len<=n;len++){ // interval-based traversal, Diagonal traversal
+        for(int i=1;i<=n-len+1;i++){ // all i,j
             int j=i+len-1;
             for(int k=i;k<j;k++){
-                f[i][j]=min(f[i][j],f[i][k]+f[k+1][j]+s[j]-s[i-1]);
+                f[i][j]=min(f[i][j],f[i][k]+f[k+1][j]+s[j]-s[i-1]);// k+1>i
             }
         }
     }
     cout<<f[1][n]<<endl;
     
 }
+
+//debug:
+/*
+0 4 13 24 
+1061109567 0 8 18 
+1061109567 1061109567 0 7 
+1061109567 1061109567 1061109567 0 
+
+1:2:1:4  1:3:1:1061109576 1:3:2:13  1:4:1:1061109578 1:4:2:1061109582 1:4:3:24  
+2:3:2:8  2:4:2:1061109577 2:4:3:18  
+3:4:3:7
+  
+
+0 4 13 22 
+1061109567 0 8 17 [2,4]
+1061109567 1061109567 0 7 
+1061109567 1061109567 1061109567 0 
+
+1:2:1:4  2:3:2:8  3:4:3:7  
+1:3:1:17 1:3:2:13  2:4:2:17 2:4:3:18  
+1:4:1:28 1:4:2:22 1:4:3:24  
+0 4 13 22
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+const int N=305,INF=0x3f;
+int f[N][N],w[N],s[N];
+int main(){
+    int n;
+    cin>>n;
+    memset(f,INF,sizeof(f)); // boundary also the recursive base
+    for(int i=1;i<=n;i++){
+        cin>>w[i];
+        s[i]=s[i-1]+w[i];
+        f[i][i]=0;// recursive base
+    }
+    // for(int len=2;len<=n;len++){
+    //     for(int i=1;i<=n-len+1;i++){ // all i,j
+    //         int j=i+len-1;
+    //         for(int k=i;k<j;k++){
+    //             cout<<i<<':'<<j<<':'<<k<<':'<<f[i][k]+f[k+1][j]+s[j]-s[i-1]<<' ';
+    //             f[i][j]=min(f[i][j],f[i][k]+f[k+1][j]+s[j]-s[i-1]);
+    //         }
+    //         cout<<' ';
+    //     }
+    //     cout<<endl;
+    // }
+    for(int i=1;i<=n;i++){
+        for(int j=i+1;j<=n;j++){ // all i,j
+            for(int k=i;k<j;k++){
+                cout<<i<<':'<<j<<':'<<k<<':'<<f[i][k]+f[k+1][j]+s[j]-s[i-1]<<' ';
+                f[i][j]=min(f[i][j],f[i][k]+f[k+1][j]+s[j]-s[i-1]);
+            }
+            cout<<' ';
+        }
+        cout<<endl;
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            cout<<f[i][j]<<' ';
+        }
+        cout<<endl;
+    }
+    cout<<f[1][n]<<endl;
+    
+}
+*/
