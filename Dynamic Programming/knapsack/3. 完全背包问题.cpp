@@ -77,3 +77,22 @@ int main(){
 // Note the calculation order
 // for(int j=v[i];j<=V;j++) // total knapsack, because of the infinite number of the products
 // for(int j=V;j<=v[i];j--) // 0-1 knapsack
+
+
+// version 2
+#include<bits/stdc++.h>
+using namespace std;
+int f[1005];
+int N,V;
+int v,w;
+int main(){
+    cin>>N>>V;
+    memset(f,0,sizeof(f));
+    for(int i=1;i<=N;i++){
+        cin>>v>>w;
+        for(int j=v;j<=V;j++){
+            f[j]=max(f[j],f[j-v]+w);
+        }
+    }
+    cout<<f[V]<<endl;
+}

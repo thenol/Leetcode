@@ -154,14 +154,61 @@
 #### 5. Iteration
 
 #### 6. Number Theory
-* Prime numbers
-* 
-
+* __The prime numbers__:
+    * Euler sieve: $T:O(n)$
+        ```C++
+        int countPrimes(n){
+            int i,j,countnum=1;
+            int prime[MAX]
+            bool num[MAX];
+            memset(num,true,sizeof(num));
+            for(i=2;i<=n;i++){
+                if(num[i]) prime[countnum++]=i;
+                for(j=1,j<countnum;j++){
+                    if (i*prime[j]>n) break;
+                    num[i*prime[j]]=false; //rule out the multiples of i
+                    if (i%prime[j]==0) break; // the key step
+                }
+            }
+        }
+        /*
+        i=2
+            j=1 prime[1]=2  i*prime[j]=4
+        i=3
+            j=1 prime[1]=2  i*prime[j]=3
+            j=2 prime[2]=3  i*prime[j]=9
+        i=4 (!!!)
+            j=1 prime[1]=2  i*prime[j]=8 //4%2==0 so the multiples of 4 must be the multiple of 2, i.e. 12=4*3=6*2, because of 4=2*n(n=2)
+        i=5
+            ...
+        */
+        ```
+    
+    * __Digital root__
+    > https://en.wikipedia.org/wiki/Digital_root
 
 #### 7. Data structure
 * __LinkNode__
-    * Reverse: 
-        * Head insertion $O(N)$
+    * _Linked list cycle_
+        * <a href='https://leetcode-cn.com/problems/linked-list-cycle-ii/'>#142</a>
+    * _Check loop_
+    ```python
+    def hasCycle(self, head: ListNode) -> bool:
+        if head is None:
+            return False
+        fast = head
+        slow = head
+        while (fast):
+            if fast.next and fast.next.next:
+                fast = fast.next.next # fast exists, so the slow must exist
+                slow = slow.next
+            else:
+                return False
+
+            if fast == slow:
+                return True
+        return False
+    ```
 
 * __Tree__
     * __Catalan number__
@@ -172,6 +219,12 @@
     计算方法：&C_0=1, C_{n+1}=\frac{2(2n+1)}{n+2}C_n
     \end{aligned}
     $$
+* __Segment Tree__
+    * 
+
+* __Fenwick Tree__
+    * <a href='https://www.bilibili.com/video/BV1pE41197Qj?from=search&seid=6266349923843981170'>树状数组视频图解</a>
+    * <a href='https://blog.csdn.net/weixin_30764137/article/details/95371901'>其他扩展方法</a>
 
 #### 8. Special data structure
 * Monotonic queue & stack
@@ -185,7 +238,7 @@
         * The essence is to get the value less than or greater than the current element in $O(n)$
         * E.g.: Find the next person taller than you
 #### 9. Double pointer
-* Demo: $Leetcode_{209}$
+* Demo: __#209__
 * Control one pointer:
 ```python
 class Solution:
@@ -224,6 +277,32 @@ class Solution:
             mn=0
         return mn
 ```
+#### 10.  __Operator__:
+*  __XOR__:
+    * 运算：
+    $$
+    \begin{aligned}
+    a\oplus{b}=&(\lnot{a}\land{b})\lor(a\land{\lnot{b}})\\
+    =&(!\ a\ \&\ b)\ or\ (a\ \&\ !b) 
+    \end{aligned}
+    $$
+    * 含义：
+        * 不同为True，相同为False
+    * 性质：
+        * 交换律
+        * 结合律
+    * 不进位加法: 
+    ```c
+    0 xor 0=0+0=0, 0 xor 1=0+1=1
+    0 xor 1=0+1=1, 1 xor 0=1+0=1
+    1 xor 0=1+0=1, 1 xor 1=1+1=0
+    1 xor 1=1+1=0
+    ```
+    * 抵消法：
+        * 无则加，有则删
+    * demo： <a href='https://leetcode-cn.com/problems/single-number/'>#137</a>,    
+
+
 #### Notice
 * Never pursue the complexity of control logic
 * On the other hand, simple, efficient and easy to understand is the ultimate goal of coding
@@ -245,14 +324,6 @@ class Solution:
 
 * The characteristics of the Algorithm:
     * An important technique for proving the finiteness and correctness of an algorithm is to look at the entire calculation process from an appropriate perspective and discover some of its __**invariance**__ and __**monotonicity**__.
-* __xor__ operator:
-    * Carryless addition: 
-    ```c
-    0 xor 0=0+0=0, 0 xor 1=0+1=1
-    0 xor 1=0+1=1, 1 xor 0=1+0=1
-    1 xor 0=1+0=1, 1 xor 1=1+1=0
-    1 xor 1=1+1=0
-    ```
 * __Polynomial__:
     * e.g. $P171:\;'AB'->28$
 

@@ -487,9 +487,10 @@ def heapSort(nums):
         for i in range(len(nums)//2)[::-1]: # 从倒数第一个非叶子结点开始建立大根堆
             adjustHeap(nums, i, size) # 对所有非叶子结点进行堆的调整（即调整子堆，从而使每个子堆有序，大部分节点都在底层，所以时间复杂度小）
         # print(nums)  # 第一次建立好的大根堆
-    # 堆排序 
+    # 建堆
     size = len(nums)
     builtHeap(nums, size) 
+    # 排序
     for i in range(len(nums))[::-1]: 
         # 每次根结点都是最大的数，最大数放到后面
         nums[0], nums[i] = nums[i], nums[0] 
