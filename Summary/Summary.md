@@ -225,7 +225,10 @@
 * __Fenwick Tree__
     * <a href='https://www.bilibili.com/video/BV1pE41197Qj?from=search&seid=6266349923843981170'>树状数组视频图解</a>
     * <a href='https://blog.csdn.net/weixin_30764137/article/details/95371901'>其他扩展方法</a>
-
+* __Monotonicity__
+    * _stack_
+    * _queue_
+        * keywords: width & maximum/minimum value
 #### 8. Special data structure
 * Monotonic queue & stack
     * Features:

@@ -24,7 +24,7 @@ int main()
     for(int i=1;i<=n;i++) scanf("%d",&a[i]);
     for(int i=n;i>=1;i--)// for right to left
     {
-        while(!s.empty()&&a[s.top()]<=a[i]) s.pop();//弹出栈顶比当前数小的(若栈顶在数组尾部，则单调递减)
+        while(!s.empty()&&a[s.top()]<=a[i]) s.pop();//弹出栈顶比当前数小的(假设栈顶在左侧，则是单调递增栈，从而是右边第一个比自己搞的人)
         f[i]=s.empty()?0:s.top();//存储答案，由于没有比她大的要输出0，所以加了个三目运算,找到右边第一个比自己高的人,并且记下
         s.push(i);//压入当前元素
     }
