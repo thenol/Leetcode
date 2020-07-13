@@ -178,7 +178,7 @@
             j=1 prime[1]=2  i*prime[j]=3
             j=2 prime[2]=3  i*prime[j]=9
         i=4 (!!!)
-            j=1 prime[1]=2  i*prime[j]=8 //4%2==0 so the multiples of 4 must be the multiple of 2, i.e. 12=4*3=6*2, because of 4=2*n(n=2)
+            j=1 prime[1]=2  i*prime[j]=8 //4%2==0 so the multiples of 4 must be the multiple of 2, i.e. 12=(i=4)*3=>(i=6)*2, because of 4=2*n(n=2)
         i=5
             ...
         */
