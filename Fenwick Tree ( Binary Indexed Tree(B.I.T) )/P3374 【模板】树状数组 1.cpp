@@ -55,11 +55,11 @@
 
 #include<bits/stdc++.h>
 using namespace std;
-int n,m,num[500000+5],t[500000*2+5];
-int update(int x,int v){
+int n,m,num[500000+5],t[500000+5];
+int update(int x,int v){//单点修改(x节点加上v)
     for(;x<=n;x+=x&-x)t[x]+=v;
 }
-int sum(int x){
+int sum(int x){//sum[1,x] 前缀和
     int sum=0;
     for(;x>=1;x-=x&-x)sum+=t[x];
     return sum;

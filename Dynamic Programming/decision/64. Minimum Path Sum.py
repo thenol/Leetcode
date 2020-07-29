@@ -35,3 +35,25 @@ class Solution:
                 if j+1<n:
                     d[i][j] = min(d[i][j+1]+grid[i][j],d[i][j]) if updated else d[i][j+1]+grid[i][j] # bottom second
         return d[0][0]
+
+
+# # version C++:
+# class Solution {
+# public:
+#     int minPathSum(vector<vector<int>>& grid) {
+#         int m=grid.size();
+#         int n=grid[0].size();
+#         // vector<vector<int>> f(m+1,vector<int>(n+1,10000));
+#         // f[0][1]=f[1][0]=0;
+#         vector<int>f(n+1,1000);
+#         f[1]=0;
+#         for(int i =1;i<=m;i++){
+#             for(int j=1;j<=n;j++){
+#                 // f[i][j]=min(f[i-1][j],f[i][j-1])+grid[i-1][j-1];    
+#                 f[j]=min(f[j],f[j-1])+grid[i-1][j-1];    
+#             }
+#         }
+#         // return f[m][n];
+#         return f[n];
+#     }
+# };

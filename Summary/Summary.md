@@ -225,6 +225,10 @@
 * __Fenwick Tree__
     * <a href='https://www.bilibili.com/video/BV1pE41197Qj?from=search&seid=6266349923843981170'>树状数组视频图解</a>
     * <a href='https://blog.csdn.net/weixin_30764137/article/details/95371901'>其他扩展方法</a>
+    * 原理：
+        <img src='./resources/FIT.png'>
+    * Demo:
+        * <a href='https://leetcode-cn.com/problems/range-sum-query-mutable/'>#307</a>, 308
 * __Monotonicity__
     * _stack_
     * _queue_
@@ -304,6 +308,20 @@ class Solution:
     * 抵消法：
         * 无则加，有则删
     * demo： <a href='https://leetcode-cn.com/problems/single-number/'>#137</a>,    
+
+#### 11.  __Math__:
+* <a href='https://blog.csdn.net/liuzibujian/article/details/81346595'>$C_n^m$求法</a>
+    * 乘法逆元
+        ```c++
+            long long inv[10000005];
+            inv[1]=1;
+            long long ni(int x,int p)
+            {
+                if (inv[x]!=0) return inv[x];
+                inv[x]=(p-p/x)*ni(p%x,p)%p;
+                return inv[x];
+            }
+        ```
 
 
 #### Notice
