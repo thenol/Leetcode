@@ -208,3 +208,14 @@
     * alg: 
         * <input type='checkbox'><a href='https://leetcode-cn.com/problems/integer-break/'>343. Integer Break</a>
         * 
+* 【8/2 2020】
+    * alg:
+        * <input type='checkbox'><a href='https://leetcode-cn.com/problems/dui-lie-de-zui-da-zhi-lcof/'>剑指 Offer 59 - II. 队列的最大值</a>
+        * **如果思路复杂，聚焦方法，如果思路简单，聚焦时间复杂度**
+        * <a href='https://leetcode-cn.com/contest/weekly-contest-200'>第 200 场周赛</a>
+        * <input type='checkbox'><a href='https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof/'>https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof/</a>
+    * math&ml:
+        * 牛顿法（一维或者，一元函数）：$x_{t+1}=x_t-\frac{f(x_{t})}{f^{'}(x_{t})}$
+        * 机器学习中的<a href='https://www.bilibili.com/video/BV1SE411E72Y?from=search&seid=3433766182192230655'>牛顿法优化方法（多维，多元函数）</a>：$\bf{x}_{t+1}=\bf{x}_{t}-\bf{H}(\bf{x}_{t})^{-1}_{n*n}\nabla{f(\bf{x}_{t})}_{n*1}$
+        * 注意<a href='https://www.bilibili.com/video/BV1T741177je?from=search&seid=5221763475764153214'>黑塞矩阵</a>和梯度矩阵的关系，黑塞矩阵是二阶导数，梯度矩阵是一阶
+        * $\bf{adaboost}$
