@@ -141,6 +141,7 @@ class Solution:
             x = S.pop(); visit(x->data); //弹出栈顶（即前一节点之后继），访问之
         }
     }
+// trick 解法 后续非递归==后续就是中续（中右左）的结果反过来
 ```
 ```python
 # python version
