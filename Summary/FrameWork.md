@@ -57,6 +57,7 @@
 ```
 
 ```python
+# 访，入右，往左
 # python version #144 leetcode
 class Solution:
     def preorderTraversal(self, root: TreeNode) -> List[int]:
@@ -82,16 +83,16 @@ class Solution:
     // 入自己
     template <typename T, typename VST> //元素类型、操作器 
     void travIn_I2(BinNodePosi(T) x, VST& visit) { //二叉树中序遍历算法（迭代版#2）
-        Stack<BinNodePosi(T)> S; //辅劣栈 
+        Stack<BinNodePosi(T)> S; //辅助栈
         while (true) 
             if (x) { 
-                S.push(x); //根节点迕栈 
+                S.push(x); //根节点入栈 
                 x = x->lChild; //深入遍历左子树 
             } else
                 if (!S.empty()) { 
-                    x = S.pop(); //尚未讵问癿最低祖先节点退栈 
-                    visit(x->data); //讵问诠祖先节点 
-                    x = x->rChild; //遍历祖先癿右子树 
+                    x = S.pop(); //尚未访问的最低祖先节点退栈 
+                    visit(x->data); //访问诠祖先节点 
+                    x = x->rChild; //遍历祖先的右子树 
                 } 
                 else
                     break; //遍历完成 
@@ -101,8 +102,8 @@ class Solution:
 
 * __Inorder Succ__:
 ```C++
-    template <typename T> BinNodePosi(T) BinNode<T>::succ() { //定位节点v癿直接后继 
-        BinNodePosi(T) s = this; //记录后继癿临时发量 
+    template <typename T> BinNodePosi(T) BinNode<T>::succ() { //定位节点v的直接后继 
+        BinNodePosi(T) s = this; //记录后继的临时发量 
         if (rChild) { //若有右孩子，则直接后继必在右子树中，具体地就是 
             s = rChild; //右子树中 5
             while (HasLChild(*s)) s = s->lChild; //最靠左（最小）癿节点 
@@ -124,7 +125,7 @@ class Solution:
     static void gotoHLVFL(Stack<BinNodePosi(T)>& S) { //沿递所遇节点依次入栈 
         while (BinNodePosi(T) x = S.top()) //自顶而下，反复检查当前节点（即栈顶） 
             if (HasLChild(*x)) { //尽可能向左 
-                if (HasRChild(*x)) S.push(x->rChild); //若有右孩子，优先入栈 
+                if (HasRChild(*x)) S.push(x->rChild); //若有右孩子，优先入栈
                 S.push(x->lChild); //然后才转至左孩子 
             } else //实不得已 
                 S.push(x->rChild); //才向右 
@@ -137,7 +138,7 @@ class Solution:
        if (x) S.push(x); //根节点入栈 
        while (!S.empty()) { 
            if (S.top() != x->parent) //若栈顶非当前节点之父（则必为其右兄【因为入栈顺序】，【加判断原因：若不判断，就会反复再次深入，反复入栈，就会出错】），此时需 
-                gotoHLVFL(S); //在以其右兄为根之子树中，找刡HLVFL（相当于递归深入其中） 
+                gotoHLVFL(S); //在以其右兄为根之子树中，找到HLVFL（相当于递归深入其中） 
             x = S.pop(); visit(x->data); //弹出栈顶（即前一节点之后继），访问之
         }
     }
@@ -165,10 +166,10 @@ class Solution:
         stack.append(root) #入栈
         cur=root
         while stack: #栈不为空执行
-            if not is_child(stack[-1],cur): # 如果当前栈顶节点不为当前节点父节点，则必为其有兄弟，此时再次深入，相当于递归操作
-                while stack[-1]: # 当栈顶不为空时
+            if not is_child(stack[-1],cur): # 如果当前栈顶节点不为当前节点父节点，则必为其右兄弟，此时再次深入，相当于递归操作【如果为其父节点，说明父节点的左节点已经访问，就不用在访问了】
+                while stack[-1]: # 当栈顶不为空时；循环作用：后序遍历递归深入，记住深入的步骤，右左
                     node = stack[-1]
-                    if node.left: # 按照递归的路劲入栈
+                    if node.left: # 按照递归的路径入栈
                         if node.right:
                             stack.append(node.right)
                         stack.append(node.left)

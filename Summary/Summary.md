@@ -150,6 +150,9 @@
 
 
 #### 4. Search
+* Binary search:
+    * 特征:
+        * 划重点，一般题目中出现最近最远，最小最大，求最大化最小值、最小化最大值，应该就是在考察二分/三分了。<a href='https://leetcode-cn.com/problems/magnetic-force-between-two-balls/solution/er-fen-gao-qi-by-time-limit/'>#5489. 两球之间的磁力</a>
 
 #### 5. Iteration
 

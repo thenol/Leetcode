@@ -124,3 +124,25 @@
 
       O(n!)的算法能解决的数据范围在n < 11。
 ```
+
+
+* 边界：
+    ```c++
+    #include<iostream>
+    #include<cmath>
+    using namespace std;
+    int main()
+    {
+        //int -2147483648~2147483647    2^32 (21亿)
+        cout << INT_MIN <<endl;
+        cout << INT_MAX <<endl;
+        //unsigned int 4294967295        2^32
+        cout << UINT32_MAX <<endl;
+        //long long        9223372036854775807        2^64 （92亿亿）
+        cout << LONG_LONG_MAX <<endl;
+        cout << LONG_LONG_MIN <<endl;
+        //unsigned long long    18446744073709551615    2^64
+        cout << UINT64_MAX <<endl;
+        return 0;
+    }
+    ```
