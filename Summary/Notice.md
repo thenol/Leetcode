@@ -138,10 +138,10 @@
         cout << INT_MAX <<endl;
         //unsigned int 4294967295        2^32
         cout << UINT32_MAX <<endl;
-        //long long        9223372036854775807        2^64 （92亿亿）
+        //long long        922 3372 0368 5477 5807        2^64 （922亿亿）
         cout << LONG_LONG_MAX <<endl;
         cout << LONG_LONG_MIN <<endl;
-        //unsigned long long    18446744073709551615    2^64
+        //unsigned long long    1844 6744 0737 0955 1615    2^64
         cout << UINT64_MAX <<endl;
         return 0;
     }
