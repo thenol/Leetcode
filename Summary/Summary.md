@@ -106,6 +106,36 @@
                 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
             ```
             <img src='./resources/fill.png'>
+            
+            * <a href='https://leetcode-cn.com/problems/palindromic-substrings/'>#647.Palindromic Substrings</a>
+                * 注意f[i][j]指s[i...j]字符串
+                * 区间求法：1.区间长度[2,len(s)]; 2.i的范围[),**先看$j=i+le-1$, 然后再求i的范围即 j=i+le-1<len(s)**, 从而i<len(s)-le+1, 因为在python里面是左闭右开，所以是[0,len(s)-le+1) 
+            ```python
+            # python version
+            class Solution:
+                def countSubstrings(self, s: str) -> int:
+                    N=len(s)
+                    f=[[False for _ in range(N)] for _ in range(N)]
+                    ans=0
+                    for i in range(N):
+                        f[i][i]=True
+                        ans+=1
+                    for le in range(2,N+1):#[]
+                        for i in range(len(s)-le+1):
+                            j=i+le-1 #i+le<len(s)=>i<len(s)-le
+                            if le==2 and s[i]==s[j]:
+                                f[i][j]=True
+                                ans+=1
+                                continue
+                            if s[i]==s[j]:
+                                f[i][j]=f[i+1][j-1]
+                                if f[i][j]:ans+=1
+                            else:
+                                f[i][j]=False
+                    return ans
+
+            ```
+
         * <a href='https://ac.nowcoder.com/acm/problem/24382'>W学长的零花钱</a>
 
     4. The calculation order:

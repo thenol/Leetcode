@@ -57,7 +57,7 @@
 ```
 
 ```python
-# 访，入右，往左
+# 访，入右，往左; 栈中放的是右节点
 # python version #144 leetcode
 class Solution:
     def preorderTraversal(self, root: TreeNode) -> List[int]:
@@ -80,7 +80,7 @@ class Solution:
 
 * __Inorder Tranverse__:
 ```C++
-    // 入自己
+    // 入自己; 栈中放的是根节点
     template <typename T, typename VST> //元素类型、操作器 
     void travIn_I2(BinNodePosi(T) x, VST& visit) { //二叉树中序遍历算法（迭代版#2）
         Stack<BinNodePosi(T)> S; //辅助栈
@@ -145,7 +145,7 @@ class Solution:
 // trick 解法 后续非递归==后续就是中续（中右左）的结果反过来
 ```
 ```python
-# python version
+# python version; 栈中放的是根右左节点
 
 # Definition for a binary tree node.
 # class TreeNode:
