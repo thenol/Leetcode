@@ -133,12 +133,12 @@
     using namespace std;
     int main()
     {
-        //int -2147483648~2147483647    2^32 (21亿)
+        //int -2147483648~2147483647    2^31 (21亿)
         cout << INT_MIN <<endl;
         cout << INT_MAX <<endl;
-        //unsigned int 4294967295        2^32
+        //unsigned int 4294967295        2^32 (42亿)
         cout << UINT32_MAX <<endl;
-        //long long        922 3372 0368 5477 5807        2^64 （922亿亿）
+        //long long        922 3372 0368 5477 5807        2^63 （922亿亿）
         cout << LONG_LONG_MAX <<endl;
         cout << LONG_LONG_MIN <<endl;
         //unsigned long long    1844 6744 0737 0955 1615    2^64
