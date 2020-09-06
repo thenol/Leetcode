@@ -101,7 +101,14 @@
         c = Counter(cats=4, dogs=8)             # a new counter from keyword args
         ```
 
-
+* Precision:
+    * **精度差**：
+    ```python
+        d[0][n-1]%(1000000000+7) # 老老实实，少做类型转换，精度就会更加接近
+        d[0][n-1]%(1e9+7)
+        int(d[0][n-1]%(1e9+7))
+        #结果是不一样的，千万注意都是不一样的，中间会有精度差
+    ```
 
 #### __C++__
 * Memset:
