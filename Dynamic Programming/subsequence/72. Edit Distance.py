@@ -39,6 +39,8 @@ class Solution:
         # else:d[i][j]=min(d[i-1][j],d[i][j-1],d[i-1][j-1])+1 # delete, insert, replace
         # I: i,
         d=[[0 for _ in range(len(word2)+1)]for _ in range(len(word1)+1)]
+
+        # version 1: 初始化容易出错，一下为错误版本
         # for i in range(len(word1)):
         #     if word2[0]==word1[i]:
         #         d[i][0]=i
@@ -49,6 +51,8 @@ class Solution:
         #         d[0][i]=i
         #     else:
         #         d[0][i]=i+1
+
+        # version 2: 包含空串初始化操作
         for i in range(1,len(word1)+1):
             d[i][0]=d[i-1][0]+1 # 把空串""放进来初始化，会大大地简化问题
         for i in range(1,len(word2)+1):
