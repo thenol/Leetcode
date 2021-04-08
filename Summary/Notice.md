@@ -131,6 +131,9 @@
 
       O(n!)的算法能解决的数据范围在n < 11。
 ```
+<span style='color:red;font-weight:bold'>算法的优化对于时间的节省是及其恐怖的</span>
+例如，dijkstra在计算1584*10规模的节点距离时，不优化，耗时18.21899652481079s
+优化后的：0.1s，优化近180倍，相当于优化后的<span style='color:red;font-weight:bold;'>2天</span>可以做完未优化的<span style='color:red;font-weight:bold'>1年</span>的工作
 
 
 * 边界：
