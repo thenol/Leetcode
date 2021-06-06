@@ -46,3 +46,4 @@ int main(){
     }
     cout<<dijkstra(w,5,path,dis,vis)<<endl;
 }
+
