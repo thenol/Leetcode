@@ -50,24 +50,26 @@
 
 连接: https://leetcode.cn/problems/sum-of-total-strength-of-wizards/solutions/1510399/dan-diao-zhan-qian-zhui-he-de-qian-zhui-d9nki/
 """
+from itertools import accumulate
 
 class Solution:
     def totalStrength(self, strength: List[int]) -> int:
         n = len(strength)
-        # left[i] 为左侧严格小于 strength[i] 的最近元素位置（不存在时为 -1）
-        # right[i] 为右侧小于等于 strength[i] 的最近元素位置（不存在时为 n）
+        # left[i] 为左侧严格小于 strength[i] 的最近元素位置（不存在时为 -1）, 对当前元素而言出栈中断的地方
+        # right[i] 为右侧小于等于 strength[i] 的最近元素位置（不存在时为 n），对出栈元素而言，即为当前元素
         # e.g., [1,3,1,2], for the first 1, the boundary elements are [1,3,1], the second one's boundary elements are [1,3,1,2]
         left, right, st = [-1] * n, [n] * n, []
         for i, v in enumerate(strength):
             while st and strength[st[-1]] >= v: right[st.pop()] = i
             if st: left[i] = st[-1]
             st.append(i)
-
-        ss = list(accumulate(accumulate(strength, initial=0), initial=0))  # 前缀和的前缀和
+        
+        # 注意ss[i] = sum(s[0:i]) = s[0] + s[1] +...+ s[i-1]，也就是前i个元素的和
+        ss = list(accumulate(accumulate(strength, initial=0), initial=0))  # 前缀和的前缀和，补0是为了ss[0]=0
 
         ans = 0
         for i, v in enumerate(strength):
             l, r = left[i] + 1, right[i] - 1  # [l, r]  左闭右闭
-            tot = (i - l + 1) * (ss[r + 2] - ss[i + 1]) - (r - i + 1) * (ss[i + 1] - ss[l])
+            tot = (i - l + 1) * (ss[r + 2] - ss[i + 1]) - (r - i + 1) * (ss[i + 1] - ss[l]) # 理解s[i+1](第i+2项)+s[i+2](第i+3项)=ss[i+3](前i+3项和，加到s[i+2]) - ss[i+1](前i+1项和，加到s[i])
             ans += v * tot  # 累加贡献
         return ans % (10 ** 9 + 7)
