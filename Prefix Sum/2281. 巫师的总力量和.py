@@ -69,7 +69,7 @@ class Solution:
 
         ans = 0
         for i, v in enumerate(strength):
-            l, r = left[i] + 1, right[i] - 1  # [l, r]  左闭右闭
+            l, r = left[i] + 1, right[i] - 1  # [l, r]  左闭右闭，这样才能把数组所有元素覆盖
             tot = (i - l + 1) * (ss[r + 2] - ss[i + 1]) - (r - i + 1) * (ss[i + 1] - ss[l]) # 理解s[i+1](第i+2项)+s[i+2](第i+3项)=ss[i+3](前i+3项和，加到s[i+2]) - ss[i+1](前i+1项和，加到s[i])
             ans += v * tot  # 累加贡献
         return ans % (10 ** 9 + 7)
