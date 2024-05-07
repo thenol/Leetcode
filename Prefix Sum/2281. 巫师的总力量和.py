@@ -57,16 +57,22 @@ class Solution:
         n = len(strength)
         # left[i] 为左侧严格小于 strength[i] 的最近元素位置（不存在时为 -1）, 对当前元素而言出栈中断的地方
         # right[i] 为右侧小于等于 strength[i] 的最近元素位置（不存在时为 n），对出栈元素而言，即为当前元素
-        # e.g., [1,3,1,2], for the first 1, the boundary elements are [1,3,1], the second one's boundary elements are [1,3,1,2]
-        left, right, st = [-1] * n, [n] * n, []
+        # e.g., [1,3,1,2], for the first 1, the boundary elements are [-1,1,3,1], the second one's boundary elements are [-1,1,3,1,2]
+        # 1: -1, 2
+        # 3:  0, 2 
+        # 1: -1, 4
+        # 2:  2, 4
+        # summary: [-1, 0, -1, 2] [2, 2, 4, 4]
+        left, right, st = [-1] * n, [n] * n, [] # 假设最大边界，对任何元素，左右边界都为[-1, n]
         for i, v in enumerate(strength):
-            while st and strength[st[-1]] >= v: right[st.pop()] = i
-            if st: left[i] = st[-1]
+            while st and strength[st[-1]] >= v: right[st.pop()] = i # 记录右边界，为最近的小于等于当前元素的值
+            if st: left[i] = st[-1] # 记录左边界，为最近的小于当前元素的值
             st.append(i)
         
-        # 注意ss[i] = sum(s[0:i]) = s[0] + s[1] +...+ s[i-1]，也就是前i个元素的和
+        # 注意ss[i] = sum(s[0:i]) = s[0] + s[1] +...+ s[i-1]，也就是列表s前i个元素的和(注意对于列表s下标从0开始)，左闭右开，i>=1，因此必须补0，这样让ss[0]=0
         ss = list(accumulate(accumulate(strength, initial=0), initial=0))  # 前缀和的前缀和，补0是为了ss[0]=0
 
+        # !!! 注意[l, r]的元素和可以表示为 s[r+1] - s[l]，也就是 前r+1项（下标从0到r）的和 减去 前l项(下标从0到l-1) 的和
         ans = 0
         for i, v in enumerate(strength):
             l, r = left[i] + 1, right[i] - 1  # [l, r]  左闭右闭，这样才能把数组所有元素覆盖
