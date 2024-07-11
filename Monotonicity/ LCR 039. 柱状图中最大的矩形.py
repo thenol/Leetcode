@@ -44,8 +44,6 @@ class Solution:
             while stk[-1][0] >= x:
                 ans = max(ans, stk.pop()[0]*(i-stk[-1][1]-1))
             stk.append([x, i])
-        
-
         return ans
     
 
