@@ -39,11 +39,13 @@ class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         ans = 0
         stk = [[-inf, -1]] # 放置无穷大哨兵，这里一定要放置 [item, index]，如果只放置 index -1, 由于python的特性, heights[-1]是会索引到最后一个元素的
-        heights.append(0) # 引入很小哨兵，来确保每个栈元素都能出栈
+        heights.append(0) # 引入很小哨兵，来确保每个栈元素都能出栈，且0本省就不用考虑了
         for i, x in enumerate(heights):
             while stk[-1][0] >= x:
                 ans = max(ans, stk.pop()[0]*(i-stk[-1][1]-1))
             stk.append([x, i])
+        
+        # 最后栈里面还剩左右护法[inf,0]，不用考虑
         return ans
     
 
