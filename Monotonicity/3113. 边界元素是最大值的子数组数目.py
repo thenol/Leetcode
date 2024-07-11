@@ -105,7 +105,9 @@ class Solution:
         return ans + len(nums)
 
 
-
+# 哨兵的用法: 考虑用什么样的哨兵
+# 哨兵的好处：不需要考虑边界；另外，可以默认计算到最左边边界
+    
 
 class Solution:
     def numberOfSubarrays(self, nums: List[int]) -> int:
