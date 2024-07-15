@@ -41,8 +41,8 @@ class Solution:
         stk = [[-inf, -1]] # 放置无穷大哨兵，这里一定要放置 [item, index]，如果只放置 index -1, 由于python的特性, heights[-1]是会索引到最后一个元素的
         heights.append(0) # 引入很小哨兵，来确保每个栈元素都能出栈，且0本省就不用考虑了
         for i, x in enumerate(heights):
-            while stk[-1][0] >= x:
-                ans = max(ans, stk.pop()[0]*(i-stk[-1][1]-1))
+            while stk[-1][0] >= x: # 细节：需要注意 大于等于 情况下就出栈
+                ans = max(ans, stk.pop()[0]*(i-stk[-1][1]-1)) # 先pop，再读取最后一个，代码真的太简洁，精美了
             stk.append([x, i])
         
         # 最后栈里面还剩左右护法[inf,0]，不用考虑
