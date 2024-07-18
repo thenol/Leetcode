@@ -30,6 +30,11 @@
 // 输出样例：
 // 10
 
+
+/*
+思路：直接看左神b站视频
+*/
+
 // use monotonic queue to optimize
 
 /**

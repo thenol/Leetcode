@@ -30,6 +30,12 @@
 // 输出样例：
 // 10
 
+/*
+思路：
+    转换成01背包问题，二进制打包
+*/
+
+
 # include<bits/stdc++.h>
 using namespace std;
 const int SIZE=15000;//打包个数 新的物品总数=每个物品size * 物品总数 =log(2000)*N = 12000 【0-1背包的扩展】
@@ -44,12 +50,12 @@ int main(){
         cin>>a>>b>>s;
 
         // 打包
-        for(int k=1;k<=s;k<<=1){
+        for(int k=1;k<=s;k<<=1){ // s = s - 2^k, 也就是按照这样方式分解 {1,2,4,8,...,2^k}，可以发现 0->s 均可以从这里面实现 选择 和 不选择 的组合（即转变成0/1背包问题）
             v[idx]=k*a;
             w[idx++]=k*b;
             s-=k;
         }
-        if(s>0){
+        if(s>0){ // 还剩一部分，继续单独打包
             v[idx]=s*a;
             w[idx++]=s*b; //必须自增，因为还有下一个物品
         }
@@ -67,7 +73,9 @@ int main(){
 /*
 The essence is that the number of i can be decomposed into a combination of many binary numbers.
 e.g.
-s=7
+
+s=7 //7件的时候
+
 0 0
 1 1
 2 2
@@ -80,9 +88,9 @@ s=7
 打包策略:
 包大小为:1 2 4
 
-s=4
+s=4 //4件的时候
 包队列为:1 2 1
 
-s=10
-包大小列表: 1 2 4 (3)
+s=10 //10件的时候
+包大小列表: 1 2 4 (3) 还剩3个
 */

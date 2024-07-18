@@ -26,6 +26,7 @@
 // 输出样例：
 // 10
 
+// 思路：朴素做法
 
 // version 1:
 # include<bits/stdc++.h>
