@@ -14,78 +14,59 @@
 来源：力扣（LeetCode）
 链接：https://leetcode-cn.com/problems/longest-palindromic-substring
 '''
+# Method one: using cache table
+"""
+思路：
+1. 状态：dp[i][j] 表示区间[i,j]，左闭右闭区间，字符串是否为回文字符串
+2. 状态转移方程如下
+"""
 
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-       start=-1
-       max_len=0
-       i=0
-       if len(s)==0: return ''
-       '''
-       要么相隔一位相同，要么相隔两位相同，还可能二者都满足
-       程序的逻辑控制，集合关系，统计几次的问题:
+        dp = [[-1]*len(s) for i in range(len(s))]
+        
+        def dfs(s, l, r):
+            if dp[l][r] > -1:
+                return dp[l][r] # cache table
 
-       易错点：
-        相隔一位统计一次 且 相隔两位统计一次
-        而非相隔一次或者两次只作一次统计
-
-        总结：注意程序的总体架构
-            或者的关系 if;if   或者 if c1 or c2
-            且的关系if c1 and c1
-            集合逐渐变小，即通过筛选，也就是嵌套if完成
-
-        最后：
-            能用python本身语言特性的，就用python本身特性，别去实现python已经封装的底层代码，这很原始
-       '''
-       while i<len(s):
-            if i-1>=0 and s[i]==s[i-1]:
-                p,q=i-1,i
-                # print('one: ',p,q)
-                while p>=0 and q<len(s) and s[p]==s[q]:
-                    if q-p>max_len:
-                            start=p
-                            max_len=q-p
-                            # print('---',p,max_len)
-                    '''
-                    #注意程序控制逻辑的化简
-                    if s[p]==s[q]:
-                        if q-p>max_len:
-                            start=p
-                            max_len=q-p
-                            # print('---',p,max_len)
-                    else:
-                        break
-                    '''
-                    p-=1
-                    q+=1
-            if i-2>=0 and s[i]==s[i-2]:
-                p,q=i-2,i
-                # print('two: ',p,q)
-                while p>=0 and q<len(s) and s[p]==s[q]: #如果嵌套循环里面只有一种if那么可以省略
-                    if q-p>max_len:
-                        start=p
-                        max_len=q-p
-                        # print('---',p,max_len)
-                    p-=1
-                    q+=1
-            i+=1
-       return s[start:start+max_len+1] if start>=0 else s[0]
+            if l == r:
+                dp[l][r] = 1
+            elif l + 1 == r:
+                dp[l][r] = 1 if s[l] == s[r] else 0
+            else:
+                if s[l] == s[r]:
+                    dp[l][r] = dfs(s, l+1, r-1)
+                else:
+                    dp[l][r] = 0
+            
+            return dp[l][r] # return state value
 
 
-       # Method two: dynamic programming
-        class Solution:
-            def longestPalindrome(self, s: str) -> str:
-                N=len(s)
-                d=[[-1 for _ in range(N)] for _ in range(N)]
-                mx=0
-                start=end=0
-                for le in range(1,N+1):
-                    for i in range(N-le+1):
-                        j=i+le-1
-                        d[i][j]=s[i]==s[j] and ( le < 3  or d[i+1][j-1])
-                        if d[i][j] and j-i>mx:
-                            start,end=i,j
-                return s[start:end+1]
+        mx = 0
+        start, end = 0, 0
+        for i in range(len(s)):
+            for j in range(i, len(s)):
+                if dfs(s, i, j) and j - i > mx:
+                    start, end = i, j
+                    mx = j - i
+
+        return s[start:end+1]
+
+
+# Method two: 填表法
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        N=len(s)
+        d=[[-1 for _ in range(N)] for _ in range(N)]
+        mx=0
+        start=end=0
+        for le in range(1,N+1):
+            for i in range(N-le+1):
+                j=i+le-1
+                d[i][j]=s[i]==s[j] and ( le < 3  or d[i+1][j-1])
+                if d[i][j] and j-i>mx:
+                    start,end=i,j
+        return s[start:end+1]
 
             
 
