@@ -1,4 +1,26 @@
 ### Dynamic programming
+* 注意边界初始化以及填表顺序的技巧
+```python
+# 方式一：对角线方式，往右上方刷表
+# 场景：处理回文字符串相关
+# 例题见，interval dp -> 5.longestPalindrome.py
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        N=len(s)
+        d=[[-1 for _ in range(N)] for _ in range(N)]
+        mx=0
+        start=end=0
+        for le in range(1,N+1): # 控制遍历次数，执行N次
+            for i in range(N-le+1): # 控制遍历行，次序为[0,N), [0,N-1), [0,N-2),..., [0,1), 同样是 N 次
+                j=i+le-1 # 控制遍历列，每次遍历，列都会右移一个，第le次遍历，自然右移le，但是 j 得从i位置开始，因此自然得初始为 i+le-1 (否则j就从i右边第一个下标开始了)
+                d[i][j]=s[i]==s[j] and ( le < 3  or d[i+1][j-1])
+                if d[i][j] and j-i>mx:
+                    start,end=i,j
+        return s[start:end+1]
+
+# 方式二：从左到右或者从右到左，从上到下，或者从下到上，见以下背包问题
+```
+
 * __knapsack dp__
     * __0-1 背包问题: 【$P_{272}$】__
         * Questions: 
