@@ -78,7 +78,7 @@ class Solution:
         for le in range(1,N+1): #控制遍历次数，执行N次
             for i in range(N-le+1): # 控制遍历行，次序为[0,N), [0,N-1), [0,N-2),..., [0,1), 同样是 N 次
                 j=i+le-1 # 控制遍历列，每次遍历，列都会右移一个，第le次遍历，自然右移le，但是 j 得从i位置开始，因此自然得初始为 i+le-1 (否则j就从i右边第一个下标开始了)
-                d[i][j]=s[i]==s[j] and ( le < 3  or d[i+1][j-1]) # 极其简洁的表达：控制前两次边界填充，当大于等于3时，开始采用递推方程
+                d[i][j]=s[i]==s[j] and ( le < 3  or d[i+1][j-1]) # 极其简洁的表达：控制前两次边界填充，当大于等于3时，开始采用状态转移方程
                 if d[i][j] and j-i>mx:
                     start,end=i,j
         return s[start:end+1]
