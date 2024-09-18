@@ -121,5 +121,53 @@ class Solution:
         return False
 
         
+# 思路1: 记忆化搜索
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        # state definition
+        # d[i][j] denotes s[:i] and p[:j] match or not
+
+        # boundary initialization
+        d = [[ -1 for j in range(len(p)+1)] for i in range(len(s)+1)]
+        ## when s == '' and p == ''
+        d[0][0] = 1
+        ## when p == ''
+        for i in range(1, len(s)+1):
+            d[i][0] = 0
+        ## when s == ''
+        for j in range(1, len(p)+1):
+            d[0][j] = 0
+            if p[j-1] == "*": ## p[0] mustn't be *, otherwise the string is illegal
+                d[0][j] = d[0][j-2]
+        
+        # state transition
+        def f(s, p, i, j):
+            """
+            s[:i] and p[:j] match or not
+            """
+            if d[i][j] >= 0:
+                return d[i][j]
             
+            ans = 0
+            if p[j-1] == '.':
+                ans = f(s, p, i-1, j-1)
+            elif p[j-1] == '*':
+                if p[j-2] == '.' or p[j-2] == s[i-1]:
+                    """
+                    * match 0, 1, 2 times
+                    """
+                    ans = f(s, p, i, j-2)\
+                        or f(s, p, i-1, j-2)\
+                            or f(s, p, i-1, j)
+                else:
+                    ans = f(s, p, i, j-2)
+            else:
+                ans = (s[i-1]==p[j-1]) and f(s, p, i-1, j-1)
+            
+            d[i][j] = ans
+            return d[i][j]
+        
+        f(s, p, len(s), len(p))
+
+        return bool(d[len(s)][len(p)])
     
