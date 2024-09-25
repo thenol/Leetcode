@@ -55,7 +55,7 @@ class Solution:
             l = [-1] * len(extend_arr)
             r = [-1] * len(extend_arr)
             for i in range(len(extend_arr)):
-                while stk and extend_arr[stk[-1]] >= extend_arr[i]:
+                while stk and extend_arr[stk[-1]] >= extend_arr[i]: # 相同元素，前一个元素会由后面一个元素剔除出栈
                     r[stk.pop()] = i # 找到右边界
                 if stk:
                     l[i] = stk[-1] # 找到i的左边界
