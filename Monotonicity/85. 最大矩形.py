@@ -33,6 +33,50 @@ https://leetcode.cn/problems/maximal-rectangle/description/?source=vscode
 # 思路：预处理 + 单调栈
 # 单调站： 哨兵 + 边界处理
 
+# version 1: 标准哨兵写法
+from math import inf
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        # preprocess
+        bar_arr = [[int(item) for item in matrix[0]]]
+        r, c = len(matrix), len(matrix[0])
+        for i in range(1, r):
+            tmp = [0] * c
+            for j in range(c):
+                if matrix[i][j] == "1":
+                    tmp[j] = 1 + bar_arr[-1][j]
+                else:
+                    tmp[j] = 0
+            
+            bar_arr.append(tmp)
+        
+        # 单调栈
+        def f(arr):
+            stk = [[-inf, -1]] # 左护法
+            arr.append(0) # 右护法
+            l = [-1] * len(arr)
+            r = [-1] * len(arr)
+            for i in range(len(arr)):
+                while stk and stk[-1][0] >= arr[i]: # 相同元素，前一个元素会由后面一个元素剔除出栈
+                    r[stk.pop()[1]] = i # 找到右边界
+                if stk:
+                    l[i] = stk[-1][1] # 找到i的左边界
+                stk.append([arr[i], i]) # 进栈
+            
+            # print(l ,r)
+            mx = 0
+            for i in range(len(arr)-1):
+                # 注意细节 r[i] - l[i] - 1
+                # 当连续两个元素相等时，两个元素的累加面积会由后面一个元素得出
+                mx = max(mx, (r[i] - l[i] -1)*arr[i]) 
+            return mx
+        
+        mx = 0
+        for a in bar_arr:
+            mx = max(mx, f(a))
+        return mx
+
+# version 2: 业余哨兵写法
 class Solution:
     def maximalRectangle(self, matrix: List[List[str]]) -> int:
         # preprocess
