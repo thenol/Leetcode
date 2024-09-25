@@ -65,3 +65,48 @@ class Solution:
         return d[-1][-1]
 
 
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        # state: d[i][j] 表示 word1[:i],编辑到word2[:j]所需要的最小操作数
+        # 0<=i<=len(word1), 0<=j<=len(word2)
+        d = [[-1 for j in range(len(word2)+1)] for i in range(len(word1)+1)]
+
+        # initialization
+        # d[i][j] 依赖 i-1, j-1, so i>=1, j>=1, 初始化 0边界
+        d[0][0] = 0
+
+        # word2=""
+        for i in range(1, len(word1)+1):
+            d[i][0] = i
+        
+        # word1=""
+        for j in range(1, len(word2)+1):
+            d[0][j] = j
+        
+        # transition
+        def f(word1, word2, i, j):
+            """
+            表示 word1[:i],编辑到word2[:j]所需要的最小操作数
+            0<=i<=len(word1), 0<=j<=len(word2)
+            依赖 i-1, j-1, so i>=1, j>=1
+            """
+            if d[i][j] >= 0:
+                return d[i][j]
+            
+            ans = 0
+            if word1[i-1] == word2[j-1]:
+                ans = f(word1, word2, i-1, j-1)
+            else:
+                ans = min(
+                    f(word1, word2, i-1, j-1) + 1, # 替换
+                    f(word1, word2, i, j-1) + 1, # 插入
+                    f(word1, word2, i-1, j) + 1, # 删除
+                    )
+            d[i][j] = ans
+
+            return ans
+        
+        f(word1, word2, len(word1), len(word2))
+
+        return d[len(word1)][len(word2)]
+        
