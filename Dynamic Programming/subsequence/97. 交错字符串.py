@@ -56,6 +56,8 @@ https://leetcode.cn/problems/interleaving-string/description/
 2. s1=""，0<=i
 3. s3=""，0<=k
 4. 特殊照顾情况 d[0][0][0] = 1
+
+注意不能从1开始遍历初始化，否则会漏掉很多[0][j][k]的情况
 """
 
 class Solution:

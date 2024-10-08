@@ -42,6 +42,64 @@ babgbag
 链接：https://leetcode-cn.com/problems/distinct-subsequences
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 '''
+
+# 方法一：挂表法
+# 思路：
+"""
+【状态表示】：
+d[i][j] 表示 s[:i]子序列存在t[:j]的个数
+
+【转移方程】：
+...
+
+【初始化】：
+注意这里可以从1开始初始化的原因，可以对比一下三维动态规划，例如《97.交错字符串.py》
+
+
+"""
+class Solution:
+    def numDistinct(self, s: str, t: str) -> int:
+        # state: d[i][j] 表示s[:i]中可以找到的t[:j]的表示个数
+        # 0<=i<=len(s), 0<=j<=len(t)
+        d = [[-1 for j in range(len(t)+1)] for i in range(len(s)+1)]
+
+        # initialization
+        d[0][0] = 1
+
+        # s=""，可以从1开始，
+        for j in range(1, len(t)+1):
+            d[0][j] = 0
+        
+        # t=""
+        for i in range(1, len(s)+1):
+            d[i][0] = 1
+
+
+        def f(i, j):
+            """
+            d[i][j] 表示s[:i]中可以找到的t[:j]的表示个数
+            0<=i<=len(s), 0<=j<=len(t)
+            依赖：1<=i,j
+            """
+            if d[i][j] >= 0:
+                return d[i][j]
+            
+            ans = 0
+            if i < j:
+                ans = 0
+            elif s[i-1] == t[j-1]:
+                ans = f(i-1, j-1) + f(i-1, j)
+            else:
+                ans = f(i-1, j)
+            
+            d[i][j] = ans
+            return d[i][j]
+        
+        f(len(s), len(t))
+        return d[len(s)][len(t)]
+
+
+# 方法2: 刷表法
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
         # dynamic programming
