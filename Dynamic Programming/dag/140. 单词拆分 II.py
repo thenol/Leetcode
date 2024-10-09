@@ -39,6 +39,16 @@ Output:
 链接：https://leetcode-cn.com/problems/word-break-ii
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 '''
+# 思路：
+"""
+返回集合=>毫无疑问需要回溯
+
+回溯判断依据 => 需要判断当前决策是否可行，也就需要判断 s[:i]是否可以表示在wordDict中，如果可以才能构成句子 => 构建d[i]判断依据 => 动态规划预处理
+
+状态表示=>转移方程=>状态初始化 比较简单，直接见代码
+"""
+
+
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         # state: d[i] 表示 s[:i] 可以拆成 wordDict中单词
