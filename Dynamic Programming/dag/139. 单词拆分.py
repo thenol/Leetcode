@@ -66,3 +66,18 @@ class Solution:
             d[i]=ans
             return d[i]
         return dp(len(s))
+
+# 方法2——回溯:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+            @lru_cache
+            def f(s):
+                ans = False
+                if s in wordDict:
+                    return True
+                for w in wordDict:
+                    if s.startswith(w):
+                        ans = ans or f(s[len(w):])
+                
+                return ans
+            
+            return f(s)
