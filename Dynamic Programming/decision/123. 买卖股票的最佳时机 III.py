@@ -53,12 +53,15 @@ https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/description/
 
 """
 
+
+# 方法2: 利用题目漏洞解
 from math import inf
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         """
         代码有点丑，可以简化
         """
+        # 右侧记录最大值
         right_mx = []
         mx = -1
         for i in range(len(prices)-1, -1, -1):
@@ -67,13 +70,14 @@ class Solution:
         
         right_mx = right_mx[::-1]
         
+        # 最侧记录最小值
         left_mn = []
         mn = inf
         for i in range(len(prices)):
             mn = min(mn, prices[i])
             left_mn.append(mn)
         
-        # step 1: 计算左右侧盈利
+        # step 1: 计算左右侧盈利：同时计算以当前股票卖出或者买入的最大盈利
         right_award = []
         left_award = []
         for i in range(len(prices)):
@@ -84,14 +88,14 @@ class Solution:
         
         # print(left_award, right_award)
         
-        # step 2: 计算左右侧最大盈利
+        # step 2: 计算左右侧最大盈利：
         lma = []
         rma = []
         lmx = 0
         rmx = 0
         for i in range(len(prices)):
-            if i>=1: # 注意当前决策如果买入，则会在后续计算盈利，因此当前股票包含在右侧区间
-                lmx = max(lmx, left_award[i])
+            # if i>=1: # 注意当前决策如果买入，则会在后续计算盈利，因此当前股票包含在右侧区间
+            lmx = max(lmx, left_award[i])
             rmx = max(rmx, right_award[len(prices)-1-i])
             lma.append(lmx)
             rma.append(rmx)
@@ -100,7 +104,12 @@ class Solution:
         # step 3: 决策
         ans = 0
         for i in range(len(prices)):
-            ans = max(ans, rma[i] + lma[i])
+            ans = max(ans, rma[i] + lma[i]) # ❌：对于第i天的股票，不可能买入同时又卖出，其实这个地方利用了题目的漏洞：就是最优解一定不是在同一天即买入又卖出
+            """
+            有趣的发现：当 a<=b<=c，也就是[a...b]，中b最大，[b...c]中c最大时，交易一次和交易两次最大利益相同，即：c-b+b-a=c-a，也就是这两种情况最大利润等价，所以上面的编码结果没错
+
+            同时题目虽然没说，当天是否能够先卖出，再买入，但是从结果上来看，两种情况确实结果相同。
+            """
         
         return ans
       
