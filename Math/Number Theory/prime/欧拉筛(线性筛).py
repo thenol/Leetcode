@@ -42,3 +42,19 @@ not_prime: F, F, T, T, T, F, F, F,  F,  F,  F
     相当于将 i 的后续倍数继续交由 pri_j来筛就行了，不用 i 自己和后面素数再筛一遍
 
 """
+
+
+def prime(self, n: int) -> int:
+    # 素数筛
+    p = []
+    is_p = [True]*(n+1)
+    for i in range(2, n):
+        if is_p[i]:
+            p.append(i)
+        for j in p:
+            if j*i > n:
+                break
+            is_p[j*i] = False
+
+            if i%j == 0: # 被前面的筛过了，不用再筛了，也就是能被4筛的，一定都被2筛过了
+                break

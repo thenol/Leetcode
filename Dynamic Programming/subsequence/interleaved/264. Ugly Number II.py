@@ -21,6 +21,7 @@ n does not exceed 1690.
 '''
 
 
+# 方法1: 排序法
 # version 1: heap O(NlogN)
 from heapq import heappush,heappop
 class Solution:
@@ -55,3 +56,39 @@ class Solution:
                 i5 += 1
             c+=1
         return nums[-1]
+
+
+
+# 方法2: 动态规划法——三指针
+"""
+本质：三数组合并，不重不漏
+https://www.cnblogs.com/yeshengCqupt/p/13629568.html
+
+[1, 2,...]
+
+A：{1*2，2*2，3*2，4*2，5*2，6*2，8*2，10*2......}
+
+B：{1*3，2*3，3*3，4*3，5*3，6*3，8*3，10*3......}
+
+C：{1*5，2*5，3*5，4*5，5*5，6*5，8*5，10*5......}
+"""
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        ans = [1,]
+        p2, p3, p5 = 0, 0, 0
+        c = 1
+        while True:
+            if c == n:
+                return ans[-1]
+            next = min(ans[p2] * 2, ans[p3]*3, ans[p5]*5)
+            if next == ans[p2] * 2:
+                p2 += 1
+            
+            if next == ans[p3] * 3:
+                p3 += 1
+            
+            if next == ans[p5] * 5:
+                p5 += 1
+            
+            ans.append(next)
+            c += 1
