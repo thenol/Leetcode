@@ -13,5 +13,4 @@
     print("index1 = {}, index2 = {}, index3 = {}".format(index1, index2, index3))
     #index1 = 3, index2 = 2, index3 = 3
 
-
   ```
