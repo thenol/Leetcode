@@ -70,7 +70,7 @@ def binSearch(A, e):
         mi = (lo + hi) >> 1
         if e < A[mi]: # 经比较后确定深入[lo, mi)或者[mi, hi)
             hi = mi
-        else: # e <= A[mi] 情况
+        else: # A[mi] <= e 情况
             lo = mi # 不是mi+1的原因是，此时 A[mi] <= e，会导致丢失一个元素
         
         # 出口时hi = lo + 1，查找区间仅含一个元素A[lo]
@@ -92,7 +92,9 @@ def binSearch(A, e):
     """
     每次数组被拆分成两个分支
     S[lo, mi) 和 S(mi, hi)
-
+    图像说明：
+        0        lo mi hi       n
+        [...<=e...  X  ...e<...]
     算法执行：
         1) 具体地，若目标元素小于A[mi]，则深入前端子向量A[lo, mi)继续查找；
         2) 否则，深入后端子向量A(mi, hi)继续查找，注意此种写法，跳过了 A[mi]，而 e <= A[mi]，即如果A中存在e，会被跳过一个，如果不存在e，也就是查找失败的时候，会跳到一个比e大的最小值，此时由于A[lo]>e，因此区间[lo, hi)开始收缩
@@ -105,7 +107,7 @@ def binSearch(A, e):
         mi = (lo + hi) >> 1 # 以中点为轴点
         if e < A[mi]: # 经比较后确定深入[lo, mi)或(mi, hi)
             hi = mi
-        else: # e <= A[mi] 情况
+        else: # A[mi] <= e 的情况
             lo = mi + 1
         
         # 循环结束时，lo为大于e的元素的最小秩，故lo - 1即不大于e的元素的最大秩，即 lo - 1 指向的是小于或者等于e的元素的最大秩
@@ -134,3 +136,52 @@ index2 = bisect.bisect_left(ls,9)
 index3 = bisect.bisect_right(ls,9)
 print("index1 = {}, index2 = {}, index3 = {}".format(index1, index2, index3))
 #index1 = 3, index2 = 2, index3 = 3
+
+
+
+# ❌❌❌❌❌❌❌❌❌❌❌ 错误版本 start ❌❌❌❌❌❌❌❌❌❌
+# 思考错误在哪
+def binSearch(nums, e):
+    """
+    返回小于e的最大下标
+    核心想法如下图：
+        0       lo mi hi        n
+        [...<e...  X  ...e<=...]
+    """
+    lo, hi = 0, len(nums)
+    while lo < hi: # 查找tail中比i小的最大值
+        mi = (lo + hi) >> 1
+        if nums[mi] < e:
+            lo = mi
+        else:
+            hi = mi - 1
+        print(lo , hi)
+    return lo + 1
+# 错误case:
+"""
+执行binSearch([2, 3, 5, 7, 9, 10, 18, 101], 120)
+会陷入死循环，此时lo=7, hi=8
+"""
+# 根本原因：
+"""
+死循环必要条件：lo=7, hi=8时
+    mi = (lo + hi) >> 1 #  mi=7
+    lo = mi # lo = 7
+因此造成了死循环
+"""
+# ❌❌❌❌❌❌❌❌❌❌❌ 错误版本 end ❌❌❌❌❌❌❌❌❌❌
+
+# 总结向下整除的常见错误点❌
+"""
+1. 相邻数对：(1+2)//2=1, (2+3)//2=2
+2. 隔1数对：(1+3)//2=2, (2+4)//2=3
+3. 隔2数对：(1+4)//2=2, (2+4)//2=3
+也就是说，(lo+hi)//2一定是[lo, hi]中间便lo一侧的数值，换句话说
+    
+    千万注意易错点❌❌❌：(lo+hi)//2 <= lo < hi
+
+因此 hi=mi 不会错误，但是 lo=mi一定可能引起死循环
+
+而在版本B中
+hi - lo >1 即 hi - lo >=2，也就是 hi>=lo+2，因此 (hi+lo)//2>=(2lo+2)//2=lo+1>=1，因此每次赋值时，mi=(lo+hi)>>1 不可能 等于 lo
+"""
