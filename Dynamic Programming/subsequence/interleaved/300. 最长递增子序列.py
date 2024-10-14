@@ -72,3 +72,33 @@ class Solution:
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 """
 
+def lengthOfLIS(self, nums: List[int]) -> int:
+        d = [1 for i in range(len(nums))]
+        tail = [inf for item in nums]
+        res = 0
+
+        def binSearch(nums, e):
+            """
+            返回小于e的最大下标
+            """
+            lo, hi = 0, len(nums)
+            while lo < hi: # 查找tail中比i小的最大值
+                mi = (lo + hi) >> 1
+                if e < nums[mi]:
+                    hi = mi
+                else:
+                    lo = mi + 1
+            lo = lo - 1 # lo 为不大于 e 的最大秩
+
+            while lo>=0 and e<=nums[lo]: lo-=1 # 寻找小于e的最大秩
+            
+            return lo
+        
+        for i in range(len(nums)):
+            mx_len_idx  = binSearch(tail[:res], nums[i]) # 在tail中寻找小于nums[i]的最大秩啊
+            if mx_len_idx >= 0:
+                d[i] = mx_len_idx + 2
+            tail[d[i] - 1] = min(tail[d[i] - 1], nums[i])
+            res += 1
+
+        return max(d)
