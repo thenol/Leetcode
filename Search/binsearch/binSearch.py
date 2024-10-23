@@ -128,7 +128,7 @@ def binSearch(A, e):
 # 扩展，python 二分查找封装函数
 
 #https://blog.csdn.net/YMWM_/article/details/122378152
-#bisect.bisect和bisect.bisect_right返回大于x的第一个下标(相当于C++中的upper_bound)，bisect.bisect_left返回大于等于x的第一个下标(相当于C++中的lower_bound)。
+#bisect.bisect和bisect.bisect_right返回大于x的第一个下标(相当于C++中的upper_bound)，bisect.bisect_left返回大于等于x的第一个下标(相当于C++中的lower_bound)。简记为   [ bisect.bisect_left, bisect.bisect_right )   
 import bisect
 ls = [1,5,9,13,17]
 index1 = bisect.bisect(ls,9)
@@ -173,14 +173,14 @@ def binSearch(nums, e):
 
 # 总结向下整除的常见错误点❌
 """
-1. 相邻数对：(1+2)//2=1, (2+3)//2=2
-2. 隔1数对：(1+3)//2=2, (2+4)//2=3
-3. 隔2数对：(1+4)//2=2, (2+4)//2=3
-也就是说，(lo+hi)//2一定是[lo, hi]中间便lo一侧的数值，换句话说
+1. 相邻数对：(1+2)//2=1, (2+3)//2=2 为左
+2. 隔1数对：(1+3)//2=2, (2+4)//2=3  为中
+3. 隔2数对：(1+4)//2=2, (2+4)//2=3  为中左
+也就是说，(lo+hi)//2一定是[lo, hi]中间偏lo一侧的数值，换句话说
     
-    千万注意易错点❌❌❌：(lo+hi)//2 <= lo < hi
+    千万注意易错点❌❌❌：lo <= (lo+hi)//2 < hi
 
-因此 hi=mi 不会错误，但是 lo=mi一定可能引起死循环
+因此 hi=mi 不会错误，能够正常缩减规模，但是 lo=mi一定可能引起死循环
 
 而在版本B中
 hi - lo >1 即 hi - lo >=2，也就是 hi>=lo+2，因此 (hi+lo)//2>=(2lo+2)//2=lo+1>=1，因此每次赋值时，mi=(lo+hi)>>1 不可能 等于 lo
