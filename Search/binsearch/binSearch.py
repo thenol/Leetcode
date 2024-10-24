@@ -128,7 +128,7 @@ def binSearch(A, e):
 # 扩展，python 二分查找封装函数
 
 #https://blog.csdn.net/YMWM_/article/details/122378152
-#bisect.bisect和bisect.bisect_right返回大于x的第一个下标(相当于C++中的upper_bound)，bisect.bisect_left返回大于等于x的第一个下标(相当于C++中的lower_bound)。简记为   [ bisect.bisect_left, bisect.bisect_right )   
+#bisect.bisect和bisect.bisect_right返回大于x的第一个下标(相当于C++中的upper_bound)，bisect.bisect_left返回大于等于x的第一个下标(相当于C++中的lower_bound)。简记为   [ e <= bisect.bisect_left < bisect.bisect_right )
 import bisect
 ls = [1,5,9,13,17]
 index1 = bisect.bisect(ls,9)
@@ -137,6 +137,14 @@ index3 = bisect.bisect_right(ls,9)
 print("index1 = {}, index2 = {}, index3 = {}".format(index1, index2, index3))
 #index1 = 3, index2 = 2, index3 = 3
 
+# ❗️❗️❗️总结❗️❗️❗️：
+"""
+binSearch——C版本中标定一个点 lo及其右侧均大于e, 即 lo为大于e的元素的最小秩
+
+bisect.bisect_left 和 bisect.bisect_right 标定了一个区间[bisect.bisect_left, bisect.bisect_right)，即 e <= bisect.bisect_left < bisect.bisect_right，即：
+    1. bisect.bisect_left 为大于等于（不小于）e的元素的最小秩
+    2. bisect.bisect_right 为大于e的元素的最小秩（与lo等效）
+"""
 
 
 # ❌❌❌❌❌❌❌❌❌❌❌ 错误版本 start ❌❌❌❌❌❌❌❌❌❌
