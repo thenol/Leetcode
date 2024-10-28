@@ -22,3 +22,57 @@
 https://leetcode.cn/problems/count-numbers-with-unique-digits/description/?source=vscode
 """
 
+class Solution:
+    # digitial dynamic programming
+    def countNumbersWithUniqueDigits(self, n: int) -> int:
+        if n==0: return 1
+        if n==1: return 10
+
+        @cache
+        def f(i, pre):
+            """
+            当前第i位，已经选择了pre状态中所有数的情况下的种数
+            例如 i=1, pre=01 0000 0000 选择了1
+            """
+            if i == n: return 1 # 选择到了第n个数了，最后只剩1种了
+            ans = 1
+            for d in range(10):
+                # pre==0 and d==0: 当前还未选择数且第一位为0，也就是先导0 情况跳过
+                # pre当前已经被选择过了跳过
+                if (pre == 0 and d == 0) or pre >> d & 1:
+                    continue
+                ans += f(i+1, pre ^ (1<<d))
+            return ans
+        
+        return f(0, 0) # 刚开始i=0表示没选择，且pre已经选择的位空集，即状态为 00 0000 0000
+
+    # math version: 排列组合
+    def countNumbersWithUniqueDigits1(self, n: int) -> int:
+        if n==0: return 1
+        ans = 10
+        if n==1: return ans
+        acc = 9
+        for i in range(n-1):
+            acc *= (9-i)
+            ans += acc
+        return ans
+
+    # TLE version
+    def countNumbersWithUniqueDigits2(self, n: int) -> int:
+        def duplicated(s):
+            ans = False
+            pre = set()
+            for c in s:
+                if c in pre:
+                    return True
+                else:
+                    pre.add(c)
+            return ans
+        
+        cnt = 0
+        for i in range(10**n):
+            if duplicated(str(i)):
+                continue
+            else:
+                cnt += 1
+        return cnt
