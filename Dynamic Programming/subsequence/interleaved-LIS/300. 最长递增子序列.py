@@ -36,7 +36,8 @@
 https://leetcode.cn/problems/longest-increasing-subsequence/description/
 """
 
-# 思路：
+# 思路：最长递增子序列
+# 注意：不要求连续，因此当前状态可以由其前面所有状态转移而来，所以是 O(n^2)
 
 # method 1: 动态规划; O(n^2)
 class Solution:

@@ -144,6 +144,7 @@ binSearch——C版本中标定一个点 lo及其右侧均大于e, 即 lo为大�
 bisect.bisect_left 和 bisect.bisect_right 标定了一个区间[bisect.bisect_left, bisect.bisect_right)，即 e <= bisect.bisect_left < bisect.bisect_right，即：
     1. bisect.bisect_left 为大于等于（不小于）e的元素的最小秩
     2. bisect.bisect_right 为大于e的元素的最小秩（与lo等效）
+    3. 0<=bisect.bisect_left<=bisect.bisect_right<=len(arr)
 """
 
 
