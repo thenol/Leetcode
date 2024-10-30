@@ -66,9 +66,9 @@ class Solution:
             count += 1
             if count > k: # 子数组和<=mid的个数太多，应该减少切割点数，增大子数组和，即low 向 sum(nums) 移动
                 low = mid + 1
-            else: # 子数组和<=mid的个数太少，应该增大切割点数，减少子数组和，即high 向 max(nums) 移动
+            else: # count <= k；子数组和<=mid的个数太少，应该增大切割点数，减少子数组和，即high 向 max(nums) 移动
                 high = mid
-        return low
+        return low # 算法的正确性证明：
 
 
     # method 2: 二状态情况 —— TLE, 

@@ -22,13 +22,13 @@ def binSearch(A, e):
     每次数组被拆分成三个分支
     S[lo, mi) S[mi] 和 S[mi, hi)
     """
-    lo, hi = 0, len(A) # 左闭右开
+    lo, hi = 0, len(A) # ❗️❗️❗️左闭右开❗️❗️❗️
     while lo < hi: # 每步迭代可能要做两次比较判断，有三个分支
         mi = (lo + hi) >> 1 # 以中点为轴点
         if e < A[mi]:
-            hi = mi # 深入前半段[lo, mi)继续查找
+            hi = mi # 深入前半段[lo, mi)继续查找；因为左闭右开，自然hi=mi意味着mi已经被排除
         elif A[mi] < e : # 体会都写小于号的精辟之处
-            lo = mi + 1 # 深入后半段(mi, hi)继续查找
+            lo = mi + 1 # 深入后半段(mi, hi)继续查找；因为左闭右开，自然而A[mi]<e，自然mi需要被排除，所以lo=mi+1
         else:
             return mi # 在mi处命中，成功查找可以提前终止
     return -1 # 查找失败，没找到，返回-1
@@ -75,7 +75,7 @@ def binSearch(A, e):
         
         # 出口时hi = lo + 1，查找区间仅含一个元素A[lo]
     
-    return lo if e == A[lo] else -1 # 查找成功时返回对应的秩；否则统一返回-1
+    return lo if e == A[lo] else -1 # 查找成功时返回对应的秩；否则统一返回-1；判断原因：A[mi] <= e 情况，即可能A[lo]<e
 
 
 #  二分查找（版本C）—— 
@@ -93,8 +93,9 @@ def binSearch(A, e):
     每次数组被拆分成两个分支
     S[lo, mi) 和 S(mi, hi)
     图像说明：
-        0        lo mi hi       n
-        [...<=e...  X  ...e<...]
+        0         lo mi hi       n
+        [...<=e...   X  ...e<...]
+        ✅✅✅相对位置完美记忆：升序，相对e来就行了，e的右边都大于e，e的左边自然小于等于e
     算法执行：
         1) 具体地，若目标元素小于A[mi]，则深入前端子向量A[lo, mi)继续查找；
         2) 否则，深入后端子向量A(mi, hi)继续查找，注意此种写法，跳过了 A[mi]，而 e <= A[mi]，即如果A中存在e，会被跳过一个，如果不存在e，也就是查找失败的时候，会跳到一个比e大的最小值，此时由于A[lo]>e，因此区间[lo, hi)开始收缩
@@ -189,6 +190,11 @@ def binSearch(nums, e):
     
     千万注意易错点❌❌❌：只要lo < hi，则一定有lo <= (lo+hi)//2 < hi
                       当 lo == hi，则自然 lo==(lo+hi)//2==hi
+
+证明：
+    假设 lo < hi，则 (lo+lo)/2=lo < (lo+hi)/2 < (hi+hi)//2=hi
+    但是对于计算机中的向下取整 lo<= (lo+hi)//2 < (hi+hi)//2=hi
+    因此只要 lo < hi，则 lo <= (lo+hi)//2 < hi，就一定在 hi 点是开区间，即规模缩减，也从侧面解释了为啥是左闭右开
 
 因此 hi=mi 不会错误，能够正常缩减规模，但是 lo=mi可能引起死循环
 

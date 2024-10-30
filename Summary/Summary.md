@@ -1,6 +1,7 @@
 ## Remember Normal Framework of Algorithm
 
 #### Methodology
+* **区间通法**： **```左闭右开```**
 * **根本大法：**
     * 能拆成两个不同子集 -> 分而治之(分治法)
     * 能拆成重叠子集 -> 动态规划 -> 减而治之(减治法)
