@@ -69,8 +69,8 @@ class Solution:
                     continue 
                 # 如果未选择，选择的情况下，想胜利
                 mn = min(mn, i)
-                ans = ans or f(state ^ (1<<(i-1)), cur-i)
-            return ans if ans else f(state ^ (1<<(mn-1)), cur-mn) # 如果能赢最好；如果赢不了，也要给接下来的对手制造麻烦，也就是让他在做选择的时候，累积和最小，所以选一个最小的数
+                ans = ans or f1(state ^ (1<<(i-1)), cur-i)
+            return ans if ans else f1(state ^ (1<<(mn-1)), cur-mn) # 如果能赢最好；如果赢不了，也要给接下来的对手制造麻烦，也就是让他在做选择的时候，累积和最小，所以选一个最小的数
 
         # WA
         # method 2: 决策方式：每次为了累加和最低，都选择最小的
