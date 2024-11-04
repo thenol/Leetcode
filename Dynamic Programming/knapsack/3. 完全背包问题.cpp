@@ -40,8 +40,8 @@ int main(){
     memset(dp,0,sizeof(dp));
     for(int i=1;i<=N;i++){
         for(int j=1;j<=V;j++){
-            dp[i][j]=dp[i-1][j];//放不下v[i]，价值不变
-            if(j>=v[i])//放得下v[i]，更新价值
+            dp[i][j]=dp[i-1][j];//如果放不下v[i]，价值不变
+            if(j>=v[i])//如果放得下v[i]，更新价值
                 dp[i][j]=max(dp[i][j],dp[i][j-v[i]]+w[i]);//每种无数，所以选完还可以继续接着选
                 /*
                 ！！！状态理解Congnition！！！

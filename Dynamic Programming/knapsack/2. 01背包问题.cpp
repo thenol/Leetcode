@@ -39,7 +39,7 @@ int main(){
     memset(dp,0,sizeof(dp));
     for(int i=1;i<=N;i++)//[0,:],[:,0] as the boundary
         for(int j=1;j<=V;j++){
-           dp[i][j]=dp[i-1][j];//放不下，价值不变
+           dp[i][j]=dp[i-1][j];//如果放不下，价值不变
            if(j>=v[i])//如果放得下，更新价值
                 dp[i][j]=max(
                     dp[i-1][j], // 不选
