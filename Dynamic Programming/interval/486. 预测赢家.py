@@ -75,9 +75,9 @@ class Solution:
         # 正确计算顺序✅：因为转移方程依赖左一和下一，所以计算方式为对角线型
         # ❗️最快换算方式：特殊值往里带最快啊
         for k in range(N-1): # 每次计算结束少一行，共计算N-1次
-            for i in range(N-1-k): # j=0时候i只需遍历N-1行
+            for i in range(N-1-k): # k=0时候i只需遍历N-1行
                 # 计算
-                j = i + k + 2 # 当i=0, k=0时, j=2；也就是直接从d[0][2]开始计算就行了；这里其实初始化也可以合并到这里面来计算
+                j = i + k + 2 # 判断左边界：当i=0, k=0时, j=2；也就是直接从d[0][2]开始计算就行了；判断右边界：当k=N-2时，i=0,j=N可以计算到右边界，因此成立；❗️注意：必须初始化
                 d[i][j] = sm[j] - sm[i] - min(d[i+1][j], d[i][j-1]) # 细节：空数组d[i][i]在上面初始化的时候已经被默认赋值为0了
 
         # print(d)
@@ -88,15 +88,21 @@ class Solution:
         if N==1:return True
         sm = list(accumulate(nums, initial=0))
         d = [[0]* (N+1) for i in range(N)]
-        d[N-1][N] = nums[N-1]
-        for k in range(N): # 每次计算结束少一行，共计算N-1次
-            for i in range(N-1-k): # j=0时候i只需遍历N-1行
+        d[N-1][N] = nums[N-1] # 最后一行被填充
+
+        for k in range(N-1): # 每次计算结束少一行，只需计算N-1次
+            for i in range(N-1-k): # k=0时i可以遍历N行，但是转移方程中，d[i][j]依赖于下一和左一，因此只能让i遍历到第N-2行，此外最后一行需要初始化；最终k=0时，i遍历N-1行
                 # 计算
                 j = i + k + 1 # i=0, k=0, j=1
                 d[i][j] = sm[j] - sm[i] - min(d[i+1][j], d[i][j-1]) # 细节：空数组d[i][i]在上面初始化的时候已经被默认赋值为0了
                 # 0<=1+i<N, 0<=i<N-1
                 # 0<=j-1<=N, 0<=j<=N
-                # k=N-1，i 为空，所以这种情况下无解？
+                
+                # 当k取右边界时，
+                #   当k=N-2时， i=0，此时 j=N-1
+                #   当K=N-3时，i=[0,1]，此时j=[N-2, N-1]
+                #   所以总是剩最后一列无法计算到
+
         print(d)
         return d[0][N] >= sm[N]/2
     
