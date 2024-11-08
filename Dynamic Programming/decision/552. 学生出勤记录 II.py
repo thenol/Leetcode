@@ -38,6 +38,16 @@
 https://leetcode.cn/problems/student-attendance-record-ii/description/?source=vscode
 """
 
+# 核心思路：
+"""
+一些感悟：
+【状态定义】
+    此类状态定义比较随机，没有固定的范式，但是都必然符合状态的必要条件（能够表示所有关系，决策、以及最后的解）
+    启示之处：
+        状态中，必然含有到每个元素时候，应该思考的地方，也就是如何做决策，而做决策所需要的条件或者变量，必须作为一维变量，体现在函数的声明中
+"""
+
+
 from functools import cache
 N = 1_000_000_007
 # 也就是结果会被缓存到全局存储表里面，这样调用 Solution().checkRecord()的时候，可以都从全局缓存表里面共享计算结果
