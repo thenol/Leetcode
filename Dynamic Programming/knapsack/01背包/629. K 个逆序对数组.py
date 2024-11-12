@@ -38,31 +38,32 @@ https://leetcode.cn/problems/k-inverse-pairs-array/description/?source=vscode
 from functools import cache
 
 class Solution:
-    # method 2: 区间dp；O(N^4)
-    # def kInversePairs(self, n: int, k: int) -> int:
-    #     # state: d[i][j] 表示前i个正数恰好组成k个逆序对的个数；
-    #     # 0<=i<=n；0<=j<=k
-    #     N = 10**9+7
-    #     @cache 
-    #     def f(n, k):
-    #         """表示前i个正数恰好组成k个逆序对的个数；
-    #         """
-    #         nonlocal N
-    #         if n-k<1:return 0
-    #         if k == 0: return 1
-
-    #         ans = 0
-    #         for i in range(1, n+1):
-    #             for j in range(1, k+1):
-    #                 ans += f(i, j) + f(n-i, k-j)
-            
-    #         return ans % N
-    #     return f(n, k)
-
-
-    # method 1: 背包问题：01背包
-    # 结论：TLE 1000\n1000，O(N^3)
+    # 优化状态转移方程
+    # f(n, k) - f(n, k-1) = f(n-1, k) - f(n-1, k-n)
     def kInversePairs(self, n: int, k: int) -> int:
+        # state: d[i][j] 表示前i个正数恰好组成k个逆序对的个数；
+        # 0<=i<=n；0<=j<=k
+        N = 10**9+7
+        @cache
+        def f(n, k):
+            """表示前i个正数恰好组成k个逆序对的个数"""
+            # initialization
+            # 在递归
+            if k == 0: return 1 # d[0][0] = 1
+            if n == 0 or k < 0: return 0
+
+            ans = 0
+            # ans += f(n-1, k) # n不参与构建逆序对
+            # n参与构建逆序对
+            # 新增加1个数，可以在之前的基础上增加[1, n-1]种
+            ans = f(n-1, k) - f(n-1, k-n) + f(n, k-1)
+            
+            return ans % N
+        return f(n, k)
+
+    # method 2: 背包问题：01背包
+    # 结论：TLE 1000\n1000，O(N^3)
+    def kInversePairs_2(self, n: int, k: int) -> int:
         # state: d[i][j] 表示前i个正数恰好组成k个逆序对的个数；
         # 0<=i<=n；0<=j<=k
         N = 10**9+7
@@ -84,3 +85,24 @@ class Solution:
             
             return ans % N
         return f(n, k)
+    
+    # method 1: 区间dp；O(N^4)
+    # def kInversePairs(self, n: int, k: int) -> int:
+    #     # state: d[i][j] 表示前i个正数恰好组成k个逆序对的个数；
+    #     # 0<=i<=n；0<=j<=k
+    #     N = 10**9+7
+    #     @cache 
+    #     def f(n, k):
+    #         """表示前i个正数恰好组成k个逆序对的个数；
+    #         """
+    #         nonlocal N
+    #         if n-k<1:return 0
+    #         if k == 0: return 1
+
+    #         ans = 0
+    #         for i in range(1, n+1):
+    #             for j in range(1, k+1):
+    #                 ans += f(i, j) + f(n-i, k-j)
+            
+    #         return ans % N
+    #     return f(n, k)
