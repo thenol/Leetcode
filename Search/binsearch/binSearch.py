@@ -138,6 +138,16 @@ index3 = bisect.bisect_right(ls,9)
 print("index1 = {}, index2 = {}, index3 = {}".format(index1, index2, index3))
 #index1 = 3, index2 = 2, index3 = 3
 
+bisect.bisect_left(ls,0) # 此时，bisect_left = bisect_right 返回 0
+bisect.bisect_left(ls,18) # 此时，bisect_left = bisect_right 返回 N = len(ls) = 5
+
+# 可以使用的模型  ... [ e ] +∞
+# 三种可能的位置： ..e1.. [ e2 ] ..e3.. ; e1位置查找失败返回0，e2位置超找成功返回e2，e3位置查找失败返回N
+# 因此：
+#   1. 查找失败，一共有 两种 情况，返回 0 or N，此时 bisect_left和bisect_right相同
+#   2. 查找成功，一共有 一种 情况，返回正常下标，此时bisect_left和bisect_right返回值一定不同
+# 
+
 # ❗️❗️❗️总结❗️❗️❗️：
 """
 binSearch——C版本中标定一个点 lo及其右侧均大于e, 即 lo为大于e的元素的最小秩
