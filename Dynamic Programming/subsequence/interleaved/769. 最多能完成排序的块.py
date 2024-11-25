@@ -57,7 +57,7 @@ class Solution:
 
         # transition
         for i in range(N+1):
-            for j in range(i):
+            for j in range(i): # 这里i-1必须得选则；注意和 《939. 最小面积矩形.py》 区别
                 # 反向推理，寻找可行的拆分点，缩减规模
                 block_left = min(arr[j:i]) #
                 if 0<=block_left<i and check(arr, j, i):
