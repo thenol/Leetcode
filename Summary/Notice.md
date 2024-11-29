@@ -1,5 +1,16 @@
 ### Common Error
 #### Python
+* 常见极其愚蠢的错误❌❌❌
+    ```python
+    def f(a, b, c):
+        a = {1:2}
+        b = {3:4}
+        c = a.update({**b})
+        return c
+    # 极其愚蠢：这是基础啊，a.update() 啥都不返回啊，蠢蛋❗️❗️❗️
+
+
+    ```
 * Left-closed, right-open: $ [a,b)\;a<=x<b$
     ```python
     # 1.
