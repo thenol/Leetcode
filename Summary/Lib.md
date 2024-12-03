@@ -14,3 +14,10 @@
     #index1 = 3, index2 = 2, index3 = 3
 
   ```
+
+* 循环理解
+```python
+  while 0<=i and left <= s_c[i][1]: # 隐藏哨兵左护法，默认不等；换句话说，循环一直执行当[0,...]范围内left <= s_c[j][1]成立；而退出循环时，即为不成立left > s_c[j][1]
+    i -= 1
+    left_most = min(left_most, s_c[i][0])
+```
