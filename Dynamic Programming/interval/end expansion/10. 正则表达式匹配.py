@@ -180,7 +180,8 @@ def isMatch(self, s: str, p: str) -> bool:
     @cache
     def f(i, j):
         # initial
-        if i==0 and j==0: return True # 完全匹配
+        if i==0 and j==0: return True
+        if j==0 and 0<i: return False # ❗️❗️❗️不可丢；千万记住，不管是记忆化搜索还是迭代法，初始化的每一个值必须得完全相同
         if i==0: return f(i, j-2) if p[j-1] == '*' else False
 
         # transition
