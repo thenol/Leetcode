@@ -85,7 +85,7 @@
     * BFS 适用于按层遍历图，通常用于找最短路径、层次遍历等问题，使用队列实现。
     * DFS 适用于深度遍历图，通常用于路径查找、拓扑排序、图的连通性检查等问题，可以通过递归或栈实现。
 
-* 层次遍历
+* 层次遍历【本质和树的层次遍历完全相同】
     ```python
     from collections import deque
     class Solution:
@@ -113,10 +113,9 @@
                     
                     # add child nodes of the current level
                     # in the queue for the next level
-                    if node.left:
-                        queue.append(node.left)
-                    if node.right:
-                        queue.append(node.right)
+                    for neighbor in graph[node]:
+                        if neighbor not in visited:
+                            queue.append(neighbor)  # 将未访问的邻居节点加入队列
                 
                 # go to next level
                 level += 1
