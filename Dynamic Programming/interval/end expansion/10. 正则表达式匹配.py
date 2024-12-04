@@ -121,7 +121,7 @@ class Solution:
         return False
 
         
-# 思路1: 记忆化搜索
+# 思路1: 记忆化搜索 + 挂表法
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         # state definition
@@ -170,4 +170,30 @@ class Solution:
         f(s, p, len(s), len(p))
 
         return bool(d[len(s)][len(p)])
+
+
+# method 2: 记忆化搜索+cache
+from functools import cache
+def isMatch(self, s: str, p: str) -> bool:
+    N = len(s)
+    M = len(p)
+    @cache
+    def f(i, j):
+        # initial
+        if i==0 and j==0: return True # 完全匹配
+        if i==0: return f(i, j-2) if p[j-1] == '*' else False
+
+        # transition
+        ans = False
+        if s[i-1] == p[j-1]:
+            ans = f(i-1, j-1)
+        elif p[j-1] == '.':
+            ans = f(i-1, j-1) # 用来匹配单个字符
+        elif p[j-1] == '*':
+            if p[j-2]==s[i-1] or p[j-2]=='.':
+                ans = f(i-1, j) or f(i, j-2) # 匹配1个或多个或者0个
+            else:
+                ans = f(i, j-2) # 匹配0个
+        return ans
     
+    return f(N, M)
