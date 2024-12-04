@@ -106,7 +106,7 @@
                 # number of elements in the current level 
                 level_length = len(queue)
                 
-                for i in range(level_length):
+                for i in range(level_length): # 和bfs以及dfs最大的区别在于，每次访问一个level
                     node = queue.popleft()
                     # fulfill the current level
                     levels[level].append(node.val)
