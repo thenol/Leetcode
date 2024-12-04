@@ -23,7 +23,7 @@
 
 提示：
 
-0 <= s.length <= 3 * 104
+0 <= s.length <= 3 * 10^4
 s[i] 为 '(' 或 ')'
 
 https://leetcode.cn/problems/longest-valid-parentheses/description/?source=vscode
@@ -31,6 +31,11 @@ https://leetcode.cn/problems/longest-valid-parentheses/description/?source=vscod
 
 # 难点：
 #   状态表示、计算顺序
+
+# 核心思路：
+# 从数据规模上看 10^4，因此绝对只能涉及到一个变量，因此状态表示只能是 d[i]，因此必然是子序列问题，且在本题中为连续子序列
+# 其次，比较有意思的一点是，将某个子问题的解，用来作为条件，判断括号是否成对
+# 可以总结为，连续子序列的特殊类型问题的，特殊处理方式
 
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
@@ -77,3 +82,33 @@ class Solution:
             f(s, i)
         # print(d)
         return max(d)
+    
+    # method 1: 纯记忆化搜索
+    def longestValidParentheses(self, s: str) -> int:
+        # d[i]表示以i结尾的最长有效括号长度
+        # 0<=i<N
+        N = len(s)
+
+        @cache
+        def f(i):
+            """表示以i结尾的最长有效括号长度"""
+            nonlocal N
+            # initialization
+            if i==0: return 0
+            if i==1: return 2 if s[:2] == '()' else 0
+
+            # transition
+            ans = 0
+            if s[i] == '(':
+                ans = 0
+            elif s[i] == ')':
+                if s[i-1] == '(':
+                    ans = f(i-2)+2
+                elif 0<=i-f(i-1)-1 and s[i-f(i-1)-1] == '(':
+                    ans = f(i-1)+2+(f(i-f(i-1)-2) if 0<=i-f(i-1)-2 else 0)
+            
+            return ans
+        ans = [0]
+        for i in range(N):
+            ans.append(f(i))
+        return max(ans)
