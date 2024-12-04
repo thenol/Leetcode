@@ -1,7 +1,7 @@
 # 常用函数
 
 * 查找
-  * 二分查找
+  * 二分查找：需要关注查找成功情况下的坐标范围 **[0,n)** 和查找失败时的下标 **{-1, n}**
     ```python
     #https://blog.csdn.net/YMWM_/article/details/122378152
     #bisect.bisect和bisect.bisect_right返回大于x的第一个下标(相当于C++中的upper_bound)，bisect.bisect_left返回大于等于x的第一个下标(相当于C++中的lower_bound)。
@@ -12,8 +12,7 @@
       index3 = bisect.bisect_right(ls,9)
       print("index1 = {}, index2 = {}, index3 = {}".format(index1, index2, index3))
       #index1 = 3, index2 = 2, index3 = 3
-
-  ```
+    ```
 
 * 循环理解
   ```python
@@ -52,3 +51,7 @@
 
   print(list(limited_d))  # 输出：['b', 'c', 'd']
   ```
+* 区间元素个数
+  * **[** 左闭右开区间 **)**：**[** 0, n **)** 个数为 **n-0 = n** 个元素
+  * **[** 左闭右闭区间 **]**：**[** 0, n **]** 个数为 **n-0+1 = n+1** 个元素
+  * 减法性质：`1, 2, 3, 4, 5`, 其中 `5-3 = 2`，意味着连 `3` 一起减掉，剩下 `4, 5`
