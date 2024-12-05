@@ -33,6 +33,38 @@ https://leetcode.cn/problems/maximal-rectangle/description/?source=vscode
 # 思路：预处理 + 单调栈
 # 单调站： 哨兵 + 边界处理
 
+# version 1.1:
+from math import inf
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        R, C = len(matrix), len(matrix[0])
+        arr = [[0]*C for _ in range(R)]
+        for j in range(C): # 初始化首行
+            arr[0][j] = int(matrix[0][j])
+        for i in range(1, R):
+            for j in range(C):
+                if matrix[i][j] == '0':
+                    arr[i][j] = 0
+                else:
+                    arr[i][j] = arr[i-1][j]+1
+        
+        def get_s(lst):
+            """求lst最大面积"""
+
+            # 恭请左右护法，且最终左右护法都不会出栈，因此也不会影响结果，舍己为人
+            stk = [(-1, -inf)] # 左哨兵，控制左边界，且不影响 lst 下标
+            lst.append(-1) # 右哨兵，控制右边界，确保所有 lst 中元素都能够顺利出栈；
+
+            ans = [0]*len(lst)
+
+            for i in range(len(lst)):
+                while stk and lst[i] <= stk[-1][1]:
+                    t = stk.pop()
+                    ans[t[0]] = (i-stk[-1][0]-1)*t[1] # 减去两边比t小的树，注意这个距离应该是 i-stk[-1][0]-1, 解释 stk[-1][0]... t[0] ... i，而stk[-1][1]和lst[i]都是比t[1]最近的小的元素
+                stk.append((i, lst[i]))
+            return max(ans)
+        return max(get_s(arr_item) for arr_item in arr)
+
 # version 1: 标准哨兵写法
 from math import inf
 class Solution:

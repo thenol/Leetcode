@@ -65,7 +65,7 @@ https://leetcode.cn/problems/scramble-string/description/
     d[i][j][len]
 """
 
-
+from functools import cache
 class Solution:
     def isScramble(self, s1: str, s2: str) -> bool:
         if len(s1) != len(s2):
@@ -115,3 +115,26 @@ class Solution:
         f(s1, s2, 0, 0, len(s1))
         # print(d)
         return bool(d[0][0][len(s1)])
+
+    # 纯记忆化搜索
+    def isScramble(self, s1: str, s2: str) -> bool:
+        # state: d[i][j][k] 表示s1[i-k:i]翻转s2[j-k:j]
+        # 0<=i<=N; 0<=j<=N; 0<=k<=N
+        N = len(s1)
+        M = len(s2)
+        if N!=M: return False
+        @cache
+        def f(i, j, k):
+            """表示表示s1[i-k:i]翻转s2[j-k:j]"""
+            nonlocal s1, s2, N
+            # initialization
+            if i-k<0 or j-k<0: return False
+            if s1[i-k:i] == s2[j-k:j]: return True
+
+            # transition
+            ans = False
+            for l in range(1, k):
+                ans = ans or (f(i, j, l) and f(i-l, j-l, k-l)) or (f(i-k+l, j, l) and f(i, j-l, k-l))
+            return ans
+        
+        return f(N, N, N)
