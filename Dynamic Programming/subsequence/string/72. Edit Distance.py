@@ -30,7 +30,7 @@ exection -> execution (insert 'u')
 链接：https://leetcode-cn.com/problems/edit-distance
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 '''
-
+from math import inf
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
         # S: d[i][j] as the minimum value
@@ -66,6 +66,7 @@ class Solution:
 
 
 class Solution:
+    # 记忆化搜索+挂表
     def minDistance(self, word1: str, word2: str) -> int:
         # state: d[i][j] 表示 word1[:i],编辑到word2[:j]所需要的最小操作数
         # 0<=i<=len(word1), 0<=j<=len(word2)
@@ -109,4 +110,34 @@ class Solution:
         f(word1, word2, len(word1), len(word2))
 
         return d[len(word1)][len(word2)]
-        
+    
+    # 纯记忆化搜索
+    # 多归约状态
+    # ❗️❗️❗️：别忘了记忆化搜索状态初始化和迭代法必须完完全全相同啊，否则遗漏必错❗️❗️❗️
+    def minDistance(self, word1: str, word2: str) -> int:
+        # state: d[i][j]表示将word1[:i]编辑成word2[:j]需要的最小操作数
+        # 0<=i<=N; 0<=j<=M
+        N, M = len(word1), len(word2)
+        @cache
+        def f(i, j):
+            """表示将word1[:i]编辑成word2[:j]需要的最小操作数"""
+            nonlocal N, M, word1, word2
+            # initialization
+            if i==0 and j==0: return 0 # 不需要操作
+            if i==0: return j # word1为空时
+            if j==0: return i # word2 为空时
+
+            # transition
+            ans = inf
+            if word1[i-1] == word2[j-1]:
+                ans = min(ans, f(i-1, j-1))
+            else:
+                ans = min(
+                    ans, 
+                    f(i, j-1)+1, # 插入一个字符 
+                    f(i-1, j)+1, # 删除一个字符
+                    f(i-1, j-1)+1, # 替换一个字符
+                    )
+            
+            return ans
+        return f(N, M)
