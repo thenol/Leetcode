@@ -58,6 +58,30 @@ d[i][j] 表示 s[:i]子序列存在t[:j]的个数
 
 """
 class Solution:
+    # 01背包——记忆化搜索
+    def numDistinct(self, s: str, t: str) -> int:
+        # state: d[i][j]表示s[:i]范围可以形成t[:j]的方案数
+        # 0<=i<=N; 0<=j<=M
+        N, M = len(s), len(t)
+        @cache
+        def f(i, j):
+            """表示s[:i]范围可以形成t[:j]的方案数"""
+            nonlocal N, M
+
+            # initialization
+            if j==0: return 1 # 找到了一种；归约态是一个集合
+
+            # transition
+            ans = 0
+            if 1<=i and 1<=j and s[i-1] == t[j-1]:
+                ans += f(i-1, j-1) + f(i-1, j)
+            elif 1<=i:
+                ans += f(i-1, j)
+            
+            return ans
+        
+        return f(N, M)
+
     def numDistinct(self, s: str, t: str) -> int:
         # state: d[i][j] 表示s[:i]中可以找到的t[:j]的表示个数
         # 0<=i<=len(s), 0<=j<=len(t)
