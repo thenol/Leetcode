@@ -59,9 +59,57 @@ https://leetcode.cn/problems/interleaving-string/description/
 
 注意不能从1开始遍历初始化，否则会漏掉很多[0][j][k]的情况
 """
-
+from functools import cache
 class Solution:
+    # method 1: 记忆化搜索 + cache
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        # d[i][j][k] 表示s1[:i]和s2[:j]能否构成s3[:k]
+        # 0<=i<=N;0<=j<=M;0<=k<=p
+        N, M, P = len(s1), len(s2), len(s3)
+        @cache
+        def f(i, j, k):
+            """表示s1[:i]和s2[:j]能否构成s3[:k]"""
+            # ✅第一种通用型边界初始化方式，也是比较推荐的方式
+            # 一招鲜吃遍天的方式
+
+            nonlocal N, M, P, s1, s2, s3
+            # initialization
+            if i==0 and j==0 and k==0: return True
+            if i==0: return s2[:j]==s3[:k]
+            if j==0: return s1[:i]==s3[:k]
+            if k==0: return not i and not j
+
+            # transition
+            ans = False
+            if s3[k-1] == s1[i-1]:
+                ans = ans or f(i-1, j, k-1) # 由s1来
+            if s3[k-1] == s2[j-1]:
+                ans = ans or f(i, j-1, k-1) # 由s2来
+            return ans
+
+        @cache
+        def f1(i, j, k):
+            """表示s1[:i]和s2[:j]能否构成s3[:k]"""
+            # 这种初始化方式，隐含的信息太多
+            # 但是最简单，只需要找到 【归约状态】、【合法转移状态】、【其他默认都是边界即False】
+            
+            nonlocal N, M, P, s1, s2, s3
+            # initialization
+            if i<0 or j<0 or k<0: return False # 边界失败
+            if i==0 and j==0 and k==0: return True # 单一归约状态
+            
+            # transition
+            ans = False # 默认都是False
+            if 1<=k and 1<=i and s3[k-1] == s1[i-1]:
+                ans = ans or f(i-1, j, k-1) # 由s1来
+            if 1<=k and 1<=j and s3[k-1] == s2[j-1]:
+                ans = ans or f(i, j-1, k-1) # 由s2来
+            
+            return ans
+        return f(N, M, P)
+
+    # method 1: 记忆化搜索 + 挂表法
+    def isInterleave_1(self, s1: str, s2: str, s3: str) -> bool:
         # state: d[i][j][k] 表示s3[:k]是否可以由s1[:i],s2[:j]交错而成, 0<=i<=len(s1),0<=j<=len(s2),0<=k<=len(s3)
         d = [[[-1 for k in range(len(s3)+1)] \
             for j in range(len(s2)+1)] for i in range(len(s1)+1)]
