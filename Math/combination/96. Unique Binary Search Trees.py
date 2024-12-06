@@ -34,9 +34,8 @@ G(n) = G(0)*G(n-1) + G(1)*G(n-2) + ... + G(n-1)*G(0)
 得
 G(n) = C_(2n)^(n)/(n+1)
 
-G(n+1) = [(4n+2)/(n+2)] * G(n)
-
-
+1. n=0，G(0)=1
+2. n>=1时，G(n+1) = [(4n+2)/(n+2)] * G(n); 
 """
 class Solution:
     def numTrees(self, n: int) -> int:
