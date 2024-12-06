@@ -100,7 +100,7 @@ class Solution:
             
             # transition
             ans = False # 默认都是False
-            if 1<=k and 1<=i and s3[k-1] == s1[i-1]:
+            if 1<=k and 1<=i and s3[k-1] == s1[i-1]: # 凡是合法的，且能从归约状态转移过来的，都可以实现正常更行，也得到最优解；其他则都是False
                 ans = ans or f(i-1, j, k-1) # 由s1来
             if 1<=k and 1<=j and s3[k-1] == s2[j-1]:
                 ans = ans or f(i, j-1, k-1) # 由s2来
