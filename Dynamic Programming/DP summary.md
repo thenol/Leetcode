@@ -66,6 +66,9 @@
                 @cache
                 def f1(i, j, k):
                     """表示s1[:i]和s2[:j]能否构成s3[:k]"""
+                    # ⭕️：第二种3步走，极简骚操作方式
+                    # 1）归约态；2）默认值；3）状态转移
+
                     nonlocal N, M, P, s1, s2, s3
                     # initialization
                     if i==0 and j==0 and k==0: return True # 关注归约态
