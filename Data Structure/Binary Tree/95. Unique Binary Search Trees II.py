@@ -39,6 +39,26 @@ Constraints:
 #         self.left = left
 #         self.right = right
 class Solution:
+    def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
+        def tree(nodes):
+            """输入节点列表[]返回所有可能的树"""
+            if not nodes: return [None] # 默认为空, 加入哨兵，可以让下面遍历成立，从而不用检测左右子树是否存在
+            ans = []
+            for i in range(len(nodes)):
+                left = tree(nodes[:i]) # 递归遍历左子树
+                right = tree(nodes[i+1:]) # 右子树
+                for l in left:
+                    for r in right:
+                        p = TreeNode(nodes[i])
+                        p.left = l
+                        p.right = r
+                        ans.append(p)
+            
+            return ans
+        
+        nodes = list(range(1, n+1))
+        return tree(nodes)
+
     def generateTrees(self, n: int) -> List[TreeNode]:
         def tree(nodes):
             if not nodes:
