@@ -57,6 +57,18 @@ https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/description/
 # 方法2: 利用题目漏洞解
 from math import inf
 class Solution:
+    # 本质：子序列问题，参见IV
+    def maxProfit(self, prices: List[int]) -> int:
+        # state: sell[j], buy[j]表示以prices[:cur]结尾交易j笔的最大利润
+        # 0<=j<=2
+        M = 2
+        sell, buy = [0]*(M+1), [-inf]*(M+1)
+        for i in range(len(prices)):
+            for j in range(1, M+1):
+                buy[j] = max(buy[j], sell[j-1]-prices[i]) # 再次买入
+                sell[j] = max(sell[j], buy[j]+prices[i]) # 卖出
+        return max(sell[M], buy[M])
+
     def maxProfit(self, prices: List[int]) -> int:
         """
         代码有点丑，可以简化

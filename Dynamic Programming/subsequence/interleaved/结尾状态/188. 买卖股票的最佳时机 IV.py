@@ -47,8 +47,13 @@ https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/solutions/740596
 
 """
 
-
-
+# 核心思路：
+"""
+【本质】
+    子序列问题
+【状态表示】
+    结尾状态表示：以当前股票结尾，sell表示到当前位置手上不持有股票的最大利润，buy表示到当前位置手上持有股票的最大利润
+"""
 
 # 最优解法
 class Solution:
@@ -76,9 +81,9 @@ class Solution:
         # 买卖两次
         # buy1, sell1, buy2, sell2 = -float('inf'), 0, -float('inf'), 0
         # for p in prices:
-        #     buy1 = max(buy1, 0-p)
-        #     sell1 = max(sell1, buy1+p)
-        #     buy2 = max(buy2, sell1-p)
+        #     buy1 = max(buy1, 0-p) # 同理，第一次交易，手上是没有钱的
+        #     sell1 = max(sell1, buy1+p) # 第一次卖出，一定从第一次买入转移而来，或者一直不交易
+        #     buy2 = max(buy2, sell1-p) # 第二次买入，必须基于第一次卖出
         #     sell2 = max(sell2, buy2+p) # 整体而言，这次操作只与上一次有关
         # return sell2
 
@@ -87,13 +92,13 @@ class Solution:
         # sell = [0] * (k+1) # 初始化为k+1，是因为第一次买，是0-p，这里我们sell[0]=0，就可以了
         # for p in prices:
         #     for k in range(1, k+1):
-        #         buy[k] = max(buy[k], sell[k-1]-p) # 第一次sell[i-1]=sell[0]=0
-        #         sell[k] = max(sell[k], buy[k]+p)
+        #         buy[k] = max(buy[k], sell[k-1]-p) # 第一次sell[i-1]=sell[0]=0；第k次买，一定基于第k-1次卖
+        #         sell[k] = max(sell[k], buy[k]+p) # 第k次卖一定基于第k次买
         # return sell[-1]
 
         # 不限制买卖次数，冻结期为1天
         # buy, sell_pre, sell_now = -float('inf'), 0, 0 
-        # # 冻结期为1天，意味着，我们买的上一个状态不能是上一次卖的，而是上上次卖的
+        # # 冻结期为1天，意味着，我们买的上一个状态不能是上一次卖的，而是上上次卖的；说白了，限制当前买入，只能基于上上次的卖出，也就是buy[now]只能依赖sell[now-2]，而不是sell[now-1]，本质是限制状态转移
         # # 至此，要理解，这是dp滚动数组思想，这意味着，我们每天都在买卖
         # for p in prices:
         #     buy = max(buy, sell_pre-p) # 这次买的是接着上上次卖的，可以理解为buy[i]与sell[j-1]有关，而不是sell[j]
