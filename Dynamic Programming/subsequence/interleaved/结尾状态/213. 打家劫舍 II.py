@@ -39,6 +39,7 @@ https://leetcode.cn/problems/house-robber-ii/description/
 """
 
 class Solution:
+    # 圈变直，分类讨论
     def rob(self, nums: List[int]) -> int:
         a = nums[0] + self.rob1(nums[2:len(nums)-1])
         b = self.rob1(nums[1:len(nums)])

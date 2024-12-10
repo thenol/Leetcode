@@ -38,6 +38,7 @@ https://leetcode.cn/problems/house-robber/description/
 # 思路：简单
 
 class Solution:
+    # method 1: 结尾状态——可以选择任意子序列
     def rob(self, nums: List[int]) -> int:
         # state: d[i] 表示以 i 为末尾元素，最高金额
         d = [item for item in nums]
@@ -50,3 +51,29 @@ class Solution:
                 d[i] = max(d[i], d[j]+nums[i])
         
         return max(d)
+    
+    # method 2: 结尾状态——限制选择，必须选择d[i-2]
+    # ❌ 反例[2,1,1,2]，最大值为{2,2}
+    def rob(self, nums: List[int]) -> int:
+        # state: d[i]以i结尾的最高金额
+        N = len(nums)
+        d = [_ for _ in nums]
+        for i in range(N):
+            if 0<=i-2:
+                d[i] = max(d[i], d[i-2]+nums[i])
+        print(d)
+        return max(d)
+    
+    # method 3: 范围状态——选择或者不选择末尾元素
+    # ❌
+    def rob(self, nums: List[int]) -> int:
+        # state: d[i]表示到i的最大值
+        N = len(nums)
+        d = [_ for _ in nums]
+
+        for i in range(N):
+            d[i] = d[i-1] # 不选nums[i]
+            # 选择nums[i]，就必须不能选择nums[i-1]，但是范围状态，或者当前最优解是整个集合的最优解，也就是d[0,...,i]的最优解，无法表达选择nums[i]，而不选择nums[i-1]的转移方程，即使有办法选择，也不知道当前 d[i] 到底选择了哪些元素。言下之意，无法看出结果中选择了哪些元素，从而返回去，再合法性得修改选择的元素。
+            
+            # 简而言之：当前的是结果，不可能看出来历史里面的细枝末节，更不可能再回去修改历史，来重新获得结果
+            ...
