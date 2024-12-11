@@ -39,8 +39,11 @@ https://leetcode.cn/problems/longest-increasing-subsequence/description/
 # 思路：最长递增子序列
 # 注意：不要求连续，因此当前状态可以由其前面所有状态转移而来，所以是 O(n^2)
 
-# method 1: 动态规划; O(n^2)
+from math import inf
+import bisect
+
 class Solution:
+    # method 1: 动态规划; O(n^2)
     def lengthOfLIS(self, nums: List[int]) -> int:
         # O(n^2)
         # state: d[i] 表示以i结尾的最长严格递增子序列的长度。
@@ -72,6 +75,21 @@ class Solution:
 来源：力扣（LeetCode）
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 """
+def lengthOfLIS(self, nums: List[int]) -> int:
+    # state: d[i]表示以i结尾最长增序列
+    # 0<=i<N
+    N = len(nums)
+    
+    tails = [inf]*N # tails[j]表示所有长度为j+1的最小末尾值
+    tails[0] = nums[0] # 初始化，长度为1的最小末尾值
+
+    ans = 0
+    for i in range(N):
+        idx = bisect.bisect_left(tails, nums[i]) # 这里当搜索失败时，理想情况下 idx 可能为 {0, N}，当为0时，说明找到了长度为1的最小末尾值；当为N时，说明当前末尾值比长度为N的序列末尾值还大，因此可以形成长度为N+1的子序列，这显然是不可能的
+        if 0<=idx<N: # 检测下标是否合法；
+            tails[idx] = min(tails[idx], nums[i]) # 找到，下标 idx，由于长度为 idx，下标为 idx-1及其之前序列末尾值都小于当前nums[i]，所以nums[i]可以放到 idx 的位置，和之前的 idx-1 形成更长的长度+1的递增子序列，即长度为 idx + 1，此时更新记录最小值
+            ans = max(ans, idx+1) # 更新答案：需要更新的原因是，当前nums[i]可能是任何长子序列的末尾最小值，不是一直增加的
+    return ans
 
 def lengthOfLIS(self, nums: List[int]) -> int:
         d = [1 for i in range(len(nums))]
