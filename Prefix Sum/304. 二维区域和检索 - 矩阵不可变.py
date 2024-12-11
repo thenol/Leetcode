@@ -91,3 +91,22 @@ sum: 添加【边界哨兵护法】，含义sum[0][0]没有固定含义，sum[i+
 ]
 
 """
+
+# 哨兵写法——同上；（❗️如果不请哨兵大护法写起来，边界判断将极其复杂）
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        # state: d[i][j]区域matrix[:i][:j]的矩形面积
+        # 0<=i<=R; 0<=j<=C
+        R, C = len(matrix), len(matrix[0])
+
+        d = [[0] * (C+1) for i in range(R+1)]
+
+        for i in range(1, R+1):
+            for j in range(1, C+1):
+                d[i][j] = d[i-1][j] + d[i][j-1] - d[i-1][j-1] + matrix[i-1][j-1]
+        self.d = d
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        # 求 matrix[row1:row2+1][col1:col2+1]区域
+        return self.d[row2+1][col2+1] - self.d[row1][col2+1]-self.d[row2+1][col1] + self.d[row1][col1]
