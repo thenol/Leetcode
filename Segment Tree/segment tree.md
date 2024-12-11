@@ -33,7 +33,7 @@
 
         def build(self, arr, node, start, end):
             """
-            构建线段树
+            给定线段树根节点node下标，在arr上构建[start, end]范围的线段树
             :param arr: 输入的数组
             :param node: 当前节点的索引
             :param start: 当前节点对应区间的起始索引
@@ -57,6 +57,7 @@
 
         def query(self, node, start, end, L, R):
             """
+            给定线段树根节点node下标，及其覆盖[start, end]范围
             区间查询：返回区间 [L, R] 的和
             :param node: 当前节点的索引
             :param start: 当前节点对应区间的起始索引
@@ -90,6 +91,7 @@
 
         def update(self, node, start, end, pos, new_val):
             """
+            给定线段树根节点node下标，及其覆盖[start, end]范围
             单点更新：将数组中的元素 arr[pos] 更新为 new_val
             :param node: 当前节点的索引
             :param start: 当前节点对应区间的起始索引
