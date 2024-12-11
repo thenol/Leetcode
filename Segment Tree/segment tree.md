@@ -126,7 +126,7 @@
     segment_tree.update(0, 0, len(arr) - 1, 2, 10)
 
     # 查询区间 [1, 3] 的和（更新后）
-    print(segment_tree.query(0, 0, len(arr) - 1, 1, 3))  # 输出 17
+    print(segment_tree.query(0, 0, len(arr) - 1, 1, 3))  # 输出 20
 
     """
                                    [36] (sum of [1, 3, 5, 7, 9, 11])
@@ -284,5 +284,5 @@
         print(seg_tree.query_range(0, 0, len(arr) - 1, 1, 3))  # 输出 45
 
         # 查询整个区间的和
-        print(seg_tree.query_range(0, 0, len(arr) - 1, 0, 5))  # 输出 75
+        print(seg_tree.query_range(0, 0, len(arr) - 1, 0, 5))  # 输出 66
         ```
