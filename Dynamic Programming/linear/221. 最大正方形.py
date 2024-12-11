@@ -28,6 +28,33 @@ matrix[i][j] 为 '0' 或 '1'
 # 状态思路：关注每一个item，状态一定和item有关系，必然是d[i][j] => 其次思考，在这个点的时候，要想计算出最大正方形，所需要的充要条件是什么，这个就是状态
 
 class Solution:
+    # method 2: 迭代法
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        # state: d[i][j]表示以i,j为右下角的最大正方形边长
+        # 0<=i<R;0<=j<C
+        R, C = len(matrix), len(matrix[0])
+
+        # initialization
+        d = [[int(matrix[i][j]) for j in range(C)] for i in range(R)]
+
+        # transition
+        ans = 0
+        for i in range(R):
+            for j in range(C):
+                if matrix[i][j] == '0':
+                    d[i][j] = 0
+                elif 0<=i-1 and 0<=j-1: # 归约态已经ready，只需找成功转移
+                    later = min(d[i-1][j], d[i][j-1])
+                    if matrix[i-later][j-later] == '1':
+                        later += 1
+                    d[i][j] = later
+                    
+                ans = max(ans, d[i][j])
+        
+        # print(d)
+        return ans*ans
+    
+    # method 1: 挂表法
     def maximalSquare(self, matrix: List[List[str]]) -> int:
         # state: d[i][j] 表示以matrix[i][j]为右下角的正方形的边长; 0<=i<len(matrix), 0<=j<len(matrix[0])
         d = [[-1 for j in range(len(matrix[0]))] for i in range(len(matrix))]
