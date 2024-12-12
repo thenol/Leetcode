@@ -44,6 +44,26 @@ https://leetcode.cn/problems/coin-change/description/?source=vscode
 
 from math import inf
 class Solution:
+    # 完全背包
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        # state: d[i][j] 为范围coints[:i]可以凑成j的最小个数
+        # 0<=i<=N; 0<=j<=amount
+        N = len(coins)
+        d = [[inf]*(amount+1) for i in range(N+1)] 
+
+        # initializaiton
+        # j==0
+        for i in range(N+1):
+            d[i][0] = 0 # 容量为0，放不下
+        
+        for i in range(N+1):
+            for j in range(amount+1):
+                d[i][j] = d[i-1][j] # 不放i
+                # 放i
+                if 0<=j-coins[i-1]:
+                    d[i][j] = min(d[i][j], d[i][j-coins[i-1]]+1)
+        return d[N][amount] if d[N][amount] < inf else -1
+
     def coinChange(self, coins: List[int], amount: int) -> int:
         # state: 背包问题：d[i] 表示可以凑成总金额所需的 最少的硬币个数
         # 0<=i<=10^4
