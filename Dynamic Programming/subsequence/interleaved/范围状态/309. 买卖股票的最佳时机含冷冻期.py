@@ -49,3 +49,15 @@ class Solution:
             last_trade, sell = sell, max(sell, buy + prices[i])
 
         return sell
+
+    # 与上述一致
+    def maxProfit(self, prices: List[int]) -> int:
+        # state:  sell, buy表示到当前位置，手上不持有和持有的最大利润
+        sell, buy = 0, -inf
+        last_sell = 0
+        for i in range(len(prices)):
+            buy = max(buy, last_sell-prices[i]) # 依赖于前一天的卖出
+            last_sell = sell # 记录下前一天的卖出最大收益，即更新今天的之前先记录昨天的
+            sell = max(sell, buy+prices[i]) # 依赖于当前持有最大利润，更新当前卖出最大收益
+
+        return max(sell, buy)
