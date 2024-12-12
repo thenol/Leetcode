@@ -100,7 +100,7 @@
             :param new_val: 新的值
             """
             if start == end:
-                # 到达叶子节点，更新该位置的值
+                # 到达叶子节点，更新该位置的值，其实就是pos对应的叶子节点
                 self.tree[node] = new_val
             else:
                 mid = (start + end) // 2
