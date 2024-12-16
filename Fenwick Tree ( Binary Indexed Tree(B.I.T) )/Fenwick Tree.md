@@ -12,8 +12,11 @@
     * 查询操作：查询数组中前 i 个元素的和。
 
 * Python实现树状数组
-    
-    下面是树状数组的 Python 代码实现，并且在代码中加入了详细的注释。
+    * 原理：
+        <img src='../Summary/resources/FIT.png'>
+        * **每个节点覆盖范围**由所有的下标对应的 **`最低位1`** 形成的数决定即`lowbit(x)`=`(index&-index)`来计算得到
+        * 任何一个节点的父节点计算`parent(x)=x+(index&-index)`，注意此图中，父节点是最后一个节点，如果反过来，公式即为`parent(x)=x-(index&-index)`
+    * 下面是树状数组的 Python 代码实现，并且在代码中加入了详细的注释。
     ```python
     class FenwickTree:
         def __init__(self, n):
@@ -38,17 +41,19 @@
             """
             查询操作：返回从 1 到 index 的前缀和，
             时间复杂度为 O(log n)
+            ❗️注意区间为 [1, index]，即左闭右闭
             """
             result = 0
             while index > 0:
                 result += self.tree[index]  # 累加当前节点的值
-                index -= index & -index  # 移动到父节点（父节点是 index - (index & -index)）
+                index -= index & -index  # 移动到下一个父节点（父节点是 index - (index & -index)）；这里注意每一个index覆盖的范围或者区间长度为lowbit(index)，因此当前index覆盖的区间累加完之后，其下一个应该跳转的index为 index - lowbit(index)，即index减去当前覆盖区间长度，来到下一个覆盖的区间长度 
             return result
 
         def range_query(self, left, right):
             """
             范围查询：返回从 left 到 right 的区间和。
             通过两次查询来计算：sum(1, right) - sum(1, left - 1)
+            ❗️注意左闭右闭
             """
             return self.query(right) - self.query(left - 1)
         
@@ -67,7 +72,7 @@
         print(fenwick_tree.query(5))  # 输出从 1 到 5 的前缀和，应该是 8
 
         # 查询范围 3 到 5 的区间和
-        print(fenwick_tree.range_query(3, 5))  # 输出 8 - 5 = 3
+        print(fenwick_tree.range_query(3, 5))  # 输出 8
 
     ```
 # 树状数组中的父节点计算方式
