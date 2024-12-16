@@ -48,3 +48,37 @@ https://leetcode.cn/problems/burst-balloons/description/?source=vscode
 顺序：想要打爆c，但是 c 最为最后打爆，这个时候，需要先打爆，f(1, 3)，即把(a, b)打爆完，把f(4, 6)打爆，即把(d, e)打爆完，这个时候，最后打爆 c 的时候，可以清楚地发现 c 的左侧和右侧 分别是 [0], [6]，也就是说最后打爆 c 的时候，左右边界都可知，此时可以清晰决策
 
 """
+
+# 核心思路：由变转定；
+"""
+先打爆无法决策，同时也不是最优，后打爆一切就都确定了
+"""
+
+from functools import cache
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        # state: d[i][j]为最后打爆nums[i:j]的获得硬币的最大数量
+        # 0<=i<N; 0<=j<=N
+        arr = [1] + nums + [1]
+        N = len(arr)
+        @cache
+        def f(i, j):
+            """打爆nums[i:j]的获得硬币的最大数量"""
+            nonlocal arr, N
+            # initialization
+            if i==j: return 0 # 没有气球，非法情况，全部默认值0
+            if i==j-1: return arr[i-1]*arr[i]*arr[j] # ⭕️只有一个气球，不是只返回当前气球，注意 i 左右两侧还有其他气球啊 ❗️
+
+            # transition
+            ans = 0
+            ans = max( 
+                ans, 
+                f(i+1, j) + arr[i-1]*arr[i]*arr[j], # 最后打掉i
+                f(i, j-1) + arr[i-1]*arr[j-1]*arr[j] # 最后打掉j-1
+            )
+            for k in range(i+1, j-1):
+                ans = max(
+                    ans, 
+                    f(i,k) + f(k+1, j) + arr[i-1]*arr[k]*arr[j]) # 最后打掉k
+            return ans
+        return f(1, len(nums)+1)
