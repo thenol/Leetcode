@@ -79,7 +79,7 @@ class Solution:
             if l == r or l+1 == r: return 0
             ans = inf
             for i in range(l, r):
-                ans = min(ans, max(f(l, i) + i, f(i+1, r) + i))
+                ans = min(ans, max(f(l, i) , f(i+1, r)) + i) # 先猜i，要确保一定获胜，因此必须不管往小猜还是往大猜，都得赢因此是max(f(l, i) , f(i+1, r))；而最后再所有确保获胜中选择金币最少的情况，因此是min(ans, max(f(l, i) , f(i+1, r)) + i)
             return ans
         # print(f(1, 2), f(1, 3))
         return f(1, n+1)
