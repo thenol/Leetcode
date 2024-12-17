@@ -34,6 +34,18 @@ https://leetcode.cn/problems/integer-break/description/?source=vscode
 """
 
 class Solution:
+    # 迭代法
+    def integerBreak(self, n: int) -> int:
+        # state: d[i]表示最大乘积
+        # 0<=i<=n
+        d = [0] * (n+1)
+
+        for i in range(n+1):
+            for j in range(1, i):
+                d[i] = max(d[i], d[i-j]*j, j*(i-j)) # 可以拆分，也可以不拆分
+        
+        return d[n]
+
     def integerBreak(self, n: int) -> int:
         # state: d[i] 表示整数i的最大化乘积
         # 0<=i<=58
@@ -48,4 +60,3 @@ class Solution:
                 d[i] = max(j*d[i-j], d[i], j*(i-j))
 
         return d[n]
-
