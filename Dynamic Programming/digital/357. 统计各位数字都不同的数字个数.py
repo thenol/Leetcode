@@ -25,9 +25,6 @@ https://leetcode.cn/problems/count-numbers-with-unique-digits/description/?sourc
 class Solution:
     # digitial dynamic programming
     def countNumbersWithUniqueDigits(self, n: int) -> int:
-        if n==0: return 1
-        if n==1: return 10
-
         @cache
         def f(i, pre):
             """
@@ -35,7 +32,7 @@ class Solution:
             例如 i=1, pre=01 0000 0000 选择了1
             """
             if i == n: return 1 # 选择到了第n个数了，最后只剩1种了
-            ans = 1
+            ans = 1 # 凡是能选到当前位i的，必然说明i没选择过，因此这一位肯定可以选择 i，即起码1种
             for d in range(10):
                 # pre==0 and d==0: 当前还未选择数且第一位为0，也就是先导0 情况跳过
                 # pre当前已经被选择过了跳过
@@ -47,13 +44,13 @@ class Solution:
         return f(0, 0) # 刚开始i=0表示没选择，且pre已经选择的位空集，即状态为 00 0000 0000
 
     # math version: 排列组合
-    def countNumbersWithUniqueDigits1(self, n: int) -> int:
+    def countNumbersWithUniqueDigits(self, n: int) -> int:
+        # state: d[i]表示0<=x<10^i
         if n==0: return 1
-        ans = 10
-        if n==1: return ans
-        acc = 9
+        if n==1: return 10
+        acc, ans = 9, 10
         for i in range(n-1):
-            acc *= (9-i)
+            acc *= 9-i
             ans += acc
         return ans
 
