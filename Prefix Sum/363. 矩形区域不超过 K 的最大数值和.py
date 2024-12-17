@@ -35,14 +35,56 @@ https://leetcode.cn/problems/max-sum-of-rectangle-no-larger-than-k/description/?
 
 # 核心思路：
 """
-
+1. 通过row_sum的前最和来表示存储列边界为l, r的任意矩形面积
+2. 通过不超过k的最大数字，来用二分查找；即 pre_s2-pre_s1 <= k，从而利用bisect_left来查找最小的pre_s1，使得pre_s2-pre_s1最大
 
 https://leetcode.cn/problems/max-sum-of-rectangle-no-larger-than-k/solutions/51496/gu-ding-zuo-you-bian-jie-qian-zhui-he-er-fen-by-po/
+
+https://leetcode.cn/problems/max-sum-of-rectangle-no-larger-than-k/solutions/148451/javacong-bao-li-kai-shi-you-hua-pei-tu-pei-zhu-shi/?source=vscode
 """
 from math import inf
+import bisect
 class Solution:
     def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
-
+        # 导入 bisect 模块，用于进行二分查找
+        
+        row = len(matrix)  # 获取矩阵的行数
+        col = len(matrix[0])  # 获取矩阵的列数
+        res = float("-inf")  # 初始化结果为负无穷，用来存储最大值
+        
+        # 遍历所有可能的左边界
+        for left in range(col):
+            # 以 left 为左边界，初始化每一行的和数组
+            _sum = [0] * row  # 行和数组，用来累加每列的和
+            
+            # 遍历所有可能的右边界
+            for right in range(left, col):
+                # 更新每一行的和，添加第 right 列的值
+                for j in range(row):
+                    _sum[j] += matrix[j][right]
+                
+                # 当前矩阵的左右边界是 [left, right]，我们需要在该范围内寻找一个子矩阵
+                # 其和不超过 k 且最大
+                arr = [0]  # 创建一个辅助数组，用来存储当前累加和的前缀和
+                cur = 0  # 当前累加和初始化为 0
+                
+                # 遍历每一行的和
+                for tmp in _sum:
+                    cur += tmp  # 累加当前行的和
+                    # 二分法查找：我们需要找到一个前缀和，使得当前累加和减去该前缀和 <= k
+                    # cur - k <= e；cur - e <= k；从而 e 最小，cur - e 最大，且不超过 k
+                    # ✅ 看到 不超过 xxx 最大数 => 二分查找
+                    loc = bisect.bisect_left(arr, cur - k) 
+                    
+                    # 如果找到合适的位置，更新结果；bisect.bisect_left 返回下标范围[0, N]，查找成功的时候为[0, N)，查找失败为 0 或者 N
+                    if loc < len(arr):
+                        res = max(cur - arr[loc], res)
+                    
+                    # 将当前累加和加入 arr 中，从而使得arr保持有序
+                    bisect.insort(arr, cur)
+        
+        # 返回最终的结果
+        return res
 
 # TLE 预处理 + 暴力版
 # 时间复杂度 O(M^2N^2) TLE version

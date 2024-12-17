@@ -29,6 +29,7 @@ https://leetcode.cn/problems/largest-divisible-subset/description/?source=vscode
 """
 
 # 思路：本质最长递增子序列问题
+# 核心思路：1）将问题简化为 大数 % 小数 == 0 问题；2）此外，对于 nums[i]<=nums[j]<= nums[k]，如果 nums[i] in s[nums[j]]，且 nums[k] % nums[j] == 0，则s[nums[k]]=s[nums[j]]且 nums[i]一定在 s[nums[k]]中
 
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
