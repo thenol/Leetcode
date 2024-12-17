@@ -47,7 +47,23 @@ https://leetcode.cn/problems/russian-doll-envelopes/description/?source=vscode
 from math import inf
 import bisect
 class Solution:
+    # method 2: 求LIS的长度——模板题
     def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        s_e = sorted(envelopes, key=lambda x: (x[0], -x[1])) # 这样排序，不至于让相同w的能够互相装入
+        heights = [item[1] for item in s_e]
+        # d[i]表示heights以i结尾的LIS
+
+        ans = 0
+        seq_tails = [inf]*len(s_e)
+        seq_tails[0] = heights[0]
+        for i in range(len(s_e)):
+            idx = bisect.bisect_left(seq_tails, heights[i]) # 找到seq_tails不小于heights[i]最小下标值，说明放到这里，可以和之前的seq_tails形成尾部更小的递增序列
+            seq_tails[idx] = min(seq_tails[idx], heights[i]) # 更新该序列的尾部值
+            ans = max(ans, idx+1) # 统计当前 i 对应的 递增序列长度
+        return ans
+    
+    # method 1: 
+    def maxEnvelopes_1(self, envelopes: List[List[int]]) -> int:
         N = len(envelopes)
 
         # sorted
