@@ -54,6 +54,7 @@ for i in range(2, target+1):
 
 class Solution:
     # dp
+    # 稳如老狗按部就班法
     def combinationSum4(self, nums: List[int], target: int) -> int:
         # state: d[i]表示i的所有组合数量
         # 0<=i<=target
@@ -68,11 +69,25 @@ class Solution:
                     d[i] += d[i-num]
 
         return d[target]
+    
+    # 极致三刀流骚操作法
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        # state: d[i]表示所有组合为i的数量
+        # 0<=i<=target
+        N = len(nums)
+        d = [0] * (target+1)
+        d[0] = 1 # 归约态：0不需要再找数，一定存在
+        for i in range(target+1):
+            for j in nums:
+                if 0<=i-j:
+                    d[i] += d[i-j]
+        return d[target]
 
 
     # dfs + cache
     def combinationSum4_1(self, nums: List[int], target: int) -> int:
         # state: ..
+        N = len(nums)
         @cache
         def dfs(target):
             """返回target所有组合数量"""
@@ -89,4 +104,45 @@ class Solution:
             return ans
             
         return dfs(target)
+    
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        # d[i][j]表示以nums[i]结尾的形成target为j的所有组合
+        # 0<=i<N; 0<=j<=target
+        N = len(nums)
+
+        # method 1: 完全背包内容来理解
+        # @cache
+        # def f(i, j):
+        #     nonlocal N, nums
+
+        #     ans = []
+        #     # 不选择 i
+        #     if 0<=i-1:
+        #         ans = f(i-1, j)
+        #     # 选择i
+        #     if 0 == j-nums[i]:
+        #         ans.append([nums[i]])
+        #     elif 0 < j-nums[i]:
+        #         res = f(i, j-nums[i])
+        #         for item in res:
+        #             ans.append([nums[i]] + item)
+        #     return ans
+        # return f(N-1, target)
+        """
+        成功记录选择的内容
+        [[1,1,1,1],[2,1,1],[2,2],[3,1]]
+        """
+
+        # method 2: 回溯
+        @cache
+        def dfs(i, j):
+            nonlocal N, nums
+            if j == 0: return 1
+
+            ans = 0
+            for k in range(i):
+                if 0<=j-nums[k]:
+                    ans += dfs(i, j-nums[k])
+            return ans
         
+        return dfs(N, target)
