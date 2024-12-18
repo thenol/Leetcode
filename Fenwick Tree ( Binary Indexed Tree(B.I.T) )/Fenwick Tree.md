@@ -13,7 +13,7 @@
 
 * Python实现树状数组
     * 原理：
-        <img src='../Summary/resources/FIT.png'>
+        <img src='../Z_Summary/resources/FIT.png'>
         * **每个节点覆盖范围**由所有的下标对应的 **`最低位1`** 形成的数决定即`lowbit(x)`=`(index&-index)`来计算得到
         * 任何一个节点的父节点计算`parent(x)=x+(index&-index)`，注意此图中，父节点是最后一个节点，如果反过来，公式即为`parent(x)=x-(index&-index)`
     * 下面是树状数组的 Python 代码实现，并且在代码中加入了详细的注释。
