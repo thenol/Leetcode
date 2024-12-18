@@ -141,6 +141,14 @@ print("index1 = {}, index2 = {}, index3 = {}".format(index1, index2, index3))
 bisect.bisect_left(ls,0) # 此时，bisect_left = bisect_right 返回 0
 bisect.bisect_left(ls,18) # 此时，bisect_left = bisect_right 返回 N = len(ls) = 5
 
+"""
+The insort function from the bisect module is specifically designed to insert an element into a sorted list while maintaining the order. It has two variants:
+
+* bisect.insort(arr, cur) is used to insert an element (cur) into a sorted list (arr) while maintaining the list's sorted order
+* bisect.insort_left(list, item): Inserts the item into the list while maintaining the sorted order. If the item is already in the list, it inserts it to the left of any existing occurrences.
+* bisect.insort_right(list, item): Similar to insort_left, but if the item is already in the list, it inserts it to the right of any existing occurrences.
+"""
+
 # 可以使用的模型  ... [ e ] +∞
 # 三种可能的位置： ..e1.. [ e2 ] ..e3.. ; e1位置查找失败返回0，e2位置超找成功返回e2，e3位置查找失败返回N
 # 因此：

@@ -45,6 +45,7 @@ https://leetcode.cn/problems/max-sum-of-rectangle-no-larger-than-k/solutions/148
 from math import inf
 import bisect
 class Solution:
+    # 时间复杂度：O(N*N*M*logM)
     def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
         # 导入 bisect 模块，用于进行二分查找
         
@@ -52,6 +53,7 @@ class Solution:
         col = len(matrix[0])  # 获取矩阵的列数
         res = float("-inf")  # 初始化结果为负无穷，用来存储最大值
         
+        # 先遍历左右边界的主要原因是行数远大于列数
         # 遍历所有可能的左边界
         for left in range(col):
             # 以 left 为左边界，初始化每一行的和数组

@@ -58,6 +58,11 @@ class Solution:
             elif nums[i-1] > nums[i]:
                 # 当前为下降关系，摇摆关系依赖与前一个为上升关系
                 down = up + 1
+            
+            # 相等的时候，不改变 up 和 down；
+            
+            # 因此对于任意一个nums[i]，当前的所有 递增 或者 递减 关系都已经记录在了 up and down 里面了
+            # 从而，up 和 down 可以 ❗️等价转变❗️ 为 范围状态，即 到当前位置，最长递增 和最长递减的个数
 
         return max(up, down)
 
@@ -82,4 +87,16 @@ class Solution:
                 t = nums[i] - nums[j]
             tail[i] = t
         return max(d)
+    
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        N = len(nums)
+        pos = [1]*N
+        neg = [1]*N
+        for i in range(N):
+            for j in range(i):
+                if 0 < nums[i] - nums[j]:
+                    pos[i] = max(pos[i], neg[j] + 1)
+                elif nums[i] - nums[j] < 0:
+                    neg[i] = max(neg[i], pos[j] + 1)
+        return max(pos + neg)
         
