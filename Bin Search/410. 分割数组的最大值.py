@@ -39,8 +39,13 @@ from functools import cache
 from math import inf
 # 切记✅：[左闭右开) 最好处理，且贴合语言特性
 """
-最优解法：https://leetcode.cn/problems/split-array-largest-sum/solutions/21490/er-fen-cha-zhao-by-coder233-2/?source=vscode
+最优解法：
+https://leetcode.cn/problems/split-array-largest-sum/solutions/2613046/er-fen-da-an-fu-ti-dan-pythonjavacgojsru-n5la/?source=vscode
+
+https://leetcode.cn/problems/split-array-largest-sum/solutions/21490/er-fen-cha-zhao-by-coder233-2/?source=vscode
 """
+# ✅ 看到「最大化最小值」或者「最小化最大值」就要想到二分答案，这是一个固定的套路。
+
 class Solution:
     # method 3: 二状态情况 + 二分
     def splitArray(self, nums: List[int], k: int) -> int:
@@ -68,7 +73,7 @@ class Solution:
                 low = mid + 1
             else: # count <= k；子数组和<=mid的个数太少，应该增大切割点数，减少子数组和，即high 向 max(nums) 移动
                 high = mid
-        return low # 算法的正确性证明：
+        return low # 算法的正确性证明：切分最大的时候，每个元素为一个区间；切分最小的时候，所有元素为一个区间，即原数组，因此必然存在一个  1<=k<len(nums)，使得切分成k的时候，最大连续子数组和 在 [max(nums), sum(nums)]之间；题设条件：0 <= nums[i] <= 10^6
 
 
     # method 2: 二状态情况 —— TLE, 
