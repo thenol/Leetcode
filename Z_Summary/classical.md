@@ -13,6 +13,8 @@
 ### subsequence
 * **Continuous**
     * [32]最长有效括号
+    * [413]等差数列划分
+    * [446]等差数列划分II
 * **Interleaved**
     * [368]最大整除子集
 * **LIS**
@@ -27,3 +29,6 @@
 
 ### bin search
 * [410]分割数组的最大值
+
+### state compression
+* [464]我能赢吗

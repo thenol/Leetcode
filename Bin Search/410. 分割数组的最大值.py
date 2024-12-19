@@ -74,6 +74,27 @@ class Solution:
             else: # count <= k；子数组和<=mid的个数太少，应该增大切割点数，减少子数组和，即high 向 max(nums) 移动
                 high = mid
         return low # 算法的正确性证明：切分最大的时候，每个元素为一个区间；切分最小的时候，所有元素为一个区间，即原数组，因此必然存在一个  1<=k<len(nums)，使得切分成k的时候，最大连续子数组和 在 [max(nums), sum(nums)]之间；题设条件：0 <= nums[i] <= 10^6
+    
+    # NlogN
+    # 使得这 k 个子数组各自和的最大值最小，即本质让拆分点尽可能的小
+    def splitArray(self, nums: List[int], k: int) -> int:
+        l, h = max(nums), sum(nums)
+        while l < h:
+            mid = (l+h)>>1 # 本质是：寻找拆分点
+            acc = 0
+            cnt = 0
+            for item in nums: # 按照拆分点来统计个数
+                acc += item
+                if mid < acc:
+                    cnt += 1
+                    acc = item
+            
+            if cnt < k: # 拆分点太大，拆分区间太少，需要把拆分点变小
+                h = mid
+            else: # k<=cnt；拆太小，值变大 => 拆分点得大一点
+                l = mid + 1 # 让拆分点尽可能的小，所以每次增1检查，不重不漏；
+            
+        return l # k必然存在
 
 
     # method 2: 二状态情况 —— TLE, 

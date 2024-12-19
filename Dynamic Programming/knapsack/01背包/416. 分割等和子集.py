@@ -26,6 +26,7 @@ https://leetcode.cn/problems/partition-equal-subset-sum/description/?source=vsco
 """
 
 from itertools import accumulate
+from functools import cache
 # 背包问题解决了从一群数中，选择任意子序列求和的问题
 class Solution:
     # 背包问题；同时也可以意识到d[i],d[l][r]无法给出合理转移方程
@@ -58,6 +59,31 @@ class Solution:
 
         # 为什么不用三重循环：因为再遍历k的话，会重复计算，前面都已经算完了，对于i，只依赖于左边和上面，没有必要再遍历k再算一次
         return d[N-1][half]
+    
+    # 挂表法
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if s % 2 != 0: return False
+        half = s // 2
+        N = len(nums)
+
+        # state: d[i][j] 表示范围nums[:i]上能否构成j
+        # 0<=i<=N
+        @cache
+        def f(i, j):
+            nonlocal half, nums, N
+
+            if j == 0: return True
+
+            ans = False
+            # 不选择i
+            if 0<=i-1:
+                ans = ans or f(i-1, j)
+            # 选择i
+            if 0<=i-1 and 0<=j-nums[i-1]: # ⭕️nums[:i]的末尾元素是nums[i-1]
+                ans = ans or f(i-1, j-nums[i-1])
+            return ans
+        return f(N, half)
 
     # TLE 版本——回溯
     def canPartition_2(self, nums: List[int]) -> bool:
