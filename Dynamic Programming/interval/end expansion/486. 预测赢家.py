@@ -46,6 +46,26 @@ https://leetcode.cn/problems/predict-the-winner/description/?source=vscode
 
 from itertools import accumulate
 class Solution:
+    # 记忆化搜索
+    def predictTheWinner(self, nums: List[int]) -> bool:
+        N = len(nums)
+        s = sum(nums)
+        pre_s = list(accumulate(nums, initial=0))
+
+        @cache
+        def f(i, j):
+            """返回nums[i:j]上先手最大得分"""
+            nonlocal N, nums, pre_s
+
+            if i==j-1: return nums[i]
+
+            ans = 0
+            range_s = pre_s[j]-pre_s[i]
+            ans = range_s - min(f(i+1, j), f(i, j-1))
+
+            return ans
+        return f(0, N) >= s-f(0, N)
+
     def predictTheWinner(self, nums: List[int]) -> bool:
         N = len(nums)
         if N==1:return True
