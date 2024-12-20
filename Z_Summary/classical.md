@@ -1,8 +1,12 @@
+### knapsack
+* **complete knapsack**
+* **01 knapsack**
+    * [474]一和零
+
 ### interval dp
 * [312]戳气球
 * [87]扰乱字符串
 * [375]猜数字大小 II
-
 
 ### digitial dp
 * [357]统计各位数字都不同的数字个数
@@ -32,3 +36,12 @@
 
 ### state compression
 * [464]我能赢吗
+
+### sliding window
+* [467]环绕字符串中唯一的子字符串
+
+### string
+* **next table**
+    * [466]统计重复个数
+* **Trie Tree**
+    * [472]连接词

@@ -58,3 +58,19 @@ https://leetcode.cn/problems/arithmetic-slices-ii-subsequence/description/?sourc
 
 代码实现时，由于 nums[i] 的范围很大，所以计算出的公差的范围也很大，我们可以将状态转移数组 f 的第二维用哈希表代替。
 """
+
+from collections import defaultdict
+class Solution:
+    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+        # state: d[i][dist]表示以i结尾的公差为d的弱等差序列，即长度不小于2的序列个数
+        N = len(nums)
+        d = [defaultdict(int) for _ in range(N)]
+
+        ans = 0
+        for i in range(N):
+            for j in range(i):
+                dist = nums[i]-nums[j]
+                d[i][dist] += d[j][dist]
+                ans += d[j][dist]# 形成真正的等差序列，即在所有弱等差序列末尾加上nums[i]；⭕️注意统计的是d[j][dist]
+                d[i][dist] += 1
+        return ans

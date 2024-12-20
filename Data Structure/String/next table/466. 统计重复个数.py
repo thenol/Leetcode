@@ -37,45 +37,38 @@ https://leetcode.cn/problems/count-the-repetitions/description/?source=vscode
 # 核心思路：预处理next搜索位置
 """
 最佳答案：
+
+我们预处理出以字符串 s2 的每个位置 i 开始匹配一个完整的 s1 后，下一个位置 j 以及经过了多少个 s2，即 d[i]=(cnt,j)，其中 cnt 表示匹配了多少个 s2，而 j 表示字符串 s2 的下一个位置。
+
 https://leetcode.cn/problems/count-the-repetitions/solutions/2587504/python3javacgotypescript-yi-ti-yi-jie-yu-n84j/?source=vscode
+
+  a c b --- a c b
+  a   b --- a
+j:0   1 --- j=0, cnt=1
 """
 
 from collections import Counter
 class Solution:
+    # 时间复杂度 O(m×n+n1)，空间复杂度 O(n)
     def getMaxRepetitions(self, s1: str, n1: int, s2: str, n2: int) -> int:
-        """可以用kimi解释题目和代码并且添加注释"""
-        # 计算s2的长度，用于确定循环的边界
         n = len(s2)
-        # 初始化一个字典，用于存储中间状态
         d = {}
-        
-        # 外层循环遍历s2的每个字符，构建中间状态
         for i in range(n):
-            cnt = 0  # 计数器，记录s2在s1中出现的次数
-            j = i  # j是s2的索引，用于记录当前匹配的位置
-            # 内层循环遍历s1的每个字符，与s2进行匹配
-            for _ in range(n1):  # 这里使用_作为占位符，因为我们不关心s1的具体字符
-                si = s1  # 临时变量，存储s1的当前状态
-                # 遍历s1，寻找与s2匹配的字符
-                for c in si:
-                    if c == s2[j]:  # 如果s1的字符与s2的当前字符匹配
-                        j += 1  # 移动s2的索引
-                    if j == n:  # 如果j到达s2的末尾，说明找到了一个完整的s2
-                        cnt += 1  # 计数器加1
-                        j = 0  # 重置j，开始寻找下一个s2
-            # 将当前索引i对应的s2的完整匹配次数cnt和下一个搜索的起始索引j存储在字典d中
-            d[i] = (cnt, j)
+            cnt = 0
+            j = i
+            for c in s1: # j标定了从i出发，匹配了cnt个s2之后 s2 中的位置
+                if c == s2[j]:
+                    j += 1
+                if j == n:
+                    cnt += 1
+                    j = 0
+            d[i] = (cnt, j) # 构建跳表，用于后续决策：遍历一个完整的s1，得知从i出发之后，可以经过循环匹配 cnt 个 s2 之后，匹配到 s2 的 j 位置；因此，再从头开始遍历匹配s1时，就应该从j开始
 
-        # 初始化ans，用于存储最终答案
         ans = 0
-        j = 0  # 重置j为0，从s2的开头开始搜索
-        # 外层循环遍历n1次，每次循环代表s1的一次完整遍历
-        for _ in range(n1):
-            # 从字典d中获取当前索引j对应的匹配次数cnt和下一个搜索的起始索引j
-            cnt, j = d[j]
-            ans += cnt  # 将找到的s2的次数累加到ans中
-
-        # 返回ans除以n2的结果，即str2重复的最大次数m
+        j = 0
+        for _ in range(n1): # s1循环 n1 次，s2先从0开始遍历，从而由d得到，经过循环遍历 cnt 个 s2 之后下一次从j开始继续匹配
+            cnt, j = d[j] 
+            ans += cnt
         return ans // n2
 
     # MLE: Memory Limit Exceeded
