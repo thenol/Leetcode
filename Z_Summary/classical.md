@@ -30,18 +30,23 @@
 
 ### prefix sum
 * [363]矩形区域不超过 K 的最大数值和
+* [467]环绕字符串中唯一的子字符串
 
 ### bin search
 * [410]分割数组的最大值
 
 ### state compression
 * [464]我能赢吗
+* [486]预测赢家
 
 ### sliding window
-* [467]环绕字符串中唯一的子字符串
+
 
 ### string
 * **next table**
     * [466]统计重复个数
 * **Trie Tree**
     * [472]连接词
+
+### Sweep Line
+* [3382]用点构造面积最大的矩形 II

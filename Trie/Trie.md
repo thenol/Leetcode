@@ -97,4 +97,9 @@ i  e (isEnd)
   g  e (isEnd)
      \
       e (isEnd)
+
+# empty Tree
+Trie Root (isEnd)
+    |
+    {} (children)
 ```

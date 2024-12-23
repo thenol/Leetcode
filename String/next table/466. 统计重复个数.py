@@ -35,6 +35,7 @@ https://leetcode.cn/problems/count-the-repetitions/description/?source=vscode
 """
 
 # 核心思路：预处理next搜索位置
+# 本质：通过预处理，直接找到了下一次匹配的位置，从而实现跳跃性的匹配加速，大大提升效率，降低复杂度
 """
 最佳答案：
 

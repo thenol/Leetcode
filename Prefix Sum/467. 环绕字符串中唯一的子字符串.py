@@ -90,3 +90,18 @@ function countSubArray(k, nums) {
 904. 水果成篮（中等）
 992. K 个不同整数的子数组（困难）
 """
+
+from collections import defaultdict
+class Solution:
+  # 核心思想：类似前缀和
+  def findSubstringInWraproundString(self, p: str) -> int:
+      p = '^' + p
+      len_mapper = defaultdict(lambda: 0)
+      w = 1
+      for i in range(1,len(p)):
+          if ord(p[i])-ord(p[i-1]) == 1 or ord(p[i])-ord(p[i-1]) == -25:
+              w += 1
+          else:
+              w = 1
+          len_mapper[p[i]] = max(len_mapper[p[i]], w) # 这就得到了去重的目的。这种算法是不重不漏的，因为最长的连续子串一定是包含了比它短的连续子串，
+      return sum(len_mapper.values())
