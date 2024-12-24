@@ -50,9 +50,23 @@ https://leetcode.cn/problems/target-sum/solutions/816361/mu-biao-he-by-leetcode-
 class Solution:
     # 正确✅：
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
-        ...
+        N = len(nums)
+        
+        @cache
+        def f(i, target):
+            """nums[:i]范围上和为target的个数；0<=i<=N"""
+            if i==0 and target == 0: return 1 # 只有当全部数用完，且target为0的时候才能符合要求
 
-    # 错误❌：Wrong Answer
+            ans = 0
+            if 0<=i-1:
+                ans += f(i-1, target-nums[i-1]) + f(i-1, target + nums[i-1]) # ⭕️ 对应nums[i-1]
+            
+            return ans
+        
+        return f(N, target)
+
+    # 这不是01背包问题，所有元素必须都得选择❗️
+    # 错误❌：Wrong Answer；
     def findTargetSumWays_1(self, nums: List[int], target: int) -> int:
         # 01背包问题
         # state: d[i][j] 表示在前i范围数据中做选择为j的个数
