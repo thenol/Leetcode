@@ -13,6 +13,7 @@
 
 ### greedy
 * [321]拼接最大数
+* [517]超级洗衣机
 
 ### subsequence
 * **Continuous**
