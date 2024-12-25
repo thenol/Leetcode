@@ -2,7 +2,7 @@
 * **complete knapsack**
 * **01 knapsack**
     * [474]一和零
-    * [629]K 个逆序对数组
+    * [629]K 个逆序对数组 （多归约态）
 
 ### interval dp
 * [312]戳气球
@@ -34,6 +34,9 @@
 ### tree
 * [95]不同的二叉搜索树II 
     $$\begin{align*}&G(n+1) = \frac{\color{red}G(n)*(4n+2)}{n+2};\\&catlan = \frac{1}{n+1}C_{2n}^n\\&1. n=0，G(0)=1\\&2.n>=1时，G(n+1) = (4n+2)*G(n)/(n+2);\end{align*}$$
+    ```python3
+    from math import comb # 求组合数
+    ```
 
 ### prefix sum
 * [363]矩形区域不超过 K 的最大数值和
