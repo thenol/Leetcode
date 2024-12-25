@@ -46,8 +46,33 @@ https://leetcode.cn/problems/student-attendance-record-ii/description/?source=vs
     启示之处：
         状态中，必然含有到每个元素时候，应该思考的地方，也就是如何做决策，而做决策所需要的条件或者变量，必须作为一维变量，体现在函数的声明中
 """
+# 写法1: 哨兵护法
+from functools import cache
+MOD = 10**9+7
+@cache
+def f(i, cnt_a, cnt_l):
+    if i==0 and cnt_a < 2 and cnt_l < 3: return 1 # 空天数，符合条件
+
+    ans = 0
+    if 0<=i-1:
+        if cnt_a < 1:
+            ans += f(i-1, cnt_a+1, 0) # A
+    
+        if cnt_l < 2:
+            ans += f(i-1, cnt_a, cnt_l+1) # L
+    
+        ans += f(i-1, cnt_a, 0) # P
+    
+    return ans % MOD
+class Solution:
+    # 字母数位dp
+    def checkRecord(self, n: int) -> int:
+        # state: f(i, cnt_a, cnt_l)
+        # 0<=i<=n
+        return f(n, 0, 0)
 
 
+# 写法2:
 from functools import cache
 N = 1_000_000_007
 # 也就是结果会被缓存到全局存储表里面，这样调用 Solution().checkRecord()的时候，可以都从全局缓存表里面共享计算结果
