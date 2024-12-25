@@ -28,7 +28,29 @@
 
 https://leetcode.cn/problems/out-of-boundary-paths/description/?source=vscode
 """
+# 写法2
+class Solution:
+    def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+        steps = [
+            (1, 0), (-1, 0), (0, 1), (0, -1)
+        ]
+        MOD = 1_000_000_007
+        @cache
+        def f(i, j, s):
 
+            if 0<=s and (i<0 or j<0 or m<=i or n<=j):
+                return 1 # 出界
+            
+            ans = 0
+            for step in steps:
+                dx, dy = step
+                if 0<=s-1:
+                    ans += f(i+dx, j+dy, s-1)
+            return ans % MOD
+        return f(startRow, startColumn, maxMove)
+
+
+# 写法1
 from functools import cache
 N = 10**9 + 7
 @cache

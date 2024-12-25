@@ -43,6 +43,23 @@ https://leetcode.cn/problems/non-negative-integers-without-consecutive-ones/solu
 
 from functools import cache
 class Solution:
+    def findIntegers(self, n: int) -> int:
+        width = n.bit_length()
+        @cache
+        def f(i, is_limit, cnt_one):
+            """[0,i]范围个数；0<=i<=width"""
+            if i==width and cnt_one <= 1: return 1 # 哨兵
+
+            ans = 0
+            up = (n>>(width-i-1))&1 if is_limit else 1
+            for j in range(up+1):
+                if j==1 and cnt_one==1:continue
+                ans += f(i+1, is_limit and j==up, j)
+            
+            return ans
+        return f(0, True, 0)
+
+    # 反向写法：注意受限与否与正向一致
     def findIntegers_1(self, n: int) -> int:
         """简单写法"""
         @cache

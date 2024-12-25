@@ -61,7 +61,8 @@ class Solution:
             return ans % N
         return f(n, k)
 
-    # method 2: 背包问题：01背包
+    # ❗️这不是01背包问题，数据范围为[1,n]全部都得选择
+    #  method 2: 背包问题：01背包；
     # 结论：TLE 1000\n1000，O(N^3)
     def kInversePairs_2(self, n: int, k: int) -> int:
         # state: d[i][j] 表示前i个正数恰好组成k个逆序对的个数；
