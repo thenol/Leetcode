@@ -41,3 +41,46 @@ special[i].length == n + 1
 
 https://leetcode.cn/problems/shopping-offers/description/?source=vscode
 """
+
+from math import inf
+from functools import cache
+class Solution:
+    def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
+        # preprocess
+        ps = []
+        for i in range(len(price)):
+            t = [0]*(len(needs)+1)
+            t[i] = 1
+            t[-1] = price[i]
+            ps.append(t)
+        
+        s_all = ps + special
+
+        def no_need(arr):
+            for item in arr:
+                if 0<item: return False
+            
+            return True
+
+        # 完全背包
+        @cache
+        def f(i, need):
+            """范围[0,i)上的背包为need的最小开销"""
+            if no_need(need): return 0
+
+            ans = inf
+            # 不选择i
+            if 0<=i-1:
+                ans = min(ans, f(i-1, need))
+            
+            # 尝试选择i
+            can_buy = True
+            for j, v in enumerate(need):
+                if 0<s_all[i-1][j]-v: # 超过本身需求量，禁止
+                    can_buy = False
+                    break
+            
+            if can_buy:
+                ans = min(ans, f(i, tuple([need[k]-s_all[i-1][k] for k in range(len(need))]))+s_all[i-1][-1])
+            return ans
+        return f(len(s_all), tuple(needs))

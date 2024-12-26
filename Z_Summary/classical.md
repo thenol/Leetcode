@@ -3,6 +3,8 @@
 * **01 knapsack**
     * [474]一和零
     * [629]K 个逆序对数组 （多归约态）
+* **complete knapsack**
+    * [638]大礼包 (一般都需要**转换**问题)
 
 ### <a href="https://leetcode.cn/problems/remove-boxes/solutions/1884753/by-424479543-g3gt/?source=vscode">interval dp</a>
 * [312]戳气球
