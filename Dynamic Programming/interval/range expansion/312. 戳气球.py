@@ -54,8 +54,28 @@ https://leetcode.cn/problems/burst-balloons/description/?source=vscode
 先打爆无法决策，同时也不是最优，后打爆一切就都确定了
 """
 
+"""
+最佳解法：
+https://leetcode.cn/problems/remove-boxes/solutions/1884753/by-424479543-g3gt/?source=vscode
+"""
+
 from functools import cache
 class Solution:
+    # method 2:
+    def maxCoins(self, nums: List[int]) -> int:
+        nums += [1] # 请出哨兵护法，虽然只加在了末尾，但是nums[-1]和nums[n]左右两边都得到了guard
+        @cache 
+        def f(i,j):
+            """区间[i,j)上打爆气球最大得分"""
+            if i == j : return 0  # 归约态
+            return max(
+                # 挨个先打爆 [i, k)，然后打爆[k+1, j)，最后打爆k
+                [f(i,k)+f(k+1,j)+nums[i-1]*nums[k]*nums[j] for k in range(i,j)]
+            )
+        return f(0,len(nums)-1)
+
+
+    # method 1: 
     def maxCoins(self, nums: List[int]) -> int:
         # state: d[i][j]为最后打爆nums[i:j]的获得硬币的最大数量
         # 0<=i<N; 0<=j<=N

@@ -4,7 +4,7 @@
     * [474]一和零
     * [629]K 个逆序对数组 （多归约态）
 
-### interval dp
+### <a href="https://leetcode.cn/problems/remove-boxes/solutions/1884753/by-424479543-g3gt/?source=vscode">interval dp</a>
 * [312]戳气球
 * [87]扰乱字符串
 * [375]猜数字大小 II
@@ -67,6 +67,6 @@
 * [494]目标和
 
 ### math
-* congruence
+* **congruence**
     * [523]连续的子数组和
     * [3381]长度可被 K 整除的子数组的最大元素和
