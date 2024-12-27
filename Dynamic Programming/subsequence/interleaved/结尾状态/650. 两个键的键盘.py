@@ -56,3 +56,22 @@ class Solution:
                 if (i-j) % j == 0:
                     d[i] = min(d[i], d[j] + (i-j)//j + 1) # copy 1次，paste (i-j)//j次
         return d[n]
+    
+    def minSteps(self, n: int) -> int:
+        if n==1: return 0
+        @cache
+        def f(r, p):
+            """当前有r个，能copy p个"""
+            if r==n: return 1
+
+            ans = inf
+
+            # 当前可以paste
+            if r+p <= n:
+                ans = min(ans, f(r+p, p)+1)
+            
+            # 当前可以copy & paste
+            if r+r <= n:
+                ans = min(ans, f(r+r, r)+2)
+            return ans
+        return f(1, 1)
