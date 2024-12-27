@@ -54,10 +54,44 @@ https://leetcode.cn/problems/decode-ways-ii/description/?source=vscode
 
 # 核心思路：该讨论的一定需要讨论，别忘了，动态规划，只是以空间换时间，将暴力结果，通过空间缓存，所以一定是考虑了所有情况下的结果，也就是一定满足暴力情况下的解
 
+# 核心思路：在于讨论末尾的增量：两个字符，然后缩减规模，共4种可能
+
 from string import ascii_lowercase
 from functools import cache
 from unicodedata import digit
 class Solution:
+    # 请出哨兵护法：
+    def numDecodings(self, s: str) -> int:
+        mapper = {}
+        for i, c in enumerate(ascii_uppercase):
+            mapper[str(i+1)] = c
+
+        @cache
+        def f(r):
+            """[0, r)上编码总数"""
+            if r==0: return 1
+
+            ans = 0
+            if s[r-1] == '*': # 最后一位是*
+                ans += f(r-1) * 9 # 单独处理
+                if 0<=r-2: # 两位一起处理
+                    if s[r-2] == '*': # 倒数第二位是*
+                        ans += f(r-2) * 15
+                    else: # 倒数第二位不是*
+                        for i in range(1, 10):
+                            ans += f(r-2) if s[r-2]+str(i) in mapper else 0
+            else: # 最后一位不是*
+                ans += f(r-1) if s[r-1] in mapper else 0 # 单独处理1为
+                if 0<=r-2: # 处理两位
+                    if s[r-2] == '*': # 倒数第二位是*
+                        ans += f(r-2) * (2 if '0' <= s[r-1] <='6' else 1)
+                    else: # 倒数第二位不是*
+                        ans += f(r-2) if s[r-2:r] in mapper else 0
+            
+            return ans % 1_000_000_007
+        
+        return f(len(s))
+
     # method 1: 分类讨论
     # 核心在于缩减规模的时候，如何处理单个字符和两个字符结尾的情况
     def numDecodings_1(self, s: str) -> int:
