@@ -31,8 +31,39 @@ https://leetcode.cn/problems/maximum-sum-of-3-non-overlapping-subarrays/descript
 # 核心考点：前缀和预处理+01背包+查找背包中哪些被放入背包
 
 from itertools import accumulate
-from operator import sub
+from functools import cache
 class Solution:
+    def maxSumOfThreeSubarrays(self, nums: List[int], k: int) -> List[int]:
+        pre_s = list(accumulate(nums, initial=0))
+        g = []
+        N = len(nums)
+
+        for i in range(N-k+1):
+            g.append(pre_s[i+k] - pre_s[i]) # N-k+1, CNN
+        # print(g)
+        @cache
+        def f(r, v):
+            """[0, r)范围背包容量为v最大值"""
+            if v == 0: return [0, []] # 直接返回背包里面装了那些选择
+
+            ans = 0
+            sel = []
+            if 0<=r-1:
+                # 不选 r-1
+                acc, items = f(r-1, v)
+                if ans < acc:
+                    sel = items
+                    ans = acc
+                # 选择 r-1
+                acc, items = f(r-k, v-1)  # 这里 r-k 如果<0，也无所谓，会自动归入 默认失败情况
+                if ans < acc + g[r-1]:
+                    sel = items + [r-1]
+                    ans = acc + g[r-1]
+            return [ans, sel]
+        ans = f(len(g), 3)
+        # print(ans)
+        return ans[1]
+
     # method 2: 哨兵——左右护法
     def maxSumOfThreeSubarrays(self, nums: List[int], k: int) -> List[int]:
         N = len(nums)

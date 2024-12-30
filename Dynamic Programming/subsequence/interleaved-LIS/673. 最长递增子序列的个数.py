@@ -36,6 +36,27 @@ import bisect
 #   先提前演练一下，检验特列法，是否可以走通，再来编码
 from collections import defaultdict
 class Solution:
+    # 多状态信息
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        N = len(nums)
+        d = [[1, 1] for i in range(N)] # 以i结尾最长递增子序列长度和个数
+        mx_len = 1
+        for i in range(N):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    new_len = d[j][0] + 1
+                    if d[i][0] < new_len:
+                        d[i] = [new_len, d[j][1]]
+                    elif d[i][0] == new_len:
+                        d[i][1] += d[j][1]
+                mx_len = max(mx_len, d[i][0])
+        ans = 0
+        for item in d:
+            if item[0] == mx_len:
+                ans += item[1]
+        
+        return ans
+
     # ✅：本质问题LIS上的双重dp
     # method 3：两个状态d[i],cnt[i]；
     # 前一个d[i]用来解决上述第一个问题，也就是最长递增子序列长度是多少
