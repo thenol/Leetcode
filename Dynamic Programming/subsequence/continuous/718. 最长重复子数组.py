@@ -29,6 +29,52 @@ https://leetcode.cn/problems/maximum-length-of-repeated-subarray/description/?so
 
 from functools import cache
 class Solution:
+    # method final: 连续子序列 —— 迭代法
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        # d[i][j]表示分别以nums1[i]和nums2[j]结尾的最长公共子数组长度
+        N1, N2 = len(nums1), len(nums2)
+        d = [[0]*(N2+1) for i in range(N1+1)]
+        
+        # for i in range(N1+1):
+        #     d[i][0] = 0
+        # for j in range(N2+1):
+        #     d[0][j] = 0
+
+        ans = 0
+        for i in range(N1+1):
+            for j in range(N2+1):
+                if 0<=i-1 and 0<=j-1 and nums1[i-1] == nums2[j-1]:
+                    d[i][j] = d[i-1][j-1] + 1
+
+                ans = max(ans, d[i][j])
+        return ans
+
+    # ❌ 错误转移
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        @cache
+        def f(i, j):
+            """分别以nums1[i]和nums2[j]结尾的最长公共子数组长度"""
+            if i==0 or j==0: return 0
+
+            ans = 0
+            if 0<=i-1 and 0<=j-1 and nums1[i-1] == nums2[j-1]:
+                ans = max(ans, f(i-1, j-1) + 1)
+            
+            # ❌ 错误转移，很明显这是一个连续的问题，即 f(i, j)只能从f(i-1, j-1)转移而来，无法像间断子序列问题，从 f(i-1, j)上转移过来
+            if 0<=i-1:
+                ans = max(ans, f(i-1, j))
+            if 0<=j-1:
+                ans = max(ans, f(i, j-1))
+            
+            return ans
+        
+        ans = 0
+        for i in range(len(nums1)+1):
+            for j in range(len(nums2)+1):
+                ans = max(ans, f(i, j))
+
+        return ans
+
     # method 3: 迭代版本
     # method 2: MLE
     def findLength(self, nums1: List[int], nums2: List[int]) -> int:
