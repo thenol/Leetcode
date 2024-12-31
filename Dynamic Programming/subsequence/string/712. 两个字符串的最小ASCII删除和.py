@@ -38,6 +38,47 @@ from math import inf
 from functools import cache
 from string import ascii_lowercase
 class Solution:
+    # method 1: 记忆化搜索
+    def minimumDeleteSum(self, s1: str, s2: str) -> int:
+        @cache
+        def f(i, j):
+            """s1[:i], s2[:j]"""
+            if s1[:i] == s2[:j]: return 0
+
+            ans = inf
+            if 0<=i-1 and 0<=j-1 and s1[i-1] == s2[j-1]:
+                ans = min(ans, f(i-1, j-1))
+            if 0<=i-1:
+                ans = min(ans, f(i-1, j) + ord(s1[i-1]))
+            if 0<=j-1:
+                ans = min(ans, f(i, j-1) + ord(s2[j-1]))
+            return ans
+        
+        return f(len(s1), len(s2))
+
+    # 记忆化搜索
+    # ❌：WA；错在范围判断，从而有的可能性没有讨论到，即可能性讨论不全
+    def minimumDeleteSum_1(self, s1: str, s2: str) -> int:
+        @cache
+        def f(i, j):
+            """s1[:i], s2[:j]"""
+            print(s1[:i], s2[:j])
+            if s1[:i] == s2[:j]: return 0
+
+            ans = inf
+            if 0<=i-1 and 0<=j-1: # ❌ 错误的范围讨论，使得有的可能性没讨论到
+                if s1[i-1] == s2[j-1]:
+                    ans = min(ans, f(i-1, j-1))
+                else:
+                    ans = min(
+                        ans, 
+                        f(i-1, j) + ord(s1[i-1]), # ❌ 此处并不要求 0<=j-1
+                        f(i, j-1) + ord(s2[j-1]) # ❌ 此处并不要求 0<=i
+                        )
+            return ans
+        
+        return f(len(s1), len(s2))
+
     def minimumDeleteSum(self, s1: str, s2: str) -> int:
         # state: d[i][j]表示s1[:i], s2[:j]两个字符串相等所需删除字符的 ASCII 值的最小和 。
         # 0<=i<=N; 0<=j<=M

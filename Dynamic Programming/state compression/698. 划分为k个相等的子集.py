@@ -30,6 +30,32 @@ https://leetcode.cn/problems/partition-to-k-equal-sum-subsets/description/?sourc
 
 from functools import cache
 class Solution:
+    # 状态压缩 + 暴力搜索
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        s = sum(nums)
+        N = len(nums)
+        if s % k != 0 : return False
+        size = s // k
+        @cache
+        def f(mask, k, acc): # ⭕️变量k和acc之间的同步问题
+            """mask为可选项，需要分成k个等分，当前累计size"""
+            if mask == 0 and k == 0 and acc == 0: return True
+
+            if acc == 0:
+                acc = size
+
+            ans = False
+            for i in range(N):
+                if (mask >> i) & 1 and 0<=acc-nums[i]:
+                    ans = ans or f(
+                        mask ^ (1 << i), 
+                        k-1 if acc-nums[i]==0 else k,
+                        acc-nums[i]
+                        )
+            
+            return ans
+        return f((1<<N) - 1, k, size)
+
     # method 1: 状态压缩dp 
     # 问题特征：随机选择、随机组合
     # 相比于直接用list回溯遍历的有点，可cache
