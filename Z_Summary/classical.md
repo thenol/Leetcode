@@ -2,10 +2,10 @@
 * **complete knapsack**
 * **01 knapsack**
     * [474]一和零
-    * [629]K 个逆序对数组 （多归约态）
-    * [689]三个无重叠子数组的最大和 (背包里面的选择，可以直接递归返回)
+    * [629]K 个逆序对数组
+    * [689]三个无重叠子数组的最大和
 * **complete knapsack**
-    * [638]大礼包 (一般都需要**转换**问题)
+    * [638]大礼包
 
 ### <a href="https://leetcode.cn/problems/remove-boxes/solutions/1884753/by-424479543-g3gt/?source=vscode">interval dp</a>
 * [312]戳气球
@@ -57,6 +57,7 @@
 ### state compression
 * [464]我能赢吗 (❗️注意结算时间)
 * [486]预测赢家
+* [691]贴纸拼词
 
 ### sliding window
 
