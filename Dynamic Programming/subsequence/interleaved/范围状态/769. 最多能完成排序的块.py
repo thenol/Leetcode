@@ -39,6 +39,20 @@ https://leetcode.cn/problems/max-chunks-to-make-sorted/description/?source=vscod
 # 本质竟然是一个非连续子序列问题，确实经典
 
 class Solution:
+    def maxChunksToSorted(self, arr: List[int]) -> int:
+        # d[i]表示范围[0,i)的可以切分的最大块数
+        N = len(arr)
+        d = [0] * (N+1)
+
+        for i in range(N+1):
+            leftmost = N
+            if 1 <= i:
+                for j in range(i-1, -1, -1): # 寻找切割区间[j, i)
+                    leftmost = min(leftmost, arr[j])
+                    if j<=leftmost<i: # 左闭右开，逻辑自洽
+                        d[i] = max(d[i], d[leftmost] + 1)
+        return d[N]
+
     # 解决问题的关键，是能够实现，拆分之后和原来排序后的数组相同
     # 充要条件：对arr中每个元素它对应的下标就在自己的块中
     def maxChunksToSorted(self, arr: List[int]) -> int:

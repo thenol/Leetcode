@@ -40,3 +40,30 @@ grid[n - 1][n - 1] != -1
 
 https://leetcode.cn/problems/cherry-pickup/description/?source=vscode
 """
+
+# 最优解：
+"""
+https://leetcode.cn/problems/cherry-pickup/solutions/2766975/jiao-ni-yi-bu-bu-si-kao-dpcong-ji-yi-hua-ruue/?source=vscode
+"""
+
+# ⭕️两次dp的两次最优 不等于 全局最优；即 局部最优 不等于 全局最优
+
+from math import inf
+from functools import cache
+class Solution:
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        R, C = len(grid), len(grid[0])
+        @cache
+        def f(i, j, x, y):
+            """i, j为第一个人坐标， x, y为第二个人坐标"""
+            if i==R-1 and j==C-1: return grid[i][j]
+
+            ans = -inf # 如果初始化为0，会导致无法到达的也可以采摘到樱桃
+            for a, b in [[i+1, j], [i, j+1]]:
+                for c, d in [[x+1, y], [x, y+1]]:
+                    if 0<=a<R and 0<=b<C and 0<=c<R and 0<=d<C and -1<grid[a][b] and -1<grid[c][d]:
+                        ans = max(ans, f(a, b, c, d))
+            ans += grid[i][j] + (grid[x][y] if i!=x and j!=y else 0) # 重复只能计算一次
+            return ans
+        ans = f(0, 0, 0, 0)
+        return ans if -inf < ans else 0
