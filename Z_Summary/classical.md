@@ -7,10 +7,11 @@
 * **complete knapsack**
     * [638]大礼包
 
-### <a href="https://leetcode.cn/problems/remove-boxes/solutions/1884753/by-424479543-g3gt/?source=vscode">interval dp</a>
+### interval dp <a href="https://leetcode.cn/problems/remove-boxes/solutions/1884753/by-424479543-g3gt/?source=vscode">🪝</a>
 * [312]戳气球
 * [87]扰乱字符串
 * [375]猜数字大小 II
+* [730]统计不同回文子序列
 * **prefix or suffix**
     * [546]移除盒子
     * [664]奇怪的打印机

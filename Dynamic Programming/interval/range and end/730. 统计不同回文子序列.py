@@ -40,8 +40,38 @@ https://leetcode.cn/problems/count-different-palindromic-subsequences/descriptio
 #    1. 关注于，新增加的某个值，或者某两个端点值，给全局带来的增量
 #    2. 正确的进行规模缩减，也就是找到转移方程之后，需要用特列法来验证是否正确
 
-
+from functools import cache
 class Solution:
+    # 记忆化搜索
+    def countPalindromicSubsequences(self, s: str) -> int:
+        @cache
+        def f(l, r):
+            """s[l:r]上回文字符串个数"""
+            if l==r: return 0 # 空串不统计
+            if l==r-1: return 1 # 一个字符串
+
+            ans = 0
+
+            if s[l] == s[r-1]:
+                i, j = l+1, r-2
+                while s[i] != s[l]:
+                    i += 1
+                while s[j] != s[r-1]:
+                    j -= 1
+                if j<i: # 未发现边界情况
+                    ans = f(l+1, r-1)*2 + 2
+                elif i==j: # 发现一个
+                    ans = f(l+1, r-1)*2 + 1
+                else: # 发现多个
+                    ans = f(l+1, r-1) * 2 - f(i+1, j) # 去重
+            else:
+                ans = f(l, r-1) + f(l+1, r) - f(l+1, r-1)
+            
+            return ans % 1_000_000_007
+        
+        return f(0, len(s))
+
+    # 迭代法
     def countPalindromicSubsequences(self, s: str) -> int:
         MOD = 10**9 + 7
         n = len(s)
