@@ -38,6 +38,18 @@ https://leetcode.cn/problems/house-robber/description/
 # 思路：简单
 
 class Solution:
+    # method 2: 范围状态
+    def rob(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 1: return nums[0]
+
+        # before和last分别表示到当前为止，前天和昨天的最大收益
+        before, last = nums[0], max(nums[1], nums[0]) 
+
+        for i in range(2, N):
+            before, last = last, max(before + nums[i], last) # 当前抢：只能从前天before转移而来；不抢：只能从昨天last转移而来
+        return last
+
     # method 1: 结尾状态——可以选择任意子序列
     def rob(self, nums: List[int]) -> int:
         # state: d[i] 表示以 i 为末尾元素，最高金额
