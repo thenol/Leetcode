@@ -65,3 +65,23 @@ class Solution:
         
         return ans
         
+
+    def maxProfitAssignment(self, difficulty: List[int], profit: List[int], worker: List[int]) -> int:
+        z = zip(difficulty, profit)
+        zs = sorted(z, key=lambda x:x[0])
+        zs.append((inf, 0)) # 加上哨兵
+        worker.sort()
+        
+        i, j = 0, 0
+        maxP = 0
+        ans = 0
+        while i<len(worker) and j<len(zs):
+            d, p = zs[j]
+            if worker[i] < d:
+                ans += maxP
+                i += 1
+                continue
+            else:
+                maxP = max(p, maxP)
+                j += 1
+        return ans
