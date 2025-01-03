@@ -92,3 +92,9 @@
     * [3381]长度可被 K 整除的子数组的最大元素和
 * **combination**
     * [3395]唯一中间众数子序列 I
+
+### 数据结构
+* Trie
+* Fenwick Tree
+* Segment Tree
+* Union Set

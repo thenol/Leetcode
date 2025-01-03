@@ -43,15 +43,15 @@ class UnionFind:
         # 查找元素p所在的集合的根节点
         # 如果p不是根节点，则递归查找其父节点，直到找到根节点
         # 路径压缩：在查找过程中，将所有非根节点的父节点直接指向根节点
-        if self.parent[p] != p:
+        if self.parent[p] != p: # 惰性更新：例如 A->B, 然后修改了 B->C，但是 A->B 还是存在，只有当查找 A 的时候才会修改 A->C
             self.parent[p] = self.find(self.parent[p])
         return self.parent[p]
 
     def union(self, p, q):
         # 合并元素p和元素q所在的集合
         # 首先找到两个元素所在的集合的根节点
-        rootP = self.find(p)
-        rootQ = self.find(q)
+        rootP = self.find(p) # ❗️注意是合并集合，应该操作根节点，而不是父节点
+        rootQ = self.find(q) # ❗️凡是找 集合根节点 ，必须用find，不能直接用parent，因为里面存在惰性更新的步骤
         # 如果两个元素已经在同一个集合中，则不需要合并
         if rootP != rootQ:
             # 按秩合并：将秩较小的集合的根节点指向秩较大的集合的根节点，此时树的层高不变
