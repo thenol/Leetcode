@@ -49,6 +49,26 @@ class Solution:
         s = str(n)
         N = len(s)
         @cache
+        def f(r, is_limit, is_num):
+            """返回总个数，当前到达第r位;0只能出现在开头"""
+            if r == N: return 1
+
+            ans = 0
+            for i in range(len(digits)):
+                if not is_limit or digits[i]<=s[r]:
+                    ans += f(r+1, is_limit and digits[i]==s[r], True)
+            
+            if not is_num: # 单独开头的0
+                ans += f(r+1, False, False)
+            
+            return ans
+        return f(0, True, False)-1 # 减去全是0的情况
+    
+    
+    def atMostNGivenDigitSet(self, digits: List[str], n: int) -> int:
+        s = str(n)
+        N = len(s)
+        @cache
         def f(i, is_limit, pre_zero):
             """ """
             if N<=i: return 1
