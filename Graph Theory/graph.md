@@ -13,13 +13,16 @@
         queue = deque([start])  # 队列初始化，开始节点入队
 
         while queue:
-            node = queue.popleft()  # 弹出队列中的第一个元素
+            # 弹出队列中的第一个元素；✅出队列的时候再访问；
+            # ❗️❗️❗️有个问题，会导致同一个节点被反复加入到队列中❗️❗️❗️
+            # 参见 934. 最短的桥.py
+            node = queue.popleft()  
             if node not in visited:
                 print(node, end=" ")  # 访问该节点
                 visited.add(node)  # 标记为已访问
                 for neighbor in graph[node]:
-                    if neighbor not in visited:
-                        queue.append(neighbor)  # 将未访问的邻居节点加入队列
+                    if neighbor not in visited: # ✅如果没有被访问过再增加，否则会导致重复增加
+                        queue.append(neighbor)  # 将未访问的邻居节点加入队列，❗️❗️❗️ 但是并没有对是否已经存在队列中进行判断；邓俊晖版本中有discover状态和undiscover状态，解决了这个问题
 
     # 示例图，使用字典表示图的邻接表
          A
