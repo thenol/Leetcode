@@ -91,6 +91,44 @@ class Solution:
         
         return d[Q][target] # j, k
 
+    # ❌ WA；错误case：[0,0,0]\n0
+    # 错误原因：没有逆序遍历k，此时arr[r-1]=0，v-arr[r-1]=v
+    # 即如果正序遍历 k，会导致之前的值被覆盖，从而读取不到真实数据
+    def threeSumMulti(self, arr: List[int], target: int) -> int:
+        N = len(arr)
+        Q = 3
+        d = [[0]*(Q+1) for _ in range(target+1)]
+
+        d[0][0] = 1
+
+        for r in range(1, N+1): # 0<=r<=N; r=0, d = 0
+            for v in range(target, -1, -1): # 0<=v<=target
+                for k in range(1, Q+1): # 0<=k<=Q；❌
+                    if 0<=v-arr[r-1]:
+                        d[v][k] += d[v-arr[r-1]][k-1]
+        
+        return d[target][Q]
+
+    # TLE
+    def threeSumMulti(self, arr: List[int], target: int) -> int:
+        N = len(arr)
+
+        @cache
+        def f(r, v, k):
+            """区间[0,r)上和为v的数量，只能选择k个数"""
+            if v==0 and k==0: return 1
+
+            ans = 0
+
+            # 不选r-1
+            if 0<=r-1:
+                ans += f(r-1, v, k)
+            
+                # 选择r-1
+                ans += f(r-1, v-arr[r-1], k-1)
+            return ans % 1_000_000_007
+        
+        return f(N, target, 3)
 
     # method 1: 01背包问题
     # MLE：注意问题规模，三位数组，3000*100*300=10^7，因此会爆内存限制

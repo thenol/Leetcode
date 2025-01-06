@@ -50,12 +50,74 @@ https://leetcode.cn/problems/snakes-and-ladders/description/?source=vscode
 # 思路：BFS
 # 为什么无法用dp，因为游戏规则规定，第一次遇到滑滑梯，必须得坐，且之后就无法坐
 
-
+from typing import List
 from math import ceil, inf
 from functools import cache 
+from collections import deque
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
-        ...
+
+        M, N = len(board), len(board[0])
+
+        def no_to_loc(no): 
+            x = M - (no-1) // N - 1 # 从下标0开始的模型
+            y = (no-1) % N if (no-1)//N % 2 == 0 else N - (no-1) % N - 1
+            return x, y
+        
+        q = deque([1])
+        vis = set()
+        ans = 1
+
+        while q:
+            level = len(q)
+            for i in range(level):
+                no = q.popleft()
+                if no not in vis:
+                    vis.add(no)
+                    for step in range(1, 7):
+                        suc = no + step
+                        x, y = no_to_loc(suc)
+                        if board[x][y] != -1:
+                            suc = board[x][y]
+                        q.append(suc)
+                        if suc == M*N: # 飞完之后再检测
+                            return ans
+            ans += 1
+        
+        return -1
+
+    # ⭕️欠缺：不能覆盖那些，回到某个点，然后再次向前试探的情况
+    def snakesAndLadders_2(self, board: List[List[int]]) -> int:
+
+        if 0<board[0][0]: return -1
+
+        M, N = len(board), len(board[0])
+
+        def no_to_loc(no): 
+            x = M - (no-1) // N - 1 # 从下标0开始的模型
+            y = (no-1) % N if (no-1)//N % 2 == 0 else N - (no-1) % N - 1
+            return x, y
+        
+        @cache
+        def f(no, fly):
+            if no == M*N: return 0
+
+            ans = inf
+
+            x, y = no_to_loc(no)
+            if 0<board[x][y] and fly: # 每一个回合能飞必须飞；
+                if no<board[x][y]<= M * N : # 同时剪枝往回飞的步骤
+                    ans = min(ans, f(board[x][y], 0))
+                return ans # 飞完就不用再从此位置，掷骰子尝试了
+            
+            # 如果不能飞，只能掷骰子，即新回合开始
+            for i in range(1, 7):
+                if no + i <= M*N:
+                    # 新回合：当前不能再飞了，需要重新掷骰子
+                    ans = min(ans, f(no + i, 1) + 1) # 新回合，又可以飞了
+            return ans
+        ans = f(1, 1)
+        return ans if ans < inf else -1
 
     # ❌：dp 思路   
     # WA: 没办法确保整个过程，如果遇到滑滑梯，一定坐了，换句话说，这种情况下，无法检测不可达的情况
@@ -96,3 +158,9 @@ class Solution:
 # [[-1,1,2,-1],[2,13,15,-1],[-1,10,-1,-1],[-1,6,2,8]]
 # [[-1,-1,-1],[-1,9,8],[-1,8,9]]
 
+if __name__ == "__main__":
+    res = Solution().snakesAndLadders(
+        [[1,1,-1],[1,1,1],[-1,1,1]]
+
+    )
+    print(res)
