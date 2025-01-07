@@ -35,8 +35,39 @@ sum(rods[i]) <= 5000
 https://leetcode.cn/problems/tallest-billboard/description/?source=vscode
 """
 
+# 核心思路和难点：
+#   1. 双和相等 转换为 双和相等且差为0
+#   2. sum有界，因此可枚举，所以为一纬状态
+
+"""
+最优解：
+https://leetcode.cn/problems/tallest-billboard/solutions/2978457/ji-yi-hua-sou-suo-di-tui-by-yi-cheng-8i-s0nq/?source=vscode
+"""
+
 from functools import cache
+from math import inf
 class Solution:
+    def tallestBillboard(self, rods: List[int]) -> int:
+        @cache
+        def f(r, s):
+            """区间[0,r)上选若干元素到A，选若干元素到B使得j=0的可以得到的最大和"""
+            if r == 0: return 0 if s == 0 else -inf
+
+            ans = -inf
+            if 0<= r-1:
+                # 不选择 rods[r-1]
+                ans = max(ans, f(r-1, s))
+            
+                # 选择rods[r-1]到A
+                ans = max(ans, f(r-1, s-rods[r-1]))
+
+                # 选择rods[r-1]到B
+                ans = max(ans, f(r-1, s+rods[r-1]) + rods[r-1])
+            
+            return ans
+        return f(len(rods), 0)
+
+
     # method 1: 状态压缩dp
     # 分析：问题转化为是否可以删掉若干个元素，使得剩下的分割成两个和相等的子集
     # 从0 <= rods.length <= 20 知道，应该用状态压缩dp
