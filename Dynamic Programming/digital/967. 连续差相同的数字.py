@@ -38,6 +38,24 @@ https://leetcode.cn/problems/numbers-with-same-consecutive-differences/descripti
 
 from functools import cache
 class Solution:
+    def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
+        @cache
+        def f(cur, pre):
+            if cur == n: return ['']
+
+            ans = []
+
+            up = range(1, 10) if cur == 0 else set([pre+k, pre-k]) # k=0的时候需要去重
+            for i in up:
+                if 0<=i<10:
+                    res = f(cur+1, i)
+                    for j in res:
+                        ans.append(str(i)+j)
+            
+            return ans
+        
+        return [int(item) for item in f(0, 0)]
+
     # method 2: 代码简化
     def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
         @cache
