@@ -79,6 +79,21 @@ class Solution:
                     ans = min(ans, f(i-1, j, k)+1)
             
             return ans
+        
+        # 写法2: 更加简介
+        @cache
+        def f1(t, b, k):
+            """区间[0,t)是否是bottom，值为k的最小值"""
+            if t == 0: return 0
+
+            ans = inf
+
+            if 0<=t-1 and (bottoms[t-1]==k or tops[t-1]==k):
+                if b==1:# 底部
+                    ans = min(ans, f1(t-1, b, k) + (0 if bottoms[t-1]==k else 1))
+                elif b==0:
+                    ans = min(ans, f1(t-1, b, k) + (0 if tops[t-1]==k else 1))
+            return ans
 
         ans = inf
         for j in range(2):
