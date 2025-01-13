@@ -58,3 +58,17 @@ class Solution:
     换句话说，这里子元素，可选可不选，或者说可能构成了最优解，或者可能未参与构成最优解；
     但是《769. 最多能完成排序的块.py》中的每个子元素都对最优解产生了影响，因此必然得选，所以不存在这一步“不选择的”抉择：d[i] = d[i-1]
     """
+    # 直接枚举
+    def minAreaRect(self, points: List[List[int]]) -> int:
+        ans = inf
+        N = len(points)
+        cords = set()
+        for p in points:
+            cords.add(tuple(p))
+        for i in range(N):
+            x1, y1 = points[i]
+            for j in range(i+1, N):
+                x2, y2 = points[j]
+                if x1 != x2 and y1 != y2 and (x1, y2) in cords and (x2, y1) in cords:
+                    ans = min(abs(x2-x1)*abs(y2-y1), ans)
+        return ans if ans < inf else 0

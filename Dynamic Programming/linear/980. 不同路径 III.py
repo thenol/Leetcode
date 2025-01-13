@@ -47,6 +47,44 @@ https://leetcode.cn/problems/unique-paths-iii/description/?source=vscode
 
 from functools import cache
 class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        vis = defaultdict(int)
+        steps = [
+            (1, 0), (0, 1), (-1, 0), (0, -1)
+        ]
+        avail_cnt = 0
+
+        M, N = len(grid), len(grid[0])
+        start, end = None, None
+        for i in range(M):
+            for j in range(N):
+                if grid[i][j] == 1:
+                    start = (i, j)
+                elif grid[i][j] == 2:
+                    end = (i, j)
+                elif grid[i][j] == 0:
+                    avail_cnt += 1        
+
+        vis[start] = 1 # 从起点开始
+
+        def f(i, j, cnt):
+            # print(dict(vis), (i,j), cnt, avail_cnt)
+            """从(i,j)出发到达终点的个数"""
+            if (i, j) == end and cnt == 0: return 1 # 到2，即0和2的个数
+
+            ans = 0
+            for step in steps:
+                dx, dy = step
+                x, y = i+dx, j+dy
+                if 0<=x<M and 0<=y<N and not vis[(x, y)] and 0 <= grid[x][y] and 0<=cnt-1:
+                    vis[(x, y)] = 1 # 尝试step
+                    ans += f(x, y, cnt-1)
+                    vis[(x, y)] = 0 # 尝试完复位
+
+            return ans
+        
+        return f(*start, avail_cnt+1) # 多加一个，是因为最后访问到2
+
     # 究竟错在哪里 ？要么初始化，要么转移方程
     # 以及如何纠错 ？
     # 易错点❌：方格遍历，是有后效性的

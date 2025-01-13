@@ -49,6 +49,15 @@ https://leetcode.cn/problems/equal-rational-numbers/description/?source=vscode
 https://leetcode.cn/problems/equal-rational-numbers/solutions/3582/xiang-deng-de-you-li-shu-by-leetcode/?source=vscode
 """
 
+# 数学算法：
+"""
+S = "0.(12)"
+S = 12*(r+r^2+r^3+⋯)
+从而等比数列求和
+
+s(n) = a0 * (1-q^n)/(1-q)
+"""
+
 class Solution:
     # method 1: 直接转换成小树，然后比较大小
     # 方法比较trick
@@ -70,3 +79,5 @@ class Solution:
 
         # 比较两个浮点数的差值是否小于 10^-10（即是否接近）
         return abs(s - t) < 10 ** (-10)
+    
+

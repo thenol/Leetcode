@@ -49,6 +49,33 @@ from functools import cache
 from itertools import accumulate
 from math import inf
 class Solution:
+    def mergeStones(self, stones: List[int], k: int) -> int:
+        N = len(stones)
+        if (N-1) % (k-1) !=0: return -1
+
+        pre_s = list(accumulate(stones, initial=0))
+
+        @cache
+        def f(i, j, p):
+            """区间[i,j)上合并p堆"""
+            # if j-i<=p: return 0 # 等于p的时候，没有合并成本；归约态写法2
+            if j-i==p: return 0 # 等于p的时候，没有合并成本；归约态写法1
+            if p==1: return pre_s[j] - pre_s[i] + f(i, j, k) # 先合并成k堆，最后才能合并成1堆；注意为什么成本是 pre_s[j] - pre_s[i]，因为首先各个堆都已经分开堆到一起了，最后合成1堆的时候，就是所有的和，例如[a, b, c, d], k=2；则 [a+b, c+d] => [(a+b)+(c+d)]
+
+            ans = inf
+            # 从后往前
+            for c in range(i+p-1, j, k-1):
+                # 将[i,c)合并成一堆 (c-i) % (k-1) == 0
+                ans = min(ans, f(i, c, p-1) + f(c, j, 1)) 
+            
+            # # 从前往后
+            # for c in range(i+1, j, k-1): # ⭕️注意初始1个元素也算一堆
+            #     # 将[i,c)合并成一堆 (c-i) % (k-1) == 0
+            #     ans = min(ans, f(i, c, 1) + f(c, j, p-1))
+            
+            return ans
+        return f(0, N, 1)
+
     # method 2: 区间dp
     def mergeStones(self, stones: List[int], k: int) -> int:
         # state: d[i][j] 表示stones[i:j]范围内合并的最低成本
