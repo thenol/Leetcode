@@ -57,8 +57,6 @@ word 仅由小写英文字母组成。
 
 
 class Solution:
-    def answerString(self, s: str, k: int) -> str:
-        ...
 
     # 贪心：O(N^2)
     """
@@ -70,4 +68,32 @@ class Solution:
             return s
         n = len(s)
         return max(s[i: i + n - k + 1] for i in range(n))
+    
+    def answerString(self, word: str, numFriends: int) -> str:
+        # 由贪心知最优解一定在 max([s[i:i+n-k+1] for i in range(n)])中
+        # 因此直接找出所有最大后缀，然后取其前缀s[l:l+n-k+1]即为答案
+        l, r, d = 0, 1, 0
+        s = word
+        k = numFriends
+        n = len(s)
 
+        if numFriends == 1: return s
+
+        while r+d<n:
+            if s[l+d] == s[r+d]:
+                d += 1
+            else:
+                if s[l+d] < s[r+d]:
+                    l += d + 1
+                else:
+                    r += d + 1
+                d = 0
+                r = max(r, l+1)
+        return s[l:l+n-k+1]
+
+
+if __name__ == "__main__":
+    res = Solution().answerString(
+        "aaaao",
+        4
+    )
