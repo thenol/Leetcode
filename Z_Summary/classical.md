@@ -21,8 +21,9 @@
 ### Greedy
 * [321]拼接最大数
 * [517]超级洗衣机
-* [3397]执行操作后不同元素的最大数量
+* [1024]视频拼接
 * [1163]按字典序排在最后的子串
+* [3397]执行操作后不同元素的最大数量
 * [3403]从盒子中找出字典序最大的字符串 I
 
 ### Interval dp <a href="https://leetcode.cn/problems/remove-boxes/solutions/1884753/by-424479543-g3gt/?source=vscode">🪝</a>

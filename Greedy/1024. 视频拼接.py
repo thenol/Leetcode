@@ -48,7 +48,8 @@ import bisect
 from math import inf
 from operator import le
 class Solution:
-    # method 2: 聚焦到对元素本身的判断而非对下标的判断
+    # method 2: 固定排序右，逐个比较左
+    # 聚焦到对元素本身的判断而非对下标的判断
     # 相比于方法1好在哪，先判断再处理，确保了边界的正确性，所见即所得
     # 但是方法1，先处理再判断，边界情况很复杂，
     def videoStitching(self, clips: List[List[int]], time: int) -> int:
@@ -58,14 +59,14 @@ class Solution:
         left_most = inf
         # print(s_c)
         while s_c:
-            if s_c[-1][1] < left:
+            if s_c[-1][1] < left: # 从后往前，如果最后的都没有time大，直接失败
                 return -1
-            while s_c and left <= s_c[-1][1]:
+            while s_c and left <= s_c[-1][1]: # 找到所有满足有边界覆盖条件里面的，最左边界
                 left_most = min(left_most, s_c.pop()[0])
             cnt += 1 
             left = left_most
-            if not left: break
-        if left != 0: return -1 # 判断左边界
+            if not left: break # 如果提前到达0，直接退出，剪枝
+        if left != 0: return -1 # 判断左边界是否到达
         return cnt
 
     # method 1: greedy
