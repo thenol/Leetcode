@@ -55,7 +55,7 @@
             if node not in visited:
                 print(node, end=" ")  # 访问该节点
                 visited.add(node)  # 标记为已访问
-                for neighbor in reversed(graph[node]): # 每次来到一个新节点，反过来访问，先访问第一个节点；与树的迭代式深度优先一致
+                for neighbor in reversed(graph[node]): # 因为用的是栈，后入先出，所以要想先访问第一个，需要反过来入栈；每次来到一个新节点，反过来访问，先访问第一个节点；与树的迭代式深度优先一致
                     if neighbor not in visited:
                         stack.append(neighbor)  # 将未访问的邻居节点入栈
         
