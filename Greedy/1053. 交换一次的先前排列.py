@@ -34,6 +34,21 @@
 https://leetcode.cn/problems/previous-permutation-with-one-swap/description/?source=vscode
 """
 
+"""
+核心思路：
+    * 【必要条件】：
+        * 对任意的arr[i]需要找到 arr[i+1:]中小于 arr[i]的最大值 a[j]，来做交换
+        * 为了让调整后的 arr 尽可能大，需要 i 尽量大，即尽量靠后
+        * BF: O(N^2)
+    * 【转化条件】：
+        * 由于arr[i]需要尽量靠后，即 a[j] 也尽量靠后
+        * 因此从后往前看，对每一个 a[j] 找寻 其左边 最近 且 最大的元素 a[i]，来交换
+        * 因此，使用单调站
+    * 【归纳总结】
+        * 寻找 尽量靠右的 arr[i] 右边比其小的最大值 arr[j] <=> 找寻 arr[j] 左边 第一个比起大的值 arr[i] 
+        * 单调站
+"""
+
 class Solution:
     # method 2: greedy
     def prevPermOpt1(self, arr: List[int]) -> List[int]:
@@ -57,7 +72,7 @@ class Solution:
         N = len(arr)
         right_less = [N]*N
         for i in range(N-1, -1, -1):
-            while stk and arr[stk[-1]]<arr[i]:
+            while stk and arr[stk[-1]]<arr[i]: # 更新rightmost[i]，记录最大值
                 right_less[i] = stk.pop()
 
             # trick: 
@@ -66,7 +81,7 @@ class Solution:
             stk.append(i)
         
         for i in range(N-1, -1, -1):
-            if right_less[i] < N:
+            if right_less[i] < N: # 找到最右边可以替换的逆序对
                 arr[i], arr[right_less[i]] = arr[right_less[i]], arr[i]
                 return arr
         
