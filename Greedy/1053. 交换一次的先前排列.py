@@ -75,7 +75,7 @@ class Solution:
             while stk and arr[stk[-1]]<arr[i]: # 更新rightmost[i]，记录最大值
                 right_less[i] = stk.pop()
 
-            # trick: 
+            # trick: 本质保证了arr[i]找的是所有相同arr[j]中最右边的arr[j]
             while stk and arr[stk[-1]]==arr[i]:
                 stk.pop() # 连续的数值，栈顶去重；121这种，在入栈时，会变成12，所以不用考虑
             stk.append(i)
