@@ -77,6 +77,9 @@
 
 ### Sliding window
 
+### Stack
+* [1111]有效括号的嵌套深度
+
 ### State compression
 * [464]我能赢吗 (❗️注意结算时间)
 * [486]预测赢家
