@@ -64,6 +64,22 @@ answer[i] = 1，seq[i] 分给 B 。
 https://leetcode.cn/problems/maximum-nesting-depth-of-two-valid-parentheses-strings/description/?source=vscode
 """
 
+"""
+思路：
+  * 【必要条件】：
+    <= 解必然覆盖所有可能性，且为全局最优
+    <= 暴力解法，枚举所有可能性，复杂度很高
+    <= 由提示知：必然存在 O(N) 解法
+    <= 决策聚焦于每一个 seq[i]
+  * 【条件转化】
+    <= 对每一个 seq[i] 需要知道其 到底放在哪一个集合，集合0，还是集合1
+    <= 需要了解的信息：当前集合0的深度、集合1的深度
+    <= 直接将当前seq[i]放到深度较低的那一个集合
+    <= 进一步优化，直接统计当前seq的深度，将所有深度为奇数的放到集合0，深度为偶数的放到集合1 （注意：栈中始终只会出现“(”字符，“)”不会进栈）
+  * 【归纳总结】
+    * 栈处理括号并且分配，由于只切割成2个数据集，因此可以直接挨个分配即可
+"""
+
 class Solution:
     def maxDepthAfterSplit(self, seq: str) -> List[int]:
         stk = []  # 初始化一个栈，用于存储括号的索引和类型
