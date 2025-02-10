@@ -144,6 +144,43 @@ class Solution:
             res = max(res, left[i] + right[i], left[i], right[i])
         
         return res
+    
+    # 相同方式，前缀和采用 accumulate求解
+    def maxSubarraySum(self, nums: List[int]) -> int:
+        N = len(nums)
+        ans = -inf
+        
+        pre = [-inf]*N
+        last = {}
+        dp = -inf # 不删除任何数的情况下，以nums中元素结尾的所有最大子序列和的最大值
+        pre_s = list(accumulate(nums, initial=0))
+
+        for i, A in enumerate(nums):
+            if A in last:
+                j = last[A]
+                pre[i] = pre[j] + pre_s[i]-pre_s[j]-A
+            pre[i] = max(dp, pre[i])
+            dp = max(nums[i], dp+A)
+            ans = max(ans, dp)
+            last[A] = i # 刷新位置
+        
+        nums = nums[::-1]
+        suf = [-inf]*N
+        last = {}
+        dp = -inf
+        pre_s = list(accumulate(nums, initial=0))
+        for i, A in enumerate(nums):
+            if A in last:
+                j = last[A]
+                suf[i] = suf[j] + pre_s[i]-pre_s[j]-A
+            suf[i] = max(dp, suf[i])
+            dp = max(nums[i], dp+A)
+            last[A] = i 
+        suf = suf[::-1] # ⭕️ 注意这里需要反转
+        for i in range(N):
+            ans = max(ans, pre[i]+suf[i], pre[i], suf[i])
+        return ans
+
 
 if __name__ == "__main__":
     res = Solution().maxSubarraySum(
