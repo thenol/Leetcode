@@ -164,6 +164,18 @@ bisect.bisect_left 和 bisect.bisect_right 标定了一个区间[bisect.bisect_l
     1. bisect.bisect_left 为大于等于（不小于）e的元素的最小秩
     2. bisect.bisect_right 为大于e的元素的最小秩（与lo等效）
     3. 0<=bisect.bisect_left<=bisect.bisect_right<=len(arr)
+
+    举例如下：查找3
+    
+    列表: [1, 3, 3, 3, 5, 7, 9]
+             ^
+             |
+     bisect_left 返回索引 1
+    
+    列表: [1, 3, 3, 3, 5, 7, 9]
+                      ^
+                      |
+             bisect_right 返回索引 4
 """
 
 
