@@ -44,7 +44,7 @@ class Solution:
             nonlocal R, C, grid
 
             # initialization
-            if i<0 or j<0 or R<=i or C<=j: return inf # 边界情况
+            if i<0 or j<0 or R<=i or C<=j: return inf # 边界情况; ✅：grid类型题目中，这种提前判断的方式可以大大简化后续坐标的判断逻辑
             if i==0 and j==0: return grid[0][0]
 
             # transition

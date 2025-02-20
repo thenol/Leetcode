@@ -52,8 +52,6 @@ https://leetcode.cn/problems/maximum-score-of-non-overlapping-intervals/descript
 问题本质：背包问题
 
 """
-
-
 from functools import cache
 class Solution:
     def maximumWeight(self, intervals: List[List[int]]) -> List[int]:
@@ -75,7 +73,7 @@ class Solution:
 
             # 包含i-1； 0 < j 
             r, l, w, idx = a[i-1]
-            k = bisect_left(a, (l, ), hi=i) - 1 # a[k][0] <= a[i-1][1]
+            k = bisect_left(a, (l, ), hi=i) - 1 # a[k][0] < a[i-1][1]；注意与1235 定义的区间不重叠区别
             weight, arr = f(k+1, j-1)
             if ans < weight + w or (ans == weight + w and arr + [idx] < sel):
                 ans = weight + w
