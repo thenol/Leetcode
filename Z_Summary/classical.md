@@ -128,6 +128,7 @@
     ```python3
     from math import comb # 求组合数
     ```
+* [1130]叶值的最小代价生成树
 
 ### Union
 * [803]打砖块
