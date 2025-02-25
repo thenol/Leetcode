@@ -12,6 +12,22 @@
       index3 = bisect.bisect_right(ls,9)
       print("index1 = {}, index2 = {}, index3 = {}".format(index1, index2, index3))
       #index1 = 3, index2 = 2, index3 = 3
+      
+      # 函数声明：
+      #   1. key的作用：对序列 a 中的每个元素调用 key 函数，并根据返回值进行比较。如果提供了 key，则 x 也会被 key 处理后再进行比较。
+      bisect_left(a, x, lo=0, hi=len(a), key=None)
+      # 例如：bisect_left(range(max_w + 1), True, 1, key=check)
+      # 含义：在 range(max_w + 1) 中，查找范围的起始索引是 1，找到第一个使得 check(w) 返回 True 的权重值 w。
+      """
+      假设 max_w = 5，range(max_w + 1) 是 [0, 1, 2, 3, 4, 5]，并且 check 函数的返回值如下：
+      check(0) = False => 0
+      check(1) = False => 0
+      check(2) = True => 1
+      check(3) = True => 1
+      check(4) = True => 1
+      check(5) = True => 1
+      那么 bisect_left(range(max_w + 1), True, 1, key=check) 会返回 2，因为 2 是第一个使得 check(w) 返回 True 的权重值。
+      """
     ```
 
 * 循环理解

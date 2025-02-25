@@ -126,3 +126,53 @@
             
             return levels
     ```
+
+## Dijkstra算法
+Dijkstra算法是一种用于计算单源最短路径的经典算法，由荷兰计算机科学家 Edsger W. Dijkstra 在 1956 年提出。它适用于带权有向图或无向图（包括带环图），且权重必须为非负数。Dijkstra算法通过贪心策略逐步找到从起点到所有其他节点的最短路径。
+```python
+import heapq
+
+def dijkstra(graph, start):
+    """
+    Dijkstra 算法实现：计算从起点到图中所有节点的最短路径。
+
+    参数:
+    - graph: 图的邻接表表示，格式为 {节点: {邻居节点: 权重}}。
+    - start: 起点节点。
+
+    返回:
+    - dist: 字典，表示从起点到每个节点的最短距离。
+    """
+    # 初始化距离字典
+    # 将所有节点的距离设置为无穷大（表示尚未访问）
+    dist = {node: float('inf') for node in graph}
+    # 起点到自身的距离为 0
+    dist[start] = 0
+    
+    # 优先队列（最小堆），用于存储待处理的节点及其当前距离
+    # 堆中的元素是元组 (当前距离, 节点)
+    heap = [(0, start)]
+    
+    # 主循环：处理堆中的节点
+    while heap:
+        # 从堆中取出距离起点最近的节点
+        current_dist, u = heapq.heappop(heap)
+        
+        # 如果当前节点的距离大于已知的最短距离，跳过
+        # ❗️这是因为堆中可能存储了同一节点的多个不同距离
+        if current_dist > dist[u]:
+            continue
+        
+        # 遍历当前节点的所有邻居节点
+        for v, weight in graph[u].items():
+            # 计算从起点经过当前节点 u 到邻居节点 v 的新距离
+            new_dist = dist[u] + weight
+            
+            # 如果新距离比已知的距离更短，更新距离并将邻居节点加入堆
+            if new_dist < dist[v]:
+                dist[v] = new_dist
+                heapq.heappush(heap, (new_dist, v))
+    
+    # 返回从起点到所有节点的最短距离
+    return dist
+```
