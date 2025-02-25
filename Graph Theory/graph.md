@@ -164,7 +164,7 @@ def dijkstra(graph, start):
             continue
         
         # 遍历当前节点的所有邻居节点
-        for v, weight in graph[u].items():
+        for v, weight in graph[u].items(): # u点只能看到从start到u以及到达其相邻节点的情况，其他路径到达其相邻节点的情况u看不到
             # 计算从起点经过当前节点 u 到邻居节点 v 的新距离
             new_dist = dist[u] + weight
             
