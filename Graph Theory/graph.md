@@ -171,7 +171,7 @@ def dijkstra(graph, start):
             # 如果新距离比已知的距离更短，更新距离并将邻居节点加入堆
             if new_dist < dist[v]:
                 dist[v] = new_dist
-                heapq.heappush(heap, (new_dist, v))
+                heapq.heappush(heap, (new_dist, v)) # 先将 u->v 即从u到v的这条可能的最短候选路径先缓存起来
     
     # 返回从起点到所有节点的最短距离
     return dist
