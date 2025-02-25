@@ -132,6 +132,7 @@ Dijkstra算法是一种用于计算单源最短路径的经典算法，由荷兰
 ```python
 import heapq
 
+# 本质：动态规划
 def dijkstra(graph, start):
     """
     Dijkstra 算法实现：计算从起点到图中所有节点的最短路径。
