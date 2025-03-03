@@ -114,4 +114,26 @@ class Solution:
         ans = f(root, x)[0]
         print(ans)
         return ans < n-ans
-      
+    
+    # ✅其他写法
+    def btreeGameWinningMove(self, root: Optional[TreeNode], n: int, x: int) -> bool:
+        def count(node, x):
+            """返回x的左右子节点个数"""
+            if not node: return (0, 0, 0)
+            cl, llx, lrx = count(node.left, x)
+            cr, rlx, rrx = count(node.right, x)
+            cnt = cl + cr + 1
+            if node.val == x:
+                return (cnt, cl, cr)
+            return (cnt, llx+rlx, lrx+rrx)
+
+        cnt, lcnt, rcnt = count(root, x)
+        arr = [
+            lcnt, rcnt, n-(lcnt+rcnt+1)
+        ]
+        ans = False
+        for c in arr:
+            if c > n-c:
+                ans = True
+                break
+        return ans

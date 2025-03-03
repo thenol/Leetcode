@@ -59,4 +59,20 @@ class Solution:
             
             return ans
         return f(0, N)
+
+    # 归约态的另一种写法    
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        @cache
+        def f(i, j):
+            """[i,j)上最优解"""
+            if i==j-1: return 0
+
+            ans = inf
+            for k in range(i+1, j):
+                l_max = max(arr[i:k])
+                r_max = max(arr[k:j])
+                ans = min(ans, f(i,k) + f(k, j) + l_max*r_max)
+            
+            return ans
+        return f(0, len(arr))
         
