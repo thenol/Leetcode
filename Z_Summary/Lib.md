@@ -98,3 +98,41 @@
       print(i) # 同样遍历n次，从0-n-1
       i+=1 
     ```
+
+* 常用遍历函数
+  * `pairwise`
+    ```python
+    # pairwise
+    from itertools import pairwise
+
+    # Example list
+    data = [1, 2, 3, 4, 5]
+
+    # Generate pairs
+    for a, b in pairwise(data):
+        print(a, b)
+    # output
+    """
+    1 2
+    2 3
+    3 4
+    4 5
+    """
+    ```
+  * `groupby`只会将连续的放在一起
+    ```python
+    from itertools import groupby
+    groupby(iterable, key=None)
+
+    # example
+    data = [1, 2, 2, 1, 3, 3]
+    for key, group in groupby(data):
+      print(key, list(group))
+    # output
+    """
+    1 [1]
+    2 [2, 2]
+    1 [1] 
+    3 [3, 3]
+    """
+    ```
