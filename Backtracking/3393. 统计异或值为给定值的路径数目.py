@@ -55,6 +55,8 @@
 1 <= n == grid[r].length <= 300
 0 <= grid[r][c] < 16
 0 <= k < 16
+
+https://leetcode.cn/problems/count-paths-with-the-given-xor-value/description/
 """
 
 # 错的是多么的可笑啊
