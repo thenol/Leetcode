@@ -104,7 +104,7 @@ class Solution:
             old_depth = last_depth.get(color, 0)
 
             # 更新 top_depth，确保它是当前路径中某个颜色最近一次出现的最大深度 +1
-            top_depth = max(top_depth, old_depth) # ✅本质记录了重复颜色的最大深度，如果没有就是0；也就是维护了窗口的左边界
+            top_depth = max(top_depth, old_depth) # ✅本质记录了所有重复了的颜色的最大深度，如果没有就是0；实质也就是维护了窗口的左边界
 
             # 更新全局答案 ans
             # 计算当前路径的长度：dis[-1] - dis[top_depth]
