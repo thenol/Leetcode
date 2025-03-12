@@ -58,9 +58,10 @@ https://leetcode.cn/problems/longest-special-path/description/?slug=longest-spec
     * 【推理过程】
         <= 解一定包含所有可能性
         <= 需要解决问题：1）求路径长度；2）求路径节点数
-        <= 直观思路：对每个节点使用滑动窗口，需要保留窗口，时间复杂度 O(N^2)
+        <= 直观思路：对每个节点使用滑动窗口，需要保留窗口，同时需要检测窗口是否有重复元素，时间复杂度 O(N^2)
     * 【条件转化】
         <= 树上前缀和来动态维护路径长度
+        <= 对滑动窗口的左边界使用字典维护最近一次出现的深度 +1，从而降低时间复杂度到 O(1)
 
     * 【归纳总结】
         <= 1）树上前缀和
@@ -68,7 +69,7 @@ https://leetcode.cn/problems/longest-special-path/description/?slug=longest-spec
         <= 3）DFS
 """
 
-
+from math import inf
 class Solution:
     def longestSpecialPath(self, edges: List[List[int]], nums: List[int]) -> List[int]:
         # 构建图的邻接表表示
@@ -90,6 +91,7 @@ class Solution:
         last_depth = {}
 
         # 深度优先搜索（DFS）函数
+        # ❗️❗️❗️ 由题意可知，保证是合法树，所以不需要vis，可以只要不是父节点就可以访问
         def dfs(x: int, fa: int, top_depth: int) -> None:
             # x: 当前节点
             # fa: 当前节点的父节点（避免重复访问）
@@ -102,7 +104,7 @@ class Solution:
             old_depth = last_depth.get(color, 0)
 
             # 更新 top_depth，确保它是当前路径中某个颜色最近一次出现的最大深度 +1
-            top_depth = max(top_depth, old_depth)
+            top_depth = max(top_depth, old_depth) # ✅本质记录了重复颜色的最大深度，如果没有就是0；也就是维护了窗口的左边界
 
             # 更新全局答案 ans
             # 计算当前路径的长度：dis[-1] - dis[top_depth]
@@ -133,3 +135,30 @@ class Solution:
         # ans[0] 是最长特殊路径的长度
         # -ans[1] 是起点深度的正数表示
         return [ans[0], -ans[1]]
+
+    def longestSpecialPath(self, edges: List[List[int]], nums: List[int]) -> List[int]:
+        g = [[] for _ in range(len(nums))]
+        for x, y, d in edges:
+            g[x].append((y, d))
+            g[y].append((x, d))
+        
+        dist = [0] # 记录从根节点到当前节点的前缀和
+        ans = (0, -inf)
+        depth = {}
+        def dfs(x, p, l):
+            nonlocal dist, ans, depth
+
+            color = nums[x]
+            last_depth = depth.get(color, 0)
+            l = max(last_depth, l)
+            ans = max(ans, (dist[-1]-dist[l], l-len(dist)))
+            depth[color] = len(dist)
+            for y, d in g[x]:
+                if y!= p:
+                    dist.append(dist[-1]+d)
+                    dfs(y, x, l)
+                    dist.pop()
+            depth[color] = last_depth
+        
+        dfs(0, 0, 0)
+        return ans[0], -ans[1]
