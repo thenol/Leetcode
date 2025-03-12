@@ -65,6 +65,25 @@ https://leetcode.cn/problems/count-paths-with-the-given-xor-value/description/
 # 一般有case能过了，就说明归约态和默认值以及调用处没问题，问题一般出在转移方程
 from functools import cache
 class Solution:
+    def countPathsWithXorValue(self, grid: List[List[int]], k: int) -> int:
+        MOD = 1_000_000_000 + 7
+        m, n = len(grid), len(grid[0])
+        @cache 
+        def f(i, j, s):
+            """从(i, j)出发到达(m-1, n-1)的路径数目"""
+            if i==m-1 and j==n-1 and s^grid[i][j]==k:
+                return 1
+            
+            ans = 0
+            if i+1 < m and j < n:
+                ans += f(i+1, j, s^grid[i][j])
+            if j+1 < n and i < m:
+                ans += f(i, j+1, s^grid[i][j])
+            
+            return ans % MOD
+        
+        return f(0, 0, 0)
+
     # ❌ WA：请排查找出问题所在
     def countPathsWithXorValue(self, grid: List[List[int]], k: int) -> int:
         M = 10**9 + 7
