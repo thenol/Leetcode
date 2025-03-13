@@ -14,3 +14,25 @@ def gcd(a, b):
 # a = m*d; b = c*d
 
 ```
+
+## 组合数算法
+* 标准库函数调用：`from math import comb`
+* 求法一：
+    $$ C(n, k)=\frac{n*(n-1)\dots (n-k+1)}{k!}= \frac{n!}{k!(n-k)!}$$
+    ```python
+    def cmb(n, k):
+        if k > n or k < 0:
+            return 0  # Invalid input
+        return math.factorial(n) // (math.factorial(k) * math.factorial(n - k))
+
+    ```
+* 求法二：
+    $$C(n,k)=C(n-1, k-1)+C(n-1, k)$$
+    ```python
+    # 本质——背包：第n个选择还是不选择
+    @cache
+    def comb(n, k):
+        if k == 0 or k == n:
+            return 1
+        return comb(n - 1, k - 1) + comb(n - 1, k)
+    ```
