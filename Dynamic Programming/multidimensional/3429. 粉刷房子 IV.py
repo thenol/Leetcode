@@ -70,6 +70,25 @@ from functools import cache
 from math import inf
 class Solution:
     # ✅: 需要找到动态规划，状态转移方程，从而避免暴力遍历所有可能性，找到重叠子问题，从而使用cache，和最优子结构
+    def minCost(self, n: int, cost: List[List[int]]) -> int:
+        @cache
+        def f(i, pre_j, suf_k):
+            """左右同时开工涂色
+            表示涂前后个i+1个房子的最低成本
+            从中间往两边涂色
+            """
+            if i<0:
+                return 0 
+            
+            ans = inf
+            for j, c1 in enumerate(cost[i]):
+                if j == pre_j:
+                    continue
+                for k, c2 in enumerate(cost[-1-i]):
+                    if k != suf_k and k != j:
+                        ans = min(ans, f(i-1, j, k)+c1+c2)
+            return ans
+        return f(n//2-1, 3,3) # 从中间左侧开始涂色，同时设置左右两侧的颜色为3，即边界情况，因为合法涂色范围为[0,1,2]，所以设置成任何一个不在这个范围的都可以
 
     # ❌: 从n->0，暴力遍历所有可能性
     # ❌: @cache: 会导致无法遍历所有可能性,因此不能添加cache
