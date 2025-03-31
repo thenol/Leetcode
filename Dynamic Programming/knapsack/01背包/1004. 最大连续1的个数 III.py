@@ -81,12 +81,37 @@ class Solution:
         for i in range(N):
             zero += 0 if nums[i] else 1
             q.append(nums[i])
-            while k<zero and q: # 滑动窗口，维护固定的2个0的窗口; 而且遍历了所有以i结尾可能的窗口，覆盖了所有的可能性
+            while k<zero and q: # 滑动窗口，维护固定的2个0的窗口; 而且遍历了所有以i结尾可能的窗口，覆盖了所有的可能性；将循环写在下面，不重不漏
                 zero -= 0 if q.pop(0) else 1
 
             d[i] = len(q)
         
         return max(d)
+    
+    # 冗余写法：不推荐
+    def longestOnes(self, nums: List[int], k: int) -> int:
+        # sliding window
+        zero = 0
+        q = deque([])
+        acc = 0
+        ans = 0
+        for n in nums:
+            while q and k < zero:
+                zero -= 1 if q.popleft() == 0 else 0
+                acc -= 1
+            ans = max(ans, acc)
+            q.append(n)
+            zero += 1 if n == 0 else 0
+            acc += 1
+        
+        # 最后还会进去一个数据，因此还得判断一下 zero的个数
+        while q and k < zero:
+            zero -= 1 if q.popleft() == 0 else 0
+            acc -= 1
+        ans = max(ans, acc)
+        
+        return ans
+
 
     # method 4: O(N)
     # 很复杂，不好写，还容易错
