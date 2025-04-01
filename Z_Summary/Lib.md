@@ -1,4 +1,5 @@
 # 常用函数
+>技巧集合： https://oi-wiki.org/math/binary-set/#%E5%AD%90%E9%9B%86%E9%81%8D%E5%8E%86
 
 * 查找
   * 二分查找：需要关注查找成功情况下的坐标范围 **[0,n)** 和查找失败时的下标 **{-1, n}**
@@ -136,3 +137,15 @@
     3 [3, 3]
     """
     ```
+* 子集遍历
+  ```python
+    class Solution:
+        # method 1: bit manipulation
+        def subsets(self, nums: List[int]) -> List[List[int]]:
+            n = len(nums)
+            ans = []
+            for i in range(1<<n): # 1 << len(nums) 计算2的n次方（n是nums的长度），即所有子集的数量
+                subset = [x for j, x in enumerate(nums) if i>>j & 1] # 和每个数进行比较，如果i的第j位为1，则将nums[j]加入子集
+                ans.append(subset)
+            return ans
+  ```
