@@ -76,3 +76,30 @@ https://leetcode.cn/problems/reschedule-meetings-for-maximum-free-time-i/?slug=f
         <= 反向思考（移动会议变为合并空闲时间窗口） + 固定尺寸的滑动窗口
         <= 秘诀：最多k => 窗口大小为k+1
 """
+
+from collections import deque
+class Solution:
+    def maxFreeTime(self, eventTime: int, k: int, startTime: List[int], endTime: List[int]) -> int:
+        idle = []
+        events = sorted(list(zip(startTime, endTime)))
+        last_end = 0
+        for e in events:
+            if last_end <= e[0]: # 说明有空闲时间；这要注意 取等号，因为有边界重叠的情况
+                idle.append(e[0]-last_end)
+            last_end = e[1]
+        idle.append(max(0, eventTime - last_end)) # 处理最后一个空闲时间，注意 0 代表两个会议紧挨着，会议之间没有空闲时间
+        # 处理空闲时间
+        
+        cnt = acc = ans = 0
+        q = deque([]) # 窗口
+        for x in idle:
+            q.append(x)
+            cnt += 1 # 记录当前窗口大小
+            acc += x # 记录当前窗口的和
+            # 窗口大小超过k+1，弹出最左侧的元素
+            while q and k+1 < cnt:
+                acc -= q.popleft() # 弹出最左侧的元素
+                cnt -= 1 # 记录当前窗口大小
+            # 更新最大值
+            ans = max(ans, acc)
+        return ans
