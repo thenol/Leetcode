@@ -110,7 +110,7 @@ class Solution:
         
         # 对range(n)[1:]中的元素调用check来检测，查找值为True的下标
         # 用check对range(n)中执行过后结果为 [False, False, ..., False, True, ..., True]，本质上是[0, 0, ..., 1, ...]
-        return bisect_left(range(n), True, 1, key=check)  # 使用二分查找找到最小的 m 值，使得 check(m) 为 True；
+        return bisect_left(range(n), True, 1, key=check)  # 使用二分查找找到最小的 m 值，使得 check(m) 为 True；bisect_left(a, x, lo=0, hi=len(a), key=None)
 
 if __name__ == "__main__":
     res = Solution().minLength(
