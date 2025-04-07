@@ -76,6 +76,7 @@ https://leetcode.cn/problems/smallest-substring-with-identical-characters-ii/sol
 """
 from bisect import bisect_left
 class Solution:
+    # O(nlogn)
     def minLength(self, s: str, numOps: int) -> int:
         n = len(s)  # 获取字符串 s 的长度
         
