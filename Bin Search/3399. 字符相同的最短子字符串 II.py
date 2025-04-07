@@ -76,6 +76,7 @@ https://leetcode.cn/problems/smallest-substring-with-identical-characters-ii/sol
 """
 from bisect import bisect_left
 class Solution:
+    # O(nlogn)
     def minLength(self, s: str, numOps: int) -> int:
         n = len(s)  # 获取字符串 s 的长度
         
@@ -91,8 +92,8 @@ class Solution:
             if m == 1:  # 如果只需要一次操作，即所有字符都变成相同的字符
                 # 计算需要改变的字符数量，通过检查每个字符与其索引的奇偶性是否相同
                 # 如果不同，则需要改变，cnt 加一
-                # 改成 0101...
-                # 如果 s[i] 和 i 的奇偶性不同，cnt 加一
+                ## 改成 0101...
+                ## 如果 s[i] 和 i 的奇偶性不同，cnt 加一
                 cnt = sum((ord(b) ^ i) & 1 for i, b in enumerate(s))
                 # 如果改变奇数个字符和改变偶数个字符的操作数相同，则取较小的一个
                 # n-cnt 表示改成 1010...
@@ -104,13 +105,13 @@ class Solution:
                     # 如果到达连续相同子串的末尾（即当前字符与下一个字符不同）
                     if i == n - 1 or b != s[i + 1]:
                         # 每 m+1 个字符需要一次操作，计算当前连续相同子串需要的操作次数
-                        cnt += k // (m + 1)
+                        cnt += k // (m + 1) # 如果k的累加不够 m + 1，那么自然 cnt += 0
                         k = 0  # 重置 k，开始计算下一个连续相同子串的长度
             return cnt <= numOps  # 返回是否能够在 numOps 次操作内完成
         
         # 对range(n)[1:]中的元素调用check来检测，查找值为True的下标
         # 用check对range(n)中执行过后结果为 [False, False, ..., False, True, ..., True]，本质上是[0, 0, ..., 1, ...]
-        return bisect_left(range(n), True, 1, key=check)  # 使用二分查找找到最小的 m 值，使得 check(m) 为 True；
+        return bisect_left(range(n), True, 1, key=check)  # 使用二分查找找到最小的 m 值，使得 check(m) 为 True；bisect_left(a, x, lo=0, hi=len(a), key=None)
 
 if __name__ == "__main__":
     res = Solution().minLength(
