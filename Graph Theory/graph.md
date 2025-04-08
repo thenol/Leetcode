@@ -133,6 +133,7 @@ Dijkstra算法是一种用于计算单源最短路径的经典算法，由荷兰
 import heapq
 
 # 本质：动态规划
+# ✅总结：每次只贪心地记录下已知情况下的最小值，放到候选集合里面，舍弃较大的，最后就可以获得全局最优解
 def dijkstra(graph, start):
     """
     Dijkstra 算法实现：计算从起点到图中所有节点的最短路径。
@@ -159,8 +160,9 @@ def dijkstra(graph, start):
         # 从堆中取出距离起点最近的节点
         current_dist, u = heapq.heappop(heap)
         
-        # 如果当前节点的距离大于已知的最短距离，跳过
-        # ❗️这是因为堆中可能存储了同一节点的多个不同距离
+        # 看 u 
+        # 如果从源点到达当前节点的距离大于已知的最短距离，跳过
+        # ❗️这是因为堆中可能存储了同一节点的多条不同路径对应的多种不同距离
         if current_dist > dist[u]:
             continue
         
@@ -173,6 +175,7 @@ def dijkstra(graph, start):
             if new_dist < dist[v]:
                 dist[v] = new_dist
                 heapq.heappush(heap, (new_dist, v)) # 先将 u->v 即从u到v的这条可能的最短候选路径先缓存起来
+            # else: 路径直接舍弃，因为从 s 到达 v 的不是最短路径，从而从这条路径到达其他顶点的更不可能是最短路径，即 s -> v -> z 肯定不是最短路径，因此舍弃
     
     # 返回从起点到所有节点的最短距离
     return dist

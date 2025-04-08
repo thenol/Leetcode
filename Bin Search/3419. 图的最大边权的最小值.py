@@ -81,6 +81,7 @@ https://leetcode.cn/problems/minimize-the-maximum-edge-weight-of-graph/descripti
 
 class Solution:
     # method 1: 二分查找 + 最大生成树
+    # 时间复杂度：O(mlogU)，其中 m 是 edges 的长度，U 是所有边权的最大值。
     def minMaxWeight(self, n: int, edges: List[List[int]], _: int) -> int:
         # 如果边的数量小于 n-1，说明图不连通，返回 -1
         if len(edges) < n - 1:
@@ -89,7 +90,7 @@ class Solution:
         # 构建图的邻接表表示
         g = [[] for _ in range(n)]
         for x, y, w in edges:
-            g[y].append((x, w))  # 由于是无向图，这里可以双向添加，但代码中只添加了单向
+            g[y].append((x, w))  # 有向图，构建邻接矩阵
 
         # 定义一个访问标记数组，用于DFS时标记节点是否被访问过
         vis = [0] * n
