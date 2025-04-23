@@ -140,11 +140,11 @@
 * 子集遍历
   ```python
     class Solution:
-        # method 1: bit manipulation
+        # method 1: bit manipulation; O(n*n^2)，已经是最有算法了，每种可能只枚举了一次
         def subsets(self, nums: List[int]) -> List[List[int]]:
             n = len(nums)
             ans = []
-            for i in range(1<<n): # 1 << len(nums) 计算2的n次方（n是nums的长度），即所有子集的数量
+            for i in range(1<<n): # 1 << len(nums) 计算2的n次方（n是nums的长度），即所有子集的数量，即C_n^0+C_n^1+...+C_n^n；或者每个元素选或这不选
                 subset = [x for j, x in enumerate(nums) if i>>j & 1] # 和每个数进行比较，如果i的第j位为1，则将nums[j]加入子集
                 ans.append(subset)
             return ans

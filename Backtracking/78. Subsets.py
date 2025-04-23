@@ -22,7 +22,7 @@ Output:
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         ans=[[]]
-        def dfs(nums,path,level):
+        def dfs(nums,path,level): # level就是length，即 length 个元素的组合
             nonlocal ans
             if level==0:
                 ans.append(path)

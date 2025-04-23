@@ -38,13 +38,13 @@ class Solution:
     # method 2: backtracking
     def subsets(self, nums: List[int]) -> List[List[int]]:
         ans=[[]]
-        def dfs(nums,path,level):
+        def dfs(nums,path,level):  # level 即 length 个元素组合
             nonlocal ans
             if level==0:
                 ans.append(path)
             else:
                 for i in range(len(nums)):
-                    dfs(nums[i+1:],path[:]+[nums[i]],level-1)
+                    dfs(nums[i+1:],path[:]+[nums[i]],level-1) # 选择 i ，继续下次选择
                 
         for i in range(1,len(nums)+1):
             dfs(nums,[],i)
