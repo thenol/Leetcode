@@ -28,7 +28,7 @@ class Solution:
         @cache
         def f(i, pre):
             """
-            当前第i位，已经选择了pre状态中所有数的情况下的种数
+            当前第i位，已经选择了pre(即，数的集合)状态中所有数的情况下的种数
             例如 i=1, pre=01 0000 0000 选择了1
             """
             if i == n: return 1 # 选择到了第n个数了，最后只剩1种了
@@ -37,7 +37,7 @@ class Solution:
             # 继续按照可能性拼接后续位数
             for d in range(10):
                 # pre==0 and d==0: 当前还未选择数且第一位为0，也就是先导0 情况跳过
-                # pre当前已经被选择过了跳过
+                # 或者pre当前已经被选择过了，则跳过
                 if (pre == 0 and d == 0) or pre >> d & 1:
                     continue
                 ans += f(i+1, pre ^ (1<<d))
