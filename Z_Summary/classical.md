@@ -35,6 +35,9 @@
 * [3397]执行操作后不同元素的最大数量
 * [3403]从盒子中找出字典序最大的字符串 I
 
+### Hash
+* [128]最长连续序列
+
 ### Interval dp <a href="https://leetcode.cn/problems/remove-boxes/solutions/1884753/by-424479543-g3gt/?source=vscode">🪝</a>
 * [312]戳气球
 * [87]扰乱字符串
