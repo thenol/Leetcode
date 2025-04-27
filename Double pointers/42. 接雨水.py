@@ -59,7 +59,7 @@ class Solution:
         st = []  # 初始化一个栈，用于存储柱子的索引
         for i, h in enumerate(height):  # 遍历每个柱子及其索引
             # 当栈不为空且当前柱子的高度大于等于栈顶柱子的高度时，说明可以形成一个凹槽
-            while st and h >= height[st[-1]]:
+            while st and height[st[-1]] <= h:
                 bottom_h = height[st.pop()]  # 弹出栈顶柱子的高度，作为凹槽的底部高度
                 if not st:  # 如果栈为空，说明左边没有更高的柱子，无法形成凹槽，跳出循环；很巧妙，有了这一步，就不用加哨兵了
                     break
@@ -73,6 +73,7 @@ class Solution:
 
     # O(1N)双指针:
     # idea：当前盛水量，取决于两侧较矮的柱子
+    # 竖着计算含水量
     def trap(self, height: List[int]) -> int:
         ans = left = pre_max = suf_max = 0
         right = len(height) - 1
