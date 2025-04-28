@@ -58,4 +58,18 @@ class Solution:
         return ans
 
             
-             
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        stk = []
+        ans = []
+        for i, x in enumerate(nums):
+            while stk and stk[-1][1] < x:
+                stk.pop()
+            stk.append((i, x))
+            
+            if i-stk[0][0] >= k: # 超出窗口弹出，
+                stk.pop(0)
+            
+            if i>=k-1: # 当到达窗口宽度就存储
+                ans.append(stk[0][1]) 
+        
+        return ans
