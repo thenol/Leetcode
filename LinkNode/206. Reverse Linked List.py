@@ -30,3 +30,15 @@ class Solution:
             node.next=Head.next
             Head.next=node
         return Head.next
+
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        H = ListNode()
+        q = head
+        while q:
+            p = H.next
+            H.next = q
+            q = q.next
+            H.next.next = p
+        
+        return H.next
+        

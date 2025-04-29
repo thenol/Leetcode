@@ -28,16 +28,30 @@ class Solution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:
         stack=[]
         ans=[]
-        cur=root
+        cur=root # 用一个指针
         while True:
-            if cur:
+            if cur: # 当cur为空时弹出下一个元素
                 stack.append(cur)
                 cur=cur.left
             else:
                 if stack:
                     x=stack.pop()
                     ans.append(x.val)
-                    cur=x.right
+                    cur=x.right # cur 可以指向空，但是不会重复；也就是当没有右子树时，就需要弹出下一个元素了
                 else:
                     break
         return ans
+    
+    # ❌：这种遍历方式死循环
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        stk = [root]
+        ans = []
+        while stk:
+            if stk[-1].left: # 有左，就一直近作；但是父节点会重复访问，所以会无限循环
+                stk.append(stk[-1].left)
+                continue
+            node = stk.pop()
+            ans.append(node.val)
+            if node.right:
+                stk.append(node.right)
+        return ans  

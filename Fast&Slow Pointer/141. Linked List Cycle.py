@@ -31,6 +31,13 @@ Explanation: There is no cycle in the linked list.
 '''
 
 
+"""
+思路：
+
+
+https://leetcode.cn/problems/linked-list-cycle/solutions/1999269/mei-xiang-ming-bai-yi-ge-shi-pin-jiang-t-c4sw/?envType=study-plan-v2&envId=top-100-liked
+"""
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
@@ -56,20 +63,16 @@ class Solution:
 
 
 # version 2:
-
+"""
+思路：
+想象在一个环形的跑道上，一个跑得快的人和一个跑得慢的人同时出发。如果跑道是环形的，跑得快的人最终一定会再次追上跑得慢的人。在链表中，如果存在环，快指针和慢指针也会遵循这个规律最终相遇。如果不存在环，快指针会先到达链表的末尾
+"""
 class Solution:
-    def hasCycle(self, head: ListNode) -> bool:
-        if head is None:
-            return False
-        fast = head
-        slow = head
-        while (fast):
-            if fast.next and fast.next.next:
-                fast = fast.next.next # fast exists, so the slow must exist
-                slow = slow.next
-            else:
-                return False
-
-            if fast == slow:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        slow = fast = head  # 初始化两个指针，slow（慢指针）和 fast（快指针），都指向链表的头节点
+        while fast and fast.next:  # 当快指针不为空且快指针的下一个节点也不为空时，继续循环
+            slow = slow.next      # 慢指针每次移动一步
+            fast = fast.next.next  # 快指针每次移动两步
+            if fast is slow:      # 如果快指针追上了慢指针，说明链表中存在环
                 return True
-        return False
+        return False             # 如果循环结束，说明快指针到达了链表末尾（没有环）
