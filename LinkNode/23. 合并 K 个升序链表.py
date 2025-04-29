@@ -52,7 +52,7 @@ class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         cur = dummy = ListNode()  # 哨兵节点，作为合并后链表头节点的前一个节点
         h = [head for head in lists if head]  # 把所有非空链表的头节点入堆
-        heapify(h)  # 堆化
+        heapify(h)  # 堆化; ⭕️不要犯蠢写成：h = heapify(h)，heapify() 函数是原地操作的，不会返回新的堆
         while h:  # 循环直到堆为空
             node = heappop(h)  # 剩余节点中的最小节点
             if node.next:  # 下一个节点不为空
