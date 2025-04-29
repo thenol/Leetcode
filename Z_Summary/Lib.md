@@ -149,3 +149,15 @@
                 ans.append(subset)
             return ans
   ```
+
+* Counter 使用
+  ```python
+  # 注意Counter可以用来比较，如果元素不存在，默认是0
+  c1 = Counter({1:1,2:2})
+  c2 = Counter({1:1,2:2,3:0})
+  c3 = Counter({1:1,2:2,3:1})
+  
+  print(c1==c2) # True
+  print(c1<c3) # True；只要有一个小就行，其他可以相等
+  
+  ```
