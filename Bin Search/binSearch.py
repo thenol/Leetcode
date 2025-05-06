@@ -1,4 +1,5 @@
 # 二分查找总体方法见邓俊辉版本《数据结构》第三版本48页开始
+# 灵神讲解：https://www.bilibili.com/video/BV1AP41137w7/?vd_source=b58f1d2059dc6db7819eeb654fe318be
 
 # 减而治之
 
@@ -65,13 +66,18 @@ def binSearch(A, e):
     条件终结：
         左闭右开，hi=lo+1，区间只剩一个元素
     """
-    lo, hi = 0, len(A)
+    lo, hi = 0, len(A) # ❗️❗️❗️左闭右开❗️❗️❗️
     while 1 < hi - lo: # 每步迭代仅需做一次比较判断，有两个分支；成功查找不能提前终止；❗️如果1取等可能会引起死循环，见最后死循环的案例
         mi = (lo + hi) >> 1
         if e < A[mi]: # 经比较后确定深入[lo, mi)或者[mi, hi)
             hi = mi
         else: # A[mi] <= e 情况
             lo = mi # 不是mi+1的原因是，此时 A[mi] <= e，会导致丢失一个元素
+
+        # 算法理解：每一轮比较，都能够正确地缩小规模，减少一个元素
+        #   1. 考虑分支 e < A[mi]， hi = mi，由于 lo < lo+1 < hi，因此 (lo+hi)//2 < (hi+hi)//2 = hi，因此可以正确缩小规模
+        #   2. 考虑分支 A[mi] <= e，lo = mi，由于 lo+1 < hi，因此 (lo+hi)//2 > (lo + lo + 1)//2 = lo，即 lo < mi，因此也可以正确缩减规模，不至于陷入死循环
+        # 核心：算法正确性，规模能够缩减，从而避免出现死循环
         
         # 出口时hi = lo + 1，查找区间仅含一个元素A[lo]
     
@@ -103,7 +109,7 @@ def binSearch(A, e):
     条件终结：
         左闭右开，lo = hi，区间不剩元素，lo最终指向大于e的元素的最小秩，因此lo - 1即不大于e的元素的最大秩
     """
-    lo, hi = 0, len(A)
+    lo, hi = 0, len(A) #❗️❗️❗️左闭右开❗️❗️❗️
     while lo < hi: # 每步迭代仅需做一次比较判断，有两个分支；成功查找不能提前终止
         mi = (lo + hi) >> 1 # 以中点为轴点
         if e < A[mi]: # 经比较后确定深入[lo, mi)或(mi, hi)
@@ -111,8 +117,13 @@ def binSearch(A, e):
         else: # A[mi] <= e 的情况
             lo = mi + 1
         
-        # 循环结束时，lo为大于e的元素的最小秩，故lo - 1即不大于e的元素的最大秩，即 lo - 1 指向的是小于或者等于e的元素的最大秩
+        # 算法理解：每一轮比较，都能够正确地缩小规模，减少一个元素
+        #   1. 考虑分支 e < A[mi]， hi = mi，由于 lo < hi，因此 (lo+hi)//2 < (hi+hi)//2 = hi，因此可以正确缩小规模
+        #   2. 考虑分支 A[mi] <= e，lo = mi + 1，由于 lo < hi，因此 (lo+hi)//2 + 1 >= lo + 1，因此也可以正确缩减规模
+        # 额外思考：如果在第二个分支，lo=mi，规模无法缩减，会导致 (lo+hi)//2 >= lo，因此陷入死循环
+        # 核心：算法正确性，规模能够缩减，从而避免出现死循环
 
+        # 循环结束时，lo为大于e的元素的最小秩，故lo - 1即不大于e的元素的最大秩，即 lo - 1 指向的是小于或者等于e的元素的最大秩
     return lo - 1
 
 
@@ -224,10 +235,70 @@ def binSearch(nums, e):
 证明：
     假设 lo < hi，则 (lo+lo)/2=lo < (lo+hi)/2 < (hi+hi)//2=hi
     但是对于计算机中的向下取整 lo<= (lo+hi)//2 < (hi+hi)//2=hi
-    因此只要 lo < hi，则 lo <= (lo+hi)//2 < hi，就一定在 hi 点是开区间，即规模缩减，也从侧面解释了为啥是左闭右开
+    因此只要 lo < hi，则 lo <= (lo+hi)//2 < hi，就一定在 hi 点是开区间，即✅【规模缩减】✅，也从侧面解释了为啥是左闭右开
 
 因此 hi=mi 不会错误，能够正常缩减规模，但是 lo=mi可能引起死循环
 
 而在版本B中
 hi - lo >1 即 hi - lo >=2，也就是 hi>=lo+2，因此 (hi+lo)//2>=(2lo+2)//2=lo+1>=1，因此每次赋值时，mi=(lo+hi)>>1 不可能 等于 lo
 """
+
+
+# 灵神写法
+
+## 闭区间写法
+# lower_bound 返回最小的满足 nums[i] >= target 的 i
+# 如果数组为空，或者所有数都 < target，则返回 len(nums)
+# 要求 nums 是非递减的，即 nums[i] <= nums[i + 1]
+def lower_bound(nums: List[int], target: int) -> int:
+    left, right = 0, len(nums) - 1  # 闭区间 [left, right]
+    while left <= right:  # 区间不为空
+        # 循环不变量：left-1与right+1
+        # nums[left-1] < target
+        # nums[right+1] >= target
+        mid = (left + right) // 2
+        if nums[mid] < target:
+            left = mid + 1  # 范围缩小到 [mid+1, right]
+        else:
+            right = mid - 1  # 范围缩小到 [left, mid-1]
+    return left  # 或者 right+1；红蓝易位
+
+## 左闭右开区间写法
+def lower_bound2(nums: List[int], target: int) -> int:
+    left = 0
+    right = len(nums)  # 左闭右开区间 [left, right)
+    while left < right:  # 区间不为空
+        # 循环不变量：left-1与right
+        # nums[left-1] < target
+        # nums[right] >= target
+        mid = (left + right) // 2
+        if nums[mid] < target:
+            left = mid + 1  # 范围缩小到 [mid+1, right)
+        else:
+            right = mid  # 范围缩小到 [left, mid)
+    return left  # 或者 right；
+
+## 开区间写法
+def lower_bound3(nums: List[int], target: int) -> int:
+    left, right = -1, len(nums)  # 开区间 (left, right)
+    while left + 1 < right:  # 区间不为空
+        mid = (left + right) // 2
+        # 循环不变量：left与right
+        # nums[left] < target
+        # nums[right] >= target
+        if nums[mid] < target:
+            left = mid  # 范围缩小到 (mid, right)
+        else:
+            right = mid  # 范围缩小到 (left, mid)
+    return right  # 或者 left+1；红蓝分别染色l,r
+
+
+
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        start = lower_bound(nums, target)  # 选择其中一种写法即可
+        if start == len(nums) or nums[start] != target:
+            return [-1, -1]
+        # 如果 start 存在，那么 end 必定存在
+        end = lower_bound(nums, target + 1) - 1
+        return [start, end]
