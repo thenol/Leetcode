@@ -180,3 +180,63 @@ def dijkstra(graph, start):
     # 返回从起点到所有节点的最短距离
     return dist
 ```
+## 环的检测
+* 三色标记法 （类比树的前中后序迭代遍历）
+    ```python
+    # 207 课程表
+    class Solution:
+        def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+            """
+            判断是否能够完成所有课程的学习。
+
+            Args:
+                numCourses: 课程总数。
+                prerequisites: 一个列表，其中每个元素是一个包含两个整数的列表 [a, b]，
+                            表示学习课程 a 之前必须先学习课程 b。
+
+            Returns:
+                如果能够完成所有课程，则返回 True；否则返回 False。
+            """
+            # 创建一个邻接表来表示课程之间的依赖关系
+            # g[i] 存储的是学习课程 i 之前需要学习的所有课程的列表
+            g = [[] for _ in range(numCourses)]
+            for a, b in prerequisites:
+                g[b].append(a)  # 课程 b 是课程 a 的先修课程，所以在 b 的邻接表中添加 a
+
+            # 使用颜色标记节点的状态，用于检测环
+            # 0: 未访问
+            # 1: 正在访问中
+            # 2: 已完成访问
+            colors = [0] * numCourses
+
+            def dfs(x: int) -> bool:
+                """
+                深度优先搜索函数，用于检测从节点 x 开始是否存在环。
+
+                Args:
+                    x: 当前访问的课程。
+
+                Returns:
+                    如果存在环，则返回 True；否则返回 False。
+                """
+                colors[x] = 1  # 将当前节点标记为正在访问中
+
+                # 遍历当前课程 x 的所有后继课程 y (即学习 x 之后需要学习的课程)
+                for y in g[x]:
+                    # 如果后继课程 y 正在被访问 (colors[y] == 1)，说明存在环
+                    # 或者后继课程 y 未被访问 (colors[y] == 0) 且从 y 开始的 DFS 发现了环
+                    if colors[y] == 1 or (colors[y] == 0 and dfs(y)):
+                        return True  # 找到了环
+
+                colors[x] = 2  # 将当前节点标记为已完成访问
+                return False  # 从当前节点开始没有找到环
+
+            # 遍历所有课程
+            for i, c in enumerate(colors):
+                # 如果当前课程未被访问 (颜色为 0)，并且从该课程开始的 DFS 发现了环
+                if c == 0 and dfs(i):
+                    return False  # 存在环，无法完成所有课程
+
+            # 如果遍历完所有课程都没有发现环，则可以完成所有课程
+            return True  # 没有环
+    ```

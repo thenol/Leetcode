@@ -25,11 +25,17 @@ nums 中的所有元素 互不相同
 https://leetcode.cn/problems/subsets/description/
 """
 
+"""
+思路：
+    核心在于，映射到二项式，也就是对于每一位，有两种选择，选或者不选
+"""
+
 class Solution:
     # method 1: bit manipulation
     def subsets(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
         ans = []
+        # 遍历次数，循环控制
         for i in range(1<<n): # 1 << len(nums) 计算2的n次方（n是nums的长度），即所有子集的数量
             subset = [x for j, x in enumerate(nums) if i>>j & 1] # 和每个数进行比较，如果i的第j位为1，则将nums[j]加入子集
             ans.append(subset)

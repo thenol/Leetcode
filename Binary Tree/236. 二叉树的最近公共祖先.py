@@ -38,10 +38,10 @@ https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/description
 
 class Solution:
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-        if root in (None, p, q):
+        if root in (None, p, q): # 找到一个节点就返回
             return root
-        left = self.lowestCommonAncestor(root.left, p, q)
-        right = self.lowestCommonAncestor(root.right, p, q)
-        if left and right:  # 左右都找到
+        left = self.lowestCommonAncestor(root.left, p, q) # 左子树寻找节点
+        right = self.lowestCommonAncestor(root.right, p, q) # 右子树寻找节点
+        if left and right:  # 左右都找到一个节点
             return root  # 当前节点是最近公共祖先
-        return left or right
+        return left or right # 只有一个子树找到了节点，也就是两个节点都找到了

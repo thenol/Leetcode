@@ -29,6 +29,7 @@ Return the following binary tree:
 #         self.right = None
 
 class Solution:
+    # 时间复杂度和空间复杂度都是 O(n^2)
     def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
         if preorder and inorder:
             node=TreeNode(preorder[0])
@@ -38,3 +39,20 @@ class Solution:
             node.left=self.buildTree(preorder[1:i+1],inorder[:i])
             node.right=self.buildTree(preorder[i+1:],inorder[i+1:])
             return node
+    
+    # 时间复杂度 O(n)；空间复杂度 O(n)
+    # 两个改进点：
+    #   1. 查找下标，预处理成哈希
+    #   2. 递归传递 区间左右端点，防止列表复制
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        index = {x: i for i, x in enumerate(inorder)}
+
+        def dfs(pre_l: int, pre_r: int, in_l: int, in_r: int) -> Optional[TreeNode]:
+            if pre_l == pre_r:  # 空节点
+                return None
+            left_size = index[preorder[pre_l]] - in_l  # 左子树的大小
+            left = dfs(pre_l + 1, pre_l + 1 + left_size, in_l, in_l + left_size)
+            right = dfs(pre_l + 1 + left_size, pre_r, in_l + 1 + left_size, in_r)
+            return TreeNode(preorder[pre_l], left, right)
+
+        return dfs(0, len(preorder), 0, len(inorder))  # 左闭右开区间

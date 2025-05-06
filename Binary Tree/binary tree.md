@@ -118,3 +118,23 @@
         return ans[::-1]
 
     ```
+* 层次遍历
+    ```python
+        def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+            if not root:
+                return []
+            q = [root]
+            ans = []
+            while q:
+                w = len(q)
+                lst = []
+                for i in range(w):
+                    node = q.pop(0)
+                    lst.append(node.val)
+                    if node.left:
+                        q.append(node.left)
+                    if node.right:
+                        q.append(node.right)
+                ans.append(lst)
+            return ans
+    ```
