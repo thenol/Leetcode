@@ -91,7 +91,7 @@ class Solution:
         # buy = [-float('inf')] * (k+1)
         # sell = [0] * (k+1) # 初始化为k+1，是因为第一次买，是0-p，这里我们sell[0]=0，就可以了
         # for p in prices:
-        #     for k in range(1, k+1):
+        #     for k in range(1, k+1): # buy[0]和sell[0]作为边界初始化
         #         buy[k] = max(buy[k], sell[k-1]-p) # 第一次sell[i-1]=sell[0]=0；第k次买，一定基于第k-1次卖
         #         sell[k] = max(sell[k], buy[k]+p) # 第k次卖一定基于第k次买
         # return sell[-1]

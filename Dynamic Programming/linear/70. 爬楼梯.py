@@ -44,7 +44,15 @@ class Solution:
             return f(i-1)+f(i-2)
         
         return f(n)
-        
+    
+    def climbStairs(self, n: int) -> int:
+        f0 = f1 = 1
+        for _ in range(2, n + 1):
+            new_f = f1 + f0
+            f0 = f1
+            f1 = new_f
+        return f1
+
     # 迭代法
     def climbStairs(self, n: int) -> int:
         # state: d[i]表示到i阶共有集中方法
