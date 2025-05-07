@@ -41,31 +41,6 @@ https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/8999/xiang-xi
 """
 
 class Solution:
-    def findMedianSortedArrays(self, nums1, nums2):
-        # 获取两个数组的长度
-        n, m = len(nums1), len(nums2)
-        
-        # 计算总数组长度的中位数位置
-        # left 是总数组长度的一半，right 是总数组长度加一的一半
-        left = (n + m + 1) // 2  # 奇数时，left 会多一个元素
-        right = (n + m + 2) // 2  # 偶数时，right 对应的是两个中位数的平均位置
-
-        """
-        为什么加 1？
-            当合并后的数组长度是奇数时，中位数的定义是数组中间的那个元素。在这种情况下，合并后的数组中，只有一个中位数，所以我们将其称为 left。
-            例如，如果合并后的数组长度是 5，那么中位数是第 3 个元素，所以 left 会指向第 3 个位置。
-            当合并后的数组长度是偶数时，left 会指向较左的中位数的位置。例如，合并后的数组长度是 6，left 会指向第 3 个元素。
-        
-        为什么加 2？
-            当合并后的数组长度是偶数时，中位数是两个元素的平均值。为了正确找到这两个中位数的位置，right 需要指向第二个中位数的位置。
-            例如，如果合并后的数组长度是 6，那么两个中位数是第 3 和第 4 个元素。left 会指向第 3 个位置，right 会指向第 4 个位置。
-            在这种情况下，right 就是 left 之后的位置，通常情况下是两个中位数之间的分隔位置，用来计算这两个中位数的平均值。
-        """
-        
-        # 返回两个中位数对应位置的元素的平均值
-        return (self.getKth(nums1, 0, n - 1, nums2, 0, m - 1, left) + 
-                self.getKth(nums1, 0, n - 1, nums2, 0, m - 1, right)) * 0.5
-
     def getKth(self, nums1, start1, end1, nums2, start2, end2, k):
         """
         寻找第 k 小的元素在两个排序数组中的位置
@@ -110,6 +85,32 @@ class Solution:
             # 如果 nums1[i] <= nums2[j]，则舍弃 nums1 中的前 i+1 个元素；即 nums1[0:i+1] 一共 i+1 个元素可以确定都是较小的，可以排除
             # 递归寻找 nums1[i+1:end1] 和 nums2[start2:end2] 中第 k - (i - start1 + 1) 个元素
             return self.getKth(nums1, i + 1, end1, nums2, start2, end2, k - (i - start1 + 1))
+        
+    def findMedianSortedArrays(self, nums1, nums2):
+        # 获取两个数组的长度
+        n, m = len(nums1), len(nums2)
+        
+        # 计算总数组长度的中位数位置
+        # left 是总数组长度的一半，right 是总数组长度加一的一半
+        left = (n + m + 1) // 2  # 奇数时，left 会多一个元素
+        right = (n + m + 2) // 2  # 偶数时，right 对应的是两个中位数的平均位置
+
+        """
+        为什么加 1？
+            当合并后的数组长度是奇数时，中位数的定义是数组中间的那个元素。在这种情况下，合并后的数组中，只有一个中位数，所以我们将其称为 left。
+            例如，如果合并后的数组长度是 5，那么中位数是第 3 个元素，所以 left 会指向第 3 个位置。
+            当合并后的数组长度是偶数时，left 会指向较左的中位数的位置。例如，合并后的数组长度是 6，left 会指向第 3 个元素。
+        
+        为什么加 2？
+            当合并后的数组长度是偶数时，中位数是两个元素的平均值。为了正确找到这两个中位数的位置，right 需要指向第二个中位数的位置。
+            例如，如果合并后的数组长度是 6，那么两个中位数是第 3 和第 4 个元素。left 会指向第 3 个位置，right 会指向第 4 个位置。
+            在这种情况下，right 就是 left 之后的位置，通常情况下是两个中位数之间的分隔位置，用来计算这两个中位数的平均值。
+        """
+        
+        # 返回两个中位数对应位置的元素的平均值
+        return (self.getKth(nums1, 0, n - 1, nums2, 0, m - 1, left) + 
+                self.getKth(nums1, 0, n - 1, nums2, 0, m - 1, right)) * 0.5
+
         
 
 
