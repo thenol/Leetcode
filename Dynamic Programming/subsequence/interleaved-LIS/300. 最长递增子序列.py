@@ -85,6 +85,10 @@ def lengthOfLIS(self, nums: List[int]) -> int:
 
     ans = 0
     for i in range(N):
+        # 为什么成立？原因很简单，因为 tails 里面存储了所有的长度为 j+1 的子序列的最小末尾值
+        # 例如对于 nums[i]，如果它比 tails[j] 大，即可以形成长度为 j+1 的子序列，那么就可以将它放在 tails[j+1] 的位置上
+        # 例如对于 nums[i]，如果它比 tails[j] 小，那么就可以将它放在 tails[j] 的位置上
+        # 例如对于 nums[i]，如果它比 tails[j] 等，那么就可以将它放在 tails[j] 的位置上，即不影响值
         idx = bisect.bisect_left(tails, nums[i]) # 这里当搜索失败时，理想情况下 idx 可能为 {0, N}，当为0时，说明找到了长度为1的最小末尾值；当为N时，说明当前末尾值比长度为N的序列末尾值还大，因此可以形成长度为N+1的子序列，这显然是不可能的
         if 0<=idx<N: # 检测下标是否合法；
             tails[idx] = min(tails[idx], nums[i]) # 找到，下标 idx，由于长度为 idx，下标为 idx-1及其之前序列末尾值都小于当前nums[i]，所以nums[i]可以放到 idx 的位置，和之前的 idx-1 形成更长的长度+1的递增子序列，即长度为 idx + 1，此时更新记录最小值

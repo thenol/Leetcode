@@ -189,6 +189,7 @@ bisect.bisect_left 和 bisect.bisect_right 标定了一个区间[bisect.bisect_l
              bisect_right 返回索引 4
 """
 
+⭕️⭕️⭕️⭕️⭕️⭕️⭕️⭕️⭕️⭕️⭕️ 用这两个函数就需要检测下表是否越界 ⭕️⭕️⭕️⭕️⭕️⭕️⭕️⭕️⭕️⭕️⭕️
 
 # ❌❌❌❌❌❌❌❌❌❌❌ 错误版本 start ❌❌❌❌❌❌❌❌❌❌
 # 思考错误在哪

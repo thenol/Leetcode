@@ -92,19 +92,18 @@ class Solution:
         @cache
         def f(i):
             """表示以i结尾的最长有效括号长度"""
-            nonlocal N
             # initialization
             if i==0: return 0
             if i==1: return 2 if s[:2] == '()' else 0
 
             # transition
             ans = 0
-            if s[i] == '(':
+            if s[i] == '(': # 永远记住状态表示，f(i)是以i结尾的最长有效括号长度
                 ans = 0
             elif s[i] == ')':
                 if s[i-1] == '(':
                     ans = f(i-2)+2
-                elif 0<=i-f(i-1)-1 and s[i-f(i-1)-1] == '(':
+                elif 0<=i-f(i-1)-1 and s[i-f(i-1)-1] == '(': # 注意，这里 s[i-f(i-1)-1] 找的是 s[i] 对应的 '('
                     ans = f(i-1)+2+(f(i-f(i-1)-2) if 0<=i-f(i-1)-2 else 0)
             
             return ans

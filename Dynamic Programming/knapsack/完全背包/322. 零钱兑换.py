@@ -97,10 +97,30 @@ class Solution:
         
         f(amount)
         return d[str(amount)]
+    
+    # 记忆化搜索
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        @cache
+        def f(i, j):
+            # 区间 coins[:i] 上，总金额为 j 的最少硬币个数
+            if j == 0: return 0
+            ans = inf
+            # 选择
+            if 1<=i and 0<=j-coins[i-1]:
+                ans = min(ans, f(i, j-coins[i-1])+1)
+
+            # 不选择
+            if 0<=i-1 and 0<=j:
+                ans = min(ans, f(i-1, j))
+
+            return ans
+        ans = f(len(coins), amount)
+        return ans if ans < inf else -1
 
 # 不需要考虑默认状态情况下，会少很多判断
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
+        # d[i][j] = min(d[i-1][j], d[i][j-coins[i]]+1) 完全背包状态转移
         f = [0] + [inf] * amount
         for x in coins:
             for c in range(x, amount + 1): # 只遍历到amount就行了，更多的情况肯定不可能构成了
