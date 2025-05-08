@@ -24,14 +24,41 @@ There is only one duplicate number in the array, but it could be repeated more t
 '''
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
-        fast=slow=0
-        fast=nums[nums[fast]]
-        slow=nums[slow]
-        while fast!=slow:
-            fast=nums[nums[fast]]
-            slow=nums[slow]
-        fast=0
-        while fast!=slow:
-            fast=nums[fast]
-            slow=nums[slow]
+        """
+        给定一个包含 n + 1 个整数的数组 nums，每个整数都在 [1, n] 范围内（包括端点），
+        数组中恰好存在一个重复的数字。找出这个重复的数字。
+
+        这个算法使用 Floyd 的龟兔赛跑算法（也称为循环检测算法）来解决这个问题。
+        我们将数组看作一个链表，其中 nums[i] 表示索引 i 的下一个节点。
+        由于存在重复的数字，所以这个链表中必然存在环。
+
+        Args:
+            nums: 一个包含 n + 1 个整数的列表，每个整数都在 [1, n] 范围内，且包含一个重复数字。
+
+        Returns:
+            int: 数组中重复的那个数字。
+        """
+        # 初始化快慢两个指针，都指向数组的起始位置（索引 0）。
+        fast = slow = 0
+
+        # 第一阶段：找到快慢指针的相遇点。
+        # 快指针每次移动两步，慢指针每次移动一步。
+        # 由于存在环，它们最终会在环内的某个节点相遇。
+        fast = nums[nums[fast]]
+        slow = nums[slow]
+        while fast != slow:
+            fast = nums[nums[fast]]
+            slow = nums[slow]
+
+        # 第二阶段：找到环的入口，即重复的数字。
+        # 将快指针重新指向数组的起始位置。
+        # 保持慢指针在相遇点。
+        # 这次，快慢指针都每次移动一步。
+        # 当它们再次相遇时，相遇的节点就是环的入口，也就是重复的数字。
+        fast = 0
+        while fast != slow:
+            fast = nums[fast]
+            slow = nums[slow]
+
+        # 返回相遇点的值，即重复的数字。
         return fast
