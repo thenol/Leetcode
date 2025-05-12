@@ -45,7 +45,7 @@ class Solution:
         # 快指针每次移动两步，慢指针每次移动一步。
         # 由于存在环，它们最终会在环内的某个节点相遇。
         fast = nums[nums[fast]]
-        slow = nums[slow]
+        slow = nums[slow] # ⭕️先移动一次，确保快指针和慢指针不在同一位置，即进入不了下面循环语句
         while fast != slow:
             fast = nums[nums[fast]]
             slow = nums[slow]

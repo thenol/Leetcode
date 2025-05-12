@@ -38,7 +38,13 @@ https://leetcode.cn/problems/next-permutation/description/?envType=study-plan-v2
 """
 
 """
-思路：
+思路：三步走
+    本质：对于某一个数，需要用它右边比大的数种最小的一个数来替换它，然后对于其右边所有的其他的数，修改为上升序列
+    # 第一步：从右向左找到第一个小于其右侧相邻数字的元素 nums[i]。 因为右边递减
+    # 第二步：从右向左找到第一个大于 nums[i] 的元素 nums[j]。 因为右边递减
+    # 第三步：反转从 nums[i+1] 到数组末尾的子数组。 需要把递减转变为递增
+
+    
 
 https://leetcode.cn/problems/next-permutation/solutions/3621022/jiao-ni-cong-ling-kai-shi-si-kao-zhe-ti-9qfrq/?envType=study-plan-v2&envId=top-100-liked
 """
